@@ -1,5 +1,4 @@
-﻿using BasicTaskManagement.Core.DataModels;
-using BasicTaskManagement.Core.DTO;
+﻿using BasicTaskManagement.Core.DTO;
 using System.Collections.ObjectModel;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -9,16 +8,16 @@ namespace BasicTaskManagement.Core.Services
     public class HttpDataService : IDataService
     {
         private readonly HttpClient _client;
-        private const string BASE_URI = "https://localhost:7185";
+        private const string BASE_URI = "https://localhost:7114";
 
         public HttpDataService() => _client = new HttpClient
         {
             BaseAddress = new Uri(BASE_URI)
         };
 
-        public async Task<ReadOnlyCollection<TaskGroupData>> GetTaskGroupsAsync(bool isShowComplete)
+        public async Task<IEnumerable<TaskGroupDTO>> GetTaskGroupsAsync(bool isShowComplete)
         {
-            List<TaskGroupData> groups = [];
+            List<TaskGroupDTO> groups = [];
 
             string route = isShowComplete ? "/taskgroup/showcomplete" : "/taskgroup";
             try
@@ -26,9 +25,9 @@ namespace BasicTaskManagement.Core.Services
                 HttpResponseMessage response = await _client.GetAsync(route);
                 if (response.IsSuccessStatusCode && response.Content is not null)
                 {
-                    groups = response.Content.ReadFromJsonAsAsyncEnumerable<TaskGroupData>().ToBlockingEnumerable().ToList();
+                    groups = response.Content.ReadFromJsonAsAsyncEnumerable<TaskGroupDTO>().ToBlockingEnumerable().ToList();
                 }
-                return groups is not null ? groups.AsReadOnly() : Enumerable.Empty<TaskGroupData>().ToList().AsReadOnly();
+                return groups is not null ? groups.AsReadOnly() : Enumerable.Empty<TaskGroupDTO>().ToList().AsReadOnly();
             }
             catch (Exception) { throw; }
         }
