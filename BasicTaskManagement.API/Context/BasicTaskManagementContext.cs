@@ -1,4 +1,4 @@
-﻿using BasicTaskManagement.API.Entities;
+﻿using BasicTaskManagement.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace BasicTaskManagement.API.Context;

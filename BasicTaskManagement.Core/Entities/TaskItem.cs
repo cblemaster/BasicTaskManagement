@@ -1,4 +1,4 @@
-﻿namespace BasicTaskManagement.API.Entities;
+﻿namespace BasicTaskManagement.Core.Entities;
 
 public partial class TaskItem
 {
