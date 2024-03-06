@@ -5,6 +5,8 @@ VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicTaskManagement.API", "BasicTaskManagement.API\BasicTaskManagement.API.csproj", "{8906851F-3BD2-4C7A-BF99-E2AC5DD81E04}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicTaskManagement.Core", "BasicTaskManagement.Core\BasicTaskManagement.Core.csproj", "{822CBC27-9E96-4D51-A78C-342DA05D58E2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{8906851F-3BD2-4C7A-BF99-E2AC5DD81E04}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8906851F-3BD2-4C7A-BF99-E2AC5DD81E04}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8906851F-3BD2-4C7A-BF99-E2AC5DD81E04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{822CBC27-9E96-4D51-A78C-342DA05D58E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{822CBC27-9E96-4D51-A78C-342DA05D58E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{822CBC27-9E96-4D51-A78C-342DA05D58E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{822CBC27-9E96-4D51-A78C-342DA05D58E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
