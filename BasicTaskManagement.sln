@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicTaskManagement.API", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicTaskManagement.Core", "BasicTaskManagement.Core\BasicTaskManagement.Core.csproj", "{822CBC27-9E96-4D51-A78C-342DA05D58E2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicTaskManagement.UI.MAUI", "BasicTaskManagement.UI.MAUI\BasicTaskManagement.UI.MAUI.csproj", "{A2410158-E062-44A7-B18C-F4287347CD30}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,12 @@ Global
 		{822CBC27-9E96-4D51-A78C-342DA05D58E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{822CBC27-9E96-4D51-A78C-342DA05D58E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{822CBC27-9E96-4D51-A78C-342DA05D58E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2410158-E062-44A7-B18C-F4287347CD30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2410158-E062-44A7-B18C-F4287347CD30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2410158-E062-44A7-B18C-F4287347CD30}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{A2410158-E062-44A7-B18C-F4287347CD30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2410158-E062-44A7-B18C-F4287347CD30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2410158-E062-44A7-B18C-F4287347CD30}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
