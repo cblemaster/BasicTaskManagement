@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:pagemodels="clr-namespace:BasicTaskManagement.UI.MAUI.PageModels"
+             x:Class="BasicTaskManagement.UI.MAUI.Pages.CreateTaskGroupPage"
+             x:DataType="{x:Type pagemodels:CreateTaskGroupPageModel}"
+             Title="Create Task Group">
+    <Grid Style="{StaticResource ContainerGrid}">
+        <VerticalStackLayout Spacing="20">
+            <Entry Text="{Binding CreateGroup.Name, Mode=TwoWay}" Placeholder="Task group name">
+                <Entry.Behaviors>
+                    <toolkit:TextValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}" Flags="ValidateOnValueChanged" MaximumLength="50" MinimumLength="1" />
+                </Entry.Behaviors>
+            </Entry>
+            <HorizontalStackLayout>
+                <Label Text="Favorite?" Style="{StaticResource SwitchLabel}" Margin="0,0,0,0" />
+                <Switch IsToggled="{Binding CreateGroup.IsFavorite, Mode=TwoWay}" />
+            </HorizontalStackLayout>
+            <HorizontalStackLayout>
+                <Button Command="{Binding CreateClickedCommand, Mode=OneWay}" Text="Create" />
+                <Button Command="{Binding CancelClickedCommand, Mode=OneWay}" Text="Cancel" />
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>
