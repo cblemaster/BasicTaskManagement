@@ -7,9 +7,9 @@
     Shell.FlyoutBehavior="Disabled"
     Title="BasicTaskManagement.UI.MAUI">
 
-    <ShellContent
+    <!--<ShellContent
         Title="Home"
         ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+        Route="MainPage" />-->
 
 </Shell>
