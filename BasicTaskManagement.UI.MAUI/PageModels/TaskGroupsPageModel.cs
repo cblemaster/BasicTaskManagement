@@ -1,4 +1,5 @@
 ﻿using BasicTaskManagement.Core.DataModels;
+using BasicTaskManagement.Core.DTO;
 using BasicTaskManagement.Core.Services;
 using BasicTaskManagement.UI.MAUI.Pages;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -32,5 +33,24 @@ public partial class TaskGroupsPageModel(IDataService dataService) : ObservableO
         LoadDataAsync();
     }
 
-    private async Task LoadDataAsync() => TaskGroups = await _dataService.GetTaskGroupsAsync(IsShowComplete);
+    private async Task LoadDataAsync()
+    {
+        IEnumerable<TaskGroupDTO> groups = await _dataService.GetTaskGroupsAsync(IsShowComplete);
+        TaskGroups = MapTaskGroupDTOCollectionToTaskGroupDataCollection(groups).ToList().AsReadOnly();
+    }
+
+    public static IEnumerable<TaskGroupData> MapTaskGroupDTOCollectionToTaskGroupDataCollection(IEnumerable<TaskGroupDTO> dtos)
+    {
+        List<TaskGroupData> collectionToReturn = [];
+
+        foreach (TaskGroupDTO dto in dtos)
+        {
+            TaskGroupData data = MapTaskGroupDTOToTaskGroupData(dto);
+            collectionToReturn.Add(data);
+        }
+
+        return collectionToReturn.AsEnumerable();
+
+        static TaskGroupData MapTaskGroupDTOToTaskGroupData(TaskGroupDTO dto) => new(dto.Id, dto.Name, dto.IsFavorite, dto.TaskItems.ToList());
+    }
 }
