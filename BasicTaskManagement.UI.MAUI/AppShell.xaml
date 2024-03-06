@@ -3,13 +3,13 @@
     x:Class="BasicTaskManagement.UI.MAUI.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:BasicTaskManagement.UI.MAUI"
+    xmlns:pages="clr-namespace:BasicTaskManagement.UI.MAUI.Pages"
     Shell.FlyoutBehavior="Disabled"
     Title="BasicTaskManagement.UI.MAUI">
 
-    <!--<ShellContent
+    <ShellContent
         Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />-->
+        ContentTemplate="{DataTemplate pages:TaskGroupsPage}"
+        Route="MainPage" />
 
 </Shell>
