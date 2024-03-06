@@ -1,4 +1,7 @@
-﻿using CommunityToolkit.Maui;
+﻿using BasicTaskManagement.Core.Services;
+using BasicTaskManagement.UI.MAUI.PageModels;
+using BasicTaskManagement.UI.MAUI.Pages;
+using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 
 namespace BasicTaskManagement.UI.MAUI
@@ -16,7 +19,11 @@ namespace BasicTaskManagement.UI.MAUI
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 })
-                .Services.AddSingleton<AppShell>();
+                .Services.AddSingleton<IDataService, HttpDataService>()
+                .AddSingleton<AppShell>()
+                .AddTransient<TaskGroupsPageModel>()
+                .AddTransient<TaskGroupsPage>()
+                .AddTransient<CreateTaskGroupPageModel>();
 
 #if DEBUG
     		builder.Logging.AddDebug();
