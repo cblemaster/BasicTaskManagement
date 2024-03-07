@@ -25,7 +25,7 @@
 - Create, update (including changing task group), and delete task items
 
 ## Business rules:
-- Task items must belong to a group
+- Task items must belong to a task group, but task groups do not have to contain task items
 - Completed task items can be deleted, but they cannot be updated, they cannot be made incomplete
 - Task items can be due in the past
 - Task items do not require a due date
