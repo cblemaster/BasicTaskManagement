@@ -1,5 +1,4 @@
 ﻿using BasicTaskManagement.Core.DTO;
-using System.Collections.ObjectModel;
 
 namespace BasicTaskManagement.Core.Services
 {
