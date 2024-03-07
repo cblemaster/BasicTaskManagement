@@ -73,5 +73,23 @@ app.MapPost("/taskgroup", async Task<Results<BadRequest<string>, Created<TaskGro
     return TypedResults.Created($"/taskgroup/{groupToCreate.Id}", EntityToDTO.MapTaskGroup(groupToCreate));
 });
 
+app.MapDelete("/taskgroup/{id:int}", async Task<Results<BadRequest<string>, NoContent, NotFound<string>>> (Context context, int id) =>
+{
+    if (id < 1)
+    {
+        return TypedResults.BadRequest("Invalid task group id.");
+    }
+
+    if (await context.TaskGroups.Include(tg => tg.TaskItems).SingleOrDefaultAsync(tg => tg.Id == id) is TaskGroup group)
+    {
+        context.TaskGroups.Remove(group);
+        await context.SaveChangesAsync();
+
+        return TypedResults.NoContent();
+    }
+
+    return TypedResults.NotFound("Unable to find task group to delete.");
+});
+
 
 app.Run();
