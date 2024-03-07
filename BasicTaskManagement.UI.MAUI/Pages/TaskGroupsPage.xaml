@@ -18,13 +18,18 @@
             </CollectionView.ItemsLayout>
             <CollectionView.GroupHeaderTemplate>
                 <DataTemplate x:DataType="{x:Type datamodels:TaskGroupData}">
-                    <Label Text="{Binding Name, Mode=OneWay}" Style="{StaticResource GroupHeaderLabel}">
-                        <Label.Triggers>
-                            <DataTrigger TargetType="Label" Binding="{Binding IsFavorite, Mode=OneWay}" Value="True">
-                                <Setter Property="TextColor" Value="{StaticResource Magenta}" />
-                            </DataTrigger>
-                        </Label.Triggers>
-                    </Label>
+                    <HorizontalStackLayout BackgroundColor="LightYellow">
+                        <Label Text="{Binding Name, Mode=OneWay}" Style="{StaticResource GroupHeaderLabel}">
+                            <Label.Triggers>
+                                <DataTrigger TargetType="Label" Binding="{Binding IsFavorite, Mode=OneWay}" Value="True">
+                                    <Setter Property="TextColor" Value="{StaticResource Magenta}" />
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+                            <Button Text="Update task group" Style="{StaticResource Key=SmallMagentaButton}" />
+                        <Button Text="Delete task group" Style="{StaticResource Key=SmallMagentaButton}" />
+                        <Button Text="Create task item" Style="{StaticResource Key=SmallMagentaButton}" />
+                    </HorizontalStackLayout>
                 </DataTemplate>
             </CollectionView.GroupHeaderTemplate>
             <CollectionView.ItemTemplate>
@@ -53,7 +58,7 @@
             </CollectionView.GroupFooterTemplate>
         </CollectionView>
         <HorizontalStackLayout Grid.Row="1">
-            <Button Command="{Binding CreateGroupClickedCommand, Mode=OneWay}" Text="Create group" />
+            <Button Command="{Binding CreateGroupClickedCommand, Mode=OneWay}" Text="Create task group" />
             <Label Text="Show completed?" Style="{StaticResource SwitchLabel}" />
             <Switch IsToggled="False">
                 <Switch.Behaviors>
