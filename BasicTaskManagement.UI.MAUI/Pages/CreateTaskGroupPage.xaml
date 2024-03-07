@@ -10,7 +10,7 @@
         <VerticalStackLayout Spacing="20">
             <Entry Text="{Binding CreateGroup.Name, Mode=TwoWay}" Placeholder="Task group name">
                 <Entry.Behaviors>
-                    <toolkit:TextValidationBehavior InvalidStyle="{StaticResource InvalidEntryStyle}" Flags="ValidateOnValueChanged" MaximumLength="50" MinimumLength="1" />
+                    <toolkit:TextValidationBehavior InvalidStyle="{StaticResource InvalidEntry}" Flags="ValidateOnValueChanged" MaximumLength="50" MinimumLength="1" />
                 </Entry.Behaviors>
             </Entry>
             <HorizontalStackLayout>

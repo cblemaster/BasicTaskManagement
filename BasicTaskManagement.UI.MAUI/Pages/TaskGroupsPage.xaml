@@ -18,7 +18,7 @@
             </CollectionView.ItemsLayout>
             <CollectionView.GroupHeaderTemplate>
                 <DataTemplate x:DataType="{x:Type datamodels:TaskGroupData}">
-                    <HorizontalStackLayout BackgroundColor="LightYellow">
+                    <HorizontalStackLayout Style="{StaticResource YellowBackgoundHorizontalStackLayout}">
                         <Label Text="{Binding Name, Mode=OneWay}" Style="{StaticResource GroupHeaderLabel}">
                             <Label.Triggers>
                                 <DataTrigger TargetType="Label" Binding="{Binding IsFavorite, Mode=OneWay}" Value="True">
@@ -26,7 +26,8 @@
                                 </DataTrigger>
                             </Label.Triggers>
                         </Label>
-                            <Button Text="Update task group" Style="{StaticResource Key=SmallMagentaButton}" />
+                        <Label Text="{Binding Count, Mode=OneWay, StringFormat='Total tasks: {0:D}'}" Style="{StaticResource VerticallyCenteredLabel}" />
+                        <Button Text="Update task group" Style="{StaticResource Key=SmallMagentaButton}" />
                         <Button Text="Delete task group" Style="{StaticResource Key=SmallMagentaButton}" />
                         <Button Text="Create task item" Style="{StaticResource Key=SmallMagentaButton}" />
                     </HorizontalStackLayout>
@@ -51,11 +52,6 @@
                     </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
-            <CollectionView.GroupFooterTemplate>
-                <DataTemplate x:DataType="{x:Type datamodels:TaskGroupData}">
-                    <Label Text="{Binding Count, Mode=OneWay, StringFormat='Total tasks: {0:D}'}" Style="{StaticResource GroupFooterLabel}" />
-                </DataTemplate>
-            </CollectionView.GroupFooterTemplate>
         </CollectionView>
         <HorizontalStackLayout Grid.Row="1">
             <Button Command="{Binding CreateGroupClickedCommand, Mode=OneWay}" Text="Create task group" />

@@ -17,7 +17,7 @@
         <Setter Property="VerticalOptions" Value="CenterAndExpand" />
     </Style>
 
-    <Style TargetType="Entry" x:Key="InvalidEntryStyle">
+    <Style TargetType="Entry" x:Key="InvalidEntry">
         <Setter Property="PlaceholderColor" Value="{StaticResource Magenta}" />
         <Setter Property="BackgroundColor" Value="{StaticResource LightPinkAccent}" />
     </Style>
@@ -29,6 +29,10 @@
 
     <Style TargetType="HorizontalStackLayout">
         <Setter Property="Spacing" Value="15" />
+    </Style>
+
+    <Style TargetType="HorizontalStackLayout" x:Key="YellowBackgoundHorizontalStackLayout">
+        <Setter Property="BackgroundColor" Value="{StaticResource LightYellow}" />
     </Style>
 
     <Style TargetType="Label" x:Key="SwitchLabel">
@@ -53,9 +57,8 @@
         <Setter Property="FontSize" Value="16" />
     </Style>
 
-    <Style TargetType="Label" x:Key="GroupFooterLabel">
-        <Setter Property="Margin" Value="60,0,0,0" />
-        <Setter Property="BackgroundColor" Value="{StaticResource Gray100}" />
+    <Style TargetType="Label" x:Key="VerticallyCenteredLabel">
+        <Setter Property="VerticalOptions" Value="Center" />
     </Style>
 
     <Style TargetType="ActivityIndicator">
