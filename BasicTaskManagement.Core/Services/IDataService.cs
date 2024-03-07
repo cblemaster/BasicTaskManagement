@@ -7,5 +7,6 @@ namespace BasicTaskManagement.Core.Services
         Task<IEnumerable<TaskGroupDTO>> GetTaskGroupsAsync(bool isShowComplete);
         Task<TaskGroupDTO> GetTaskGroupAsync(int id);
         Task<TaskGroupDTO> CreateTaskGroupAsync(CreateTaskGroupDTO createGroup);
+        Task DeleteTaskGroupAsync(int id);
     }
 }

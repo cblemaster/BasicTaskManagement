@@ -56,5 +56,17 @@ namespace BasicTaskManagement.Core.Services
             }
             catch (Exception) { throw; }
         }
+
+        public async Task DeleteTaskGroupAsync(int id)
+        {
+            if (id < 1) { return; }
+
+            try
+            {
+                HttpResponseMessage response = await _client.DeleteAsync($"/taskgroup/{id}");
+                response.EnsureSuccessStatusCode();
+            }
+            catch (Exception) { throw; }
+        }
     }
 }
