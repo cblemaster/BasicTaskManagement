@@ -23,7 +23,7 @@
         <HorizontalStackLayout>
             <Button Command="{Binding CloseClickedCommand}" Text="Close page" />
             <Button Text="Update task item" />
-            <Button Text="Delete task item" />
+            <Button Command="{Binding DeleteClickedCommand, Mode=OneWay}" Text="Delete task item" />
         </HorizontalStackLayout>
     </VerticalStackLayout>
 </ContentPage>

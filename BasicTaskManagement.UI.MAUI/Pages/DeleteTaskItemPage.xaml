@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:pagemodels="clr-namespace:BasicTaskManagement.UI.MAUI.PageModels"
+             x:Class="BasicTaskManagement.UI.MAUI.Pages.DeleteTaskItemPage"
+             x:DataType="{x:Type pagemodels:DeleteTaskItemPageModel}"
+             Title="Delete Task Item">
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding PageAppearingCommand, Mode=OneWay}" />
+    </ContentPage.Behaviors>
+    <VerticalStackLayout Style="{StaticResource ContainerVerticalStackLayout}">
+        <Label Text="Are you sure you want to delete:" Style="{StaticResource LargeBoldLabel}" />
+        <Label Text="{Binding TaskItem.Name}" Style="{StaticResource LargeBoldLabel}" />
+        <Label Text="{Binding TaskItem.DueDate, Mode=OneWay, StringFormat='Due date: {0:d}'}" Style="{StaticResource MediumLabel}" />
+        <HorizontalStackLayout>
+            <Button Command="{Binding CancelClickedCommand, Mode=OneWay}" Text="No, cancel" />
+            <Button Command="{Binding DeleteClickedCommand, Mode=OneWay}" Text="Yes, delete task item" />
+        </HorizontalStackLayout>
+    </VerticalStackLayout>
+</ContentPage>

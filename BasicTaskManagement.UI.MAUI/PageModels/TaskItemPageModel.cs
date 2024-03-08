@@ -1,5 +1,6 @@
 ﻿using BasicTaskManagement.Core.DTO;
 using BasicTaskManagement.Core.Services;
+using BasicTaskManagement.UI.MAUI.Pages;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -22,6 +23,12 @@ public partial class TaskItemPageModel(IDataService dataService) : ObservableObj
 
     [RelayCommand]
     private static void CloseClicked() => Shell.Current.Navigation.PopModalAsync();
+
+    [RelayCommand]
+    private static void UpdateClicked() => throw new NotImplementedException();
+
+    [RelayCommand]
+    private void DeleteClicked() => Shell.Current.Navigation.PushModalAsync(new DeleteTaskItemPage(Id));
 
     private async Task LoadDataAsync()
     {
