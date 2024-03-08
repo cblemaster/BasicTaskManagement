@@ -21,8 +21,8 @@
         <Label Text="{Binding TaskItem.TaskGroupName, Mode=OneWay, StringFormat='Task group name: {0}'}" Style="{StaticResource MediumLabel}" />
         <Label Text="{Binding TaskItem.TaskGroupIsFavorite, Mode=OneWay, StringFormat='Task group is favorite?: {0}'}" Style="{StaticResource MediumLabel}" />
         <HorizontalStackLayout>
-            <Button Command="{Binding CloseClickedCommand}" Text="Close page" />
-            <Button Text="Update task item" />
+            <Button Command="{Binding CloseClickedCommand, Mode=OneWay}" Text="Close page" />
+            <Button Command="{Binding UpdateClickedCommand, Mode=OneWay}" Text="Update task item" />
             <Button Command="{Binding DeleteClickedCommand, Mode=OneWay}" Text="Delete task item" />
         </HorizontalStackLayout>
     </VerticalStackLayout>
