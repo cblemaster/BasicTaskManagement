@@ -22,6 +22,14 @@ public partial class CreateTaskGroupPageModel : ObservableObject
     [RelayCommand]
     private async Task CreateClickedAsync()
     {
+        bool groupNameIsUsed = (await _dataService.GetTaskGroupsAsync(true)).Select(tg => tg.Name).Contains(CreateGroup.Name);
+                
+        if (groupNameIsUsed)
+        {
+            await Shell.Current.DisplayAlert("Error!", $"There is already a task group named {CreateGroup.Name}", "OK");
+            return;
+        }
+        
         ValidationResult validationResult = CreateGroup.Validate();
 
         if (!validationResult.IsValid)

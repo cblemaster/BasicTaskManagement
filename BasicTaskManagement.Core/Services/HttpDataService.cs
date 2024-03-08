@@ -45,6 +45,9 @@ namespace BasicTaskManagement.Core.Services
 
         public async Task<TaskGroupDTO> CreateTaskGroupAsync(CreateTaskGroupDTO createGroup)
         {
+            IEnumerable<string> list = (await GetTaskGroupsAsync(true)).Select(tg => tg.Name);
+            if (list.Contains(createGroup.Name)) { return TaskGroupDTO.NotFound; }  //TODO: Should really return an object representing the error...
+            
             StringContent content = new(JsonSerializer.Serialize(createGroup));
             content.Headers.ContentType = new("application/json");
 

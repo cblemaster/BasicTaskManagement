@@ -59,6 +59,11 @@ app.MapPost("/taskgroup", async Task<Results<BadRequest<string>, Created<TaskGro
         return TypedResults.BadRequest("No group to create provided.");
     }
 
+    if (context.TaskGroups.Select(tg => tg.Name).Contains(createGroup.Name))
+    {
+        return TypedResults.BadRequest($"Task group name {createGroup.Name} is already used.");
+    }
+
     ValidationResult validationResult = createGroup.Validate();
 
     if (!validationResult.IsValid)
