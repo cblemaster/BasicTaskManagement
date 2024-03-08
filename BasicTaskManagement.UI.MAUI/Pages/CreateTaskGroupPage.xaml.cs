@@ -7,7 +7,7 @@ public partial class CreateTaskGroupPage : ContentPage
     public CreateTaskGroupPage()
     {
         InitializeComponent();
-        CreateTaskGroupPageModel pageModel = Shell.Current.Handler!.MauiContext!.Services.GetService<CreateTaskGroupPageModel>();
+        CreateTaskGroupPageModel pageModel = Shell.Current.Handler.MauiContext.Services.GetService<CreateTaskGroupPageModel>();
         BindingContext = pageModel;
     }
 }

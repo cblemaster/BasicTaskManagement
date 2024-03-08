@@ -17,7 +17,7 @@ public partial class CreateTaskGroupPageModel : ObservableObject
     }
 
     [ObservableProperty]
-    private CreateTaskGroupDTO createGroup = default!;
+    private CreateTaskGroupDTO createGroup = default;
 
     [RelayCommand]
     private async Task CreateClickedAsync()

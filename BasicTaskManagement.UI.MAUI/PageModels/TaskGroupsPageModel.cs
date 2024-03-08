@@ -13,7 +13,7 @@ public partial class TaskGroupsPageModel(IDataService dataService) : ObservableO
     private readonly IDataService _dataService = dataService;
 
     [ObservableProperty]
-    private ReadOnlyCollection<TaskGroupData> _taskGroups = default!;
+    private ReadOnlyCollection<TaskGroupData> _taskGroups = default;
 
     [ObservableProperty]
     private TaskItemDTO selectedTaskItem = default;

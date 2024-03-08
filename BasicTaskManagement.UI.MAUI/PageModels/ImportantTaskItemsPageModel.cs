@@ -12,7 +12,7 @@ public partial class ImportantTaskItemsPageModel(IDataService dataService) : Obs
     private readonly IDataService _dataService = dataService;
 
     [ObservableProperty]
-    private ReadOnlyCollection<TaskItemDTO> _taskItems = default!;
+    private ReadOnlyCollection<TaskItemDTO> _taskItems = default;
 
     [ObservableProperty]
     private TaskItemDTO selectedTaskItem = default;
