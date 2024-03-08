@@ -7,7 +7,20 @@ public partial class TaskItemPage : ContentPage
     public TaskItemPage(int id)
     {
         InitializeComponent();
-        TaskItemPageModel pageModel = Shell.Current.Handler.MauiContext.Services.GetService<TaskItemPageModel>();
+
+        Shell shell = Shell.Current;
+        
+        IViewHandler? handler = shell.Handler;
+        if (handler is null) { return; }
+        
+        IMauiContext? context = handler.MauiContext;
+        if (context is null) { return; }
+        
+        IServiceProvider services = context.Services;
+        
+        TaskItemPageModel? pageModel = services.GetService<TaskItemPageModel>();
+        if (pageModel is null) { return; }
+        
         BindingContext = pageModel;
         pageModel.Id = id;
     }

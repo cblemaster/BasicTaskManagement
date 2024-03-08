@@ -27,7 +27,10 @@ public partial class CreateUpdateTaskItemPageModel(IDataService dataService) : O
         else { TaskItem = new(); }
 
         await LoadTaskGroupsAsync();
-        SelectedTaskGroup = TaskGroups.SingleOrDefault(tg => tg.Id == TaskItem.TaskGroupId);
+        if (TaskGroups.SingleOrDefault(tg => tg.Id == TaskItem.TaskGroupId) is TaskGroupDTO dto)
+        {
+            SelectedTaskGroup = dto;
+        }
     }
 
     //[RelayCommand]

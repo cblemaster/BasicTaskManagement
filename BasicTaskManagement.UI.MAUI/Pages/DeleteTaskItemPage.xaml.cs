@@ -7,7 +7,19 @@ public partial class DeleteTaskItemPage : ContentPage
     public DeleteTaskItemPage(int id)
     {
         InitializeComponent();
-        DeleteTaskItemPageModel pageModel = Shell.Current.Handler.MauiContext.Services.GetService<DeleteTaskItemPageModel>();
+        Shell shell = Shell.Current;
+
+        IViewHandler? handler = shell.Handler;
+        if (handler is null) { return; }
+
+        IMauiContext? context = handler.MauiContext;
+        if (context is null) { return; }
+
+        IServiceProvider services = context.Services;
+
+        DeleteTaskItemPageModel? pageModel = services.GetService<DeleteTaskItemPageModel>();
+        if (pageModel is null) { return; }
+
         BindingContext = pageModel;
         pageModel.Id = id;
     }
