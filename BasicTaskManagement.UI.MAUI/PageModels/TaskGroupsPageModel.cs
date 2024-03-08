@@ -18,7 +18,11 @@ public partial class TaskGroupsPageModel(IDataService dataService) : ObservableO
     private bool IsShowComplete { get; set; }
 
     [RelayCommand]
-    private void PageAppearing() => LoadDataAsync();
+    private void PageAppearing()
+    {
+        IsShowComplete = false;
+        LoadDataAsync();
+    }
 
     [RelayCommand]
     private static void GroupsSelectionChanged() { }
