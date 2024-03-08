@@ -20,10 +20,10 @@ public partial class CompletedTaskItemsPageModel(IDataService dataService) : Obs
     private bool IsShowComplete { get; set; }
 
     [RelayCommand]
-    private void PageAppearing()
+    private async Task PageAppearing()
     {
         IsShowComplete = false;
-        LoadDataAsync();
+        await LoadDataAsync();
     }
 
     [RelayCommand]

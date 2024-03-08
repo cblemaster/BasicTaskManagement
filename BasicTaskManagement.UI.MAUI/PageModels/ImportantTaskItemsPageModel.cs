@@ -20,20 +20,20 @@ public partial class ImportantTaskItemsPageModel(IDataService dataService) : Obs
     private bool IsShowComplete { get; set; }
 
     [RelayCommand]
-    private void PageAppearing()
+    private async Task PageAppearing()
     {
         IsShowComplete = false;
-        LoadDataAsync();
+        await LoadDataAsync();
     }
 
     [RelayCommand]
     private void ItemsSelectionChanged() => Shell.Current.Navigation.PushModalAsync(new TaskItemPage(SelectedTaskItem.Id));
 
     [RelayCommand]
-    private void ShowCompletedFilterChanged()
+    private async Task ShowCompletedFilterChanged()
     {
         IsShowComplete = !IsShowComplete;
-        LoadDataAsync();
+        await LoadDataAsync();
     }
 
     private async Task LoadDataAsync() => TaskItems = (await _dataService.GetImportantTaskItemsAsync(IsShowComplete)).ToList().AsReadOnly();
