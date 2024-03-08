@@ -1,5 +1,6 @@
 ﻿using BasicTaskManagement.Core.DTO;
 using BasicTaskManagement.Core.Services;
+using BasicTaskManagement.UI.MAUI.Pages;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
@@ -13,6 +14,9 @@ public partial class ImportantTaskItemsPageModel(IDataService dataService) : Obs
     [ObservableProperty]
     private ReadOnlyCollection<TaskItemDTO> _taskItems = default!;
 
+    [ObservableProperty]
+    private TaskItemDTO selectedTaskItem = default;
+
     private bool IsShowComplete { get; set; }
 
     [RelayCommand]
@@ -23,7 +27,7 @@ public partial class ImportantTaskItemsPageModel(IDataService dataService) : Obs
     }
 
     [RelayCommand]
-    private static void ItemsSelectionChanged() { }
+    private void ItemsSelectionChanged() => Shell.Current.Navigation.PushModalAsync(new TaskItemPage(SelectedTaskItem.Id));
 
     [RelayCommand]
     private void ShowCompletedFilterChanged()
