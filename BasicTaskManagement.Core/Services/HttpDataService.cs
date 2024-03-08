@@ -131,11 +131,28 @@ namespace BasicTaskManagement.Core.Services
             catch (Exception) { throw; }
         }
 
-        public async Task DeleteTaskItem(int id)
+        public async Task DeleteTaskItemAsync(int id)
         {
             try
             {
                 HttpResponseMessage response = await _client.DeleteAsync($"/taskitem/{id}");
+                response.EnsureSuccessStatusCode();
+            }
+            catch (Exception) { throw; }
+        }
+
+        public async Task UpdateTaskItemAsync(int id, CreateUpdateTaskItemDTO dto)
+        {
+            if ((await GetTaskItemAsync(id)).IsComplete) { return; }
+            
+            if (dto is null || id < 1 || id != dto.Id) { return; }
+
+            StringContent content = new(JsonSerializer.Serialize(dto));
+            content.Headers.ContentType = new("application/json");
+
+            try
+            {
+                HttpResponseMessage response = await _client.PutAsync($"/taskitem/{id}", content);
                 response.EnsureSuccessStatusCode();
             }
             catch (Exception) { throw; }
