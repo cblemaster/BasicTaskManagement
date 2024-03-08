@@ -4,9 +4,9 @@ namespace BasicTaskManagement.UI.MAUI.Pages;
 
 public partial class ImportantTaskItemsPage : ContentPage
 {
-	public ImportantTaskItemsPage(ImportantTaskItemsPageModel pageModel)
-	{
-		InitializeComponent();
+    public ImportantTaskItemsPage(ImportantTaskItemsPageModel pageModel)
+    {
+        InitializeComponent();
         BindingContext = pageModel;
-	}
+    }
 }

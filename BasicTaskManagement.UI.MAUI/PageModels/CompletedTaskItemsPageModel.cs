@@ -36,8 +36,5 @@ public partial class CompletedTaskItemsPageModel(IDataService dataService) : Obs
         LoadDataAsync();
     }
 
-    private async Task LoadDataAsync()
-    {
-        TaskItems = (await _dataService.GetCompletedTaskItemsAsync()).ToList().AsReadOnly();
-    }
+    private async Task LoadDataAsync() => TaskItems = (await _dataService.GetCompletedTaskItemsAsync()).ToList().AsReadOnly();
 }

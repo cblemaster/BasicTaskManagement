@@ -36,8 +36,5 @@ public partial class TaskItemsDueTodayPageModel(IDataService dataService) : Obse
         LoadDataAsync();
     }
 
-    private async Task LoadDataAsync()
-    {
-        TaskItems = (await _dataService.GetTaskItemsDueTodayAsync(IsShowComplete)).ToList().AsReadOnly();
-    }    
+    private async Task LoadDataAsync() => TaskItems = (await _dataService.GetTaskItemsDueTodayAsync(IsShowComplete)).ToList().AsReadOnly();
 }

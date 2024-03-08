@@ -36,8 +36,5 @@ public partial class ImportantTaskItemsPageModel(IDataService dataService) : Obs
         LoadDataAsync();
     }
 
-    private async Task LoadDataAsync()
-    {
-        TaskItems = (await _dataService.GetImportantTaskItemsAsync(IsShowComplete)).ToList().AsReadOnly();
-    }
+    private async Task LoadDataAsync() => TaskItems = (await _dataService.GetImportantTaskItemsAsync(IsShowComplete)).ToList().AsReadOnly();
 }
