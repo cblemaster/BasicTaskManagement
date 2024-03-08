@@ -27,7 +27,7 @@ public partial class TaskItemsDueTodayPageModel(IDataService dataService) : Obse
     }
 
     [RelayCommand]
-    private void ItemsSelectionChanged() => Shell.Current.Navigation.PushModalAsync(new TaskItemPage(SelectedTaskItem.Id));
+    private async Task ItemsSelectionChanged() => await Shell.Current.Navigation.PushModalAsync(new TaskItemPage(SelectedTaskItem.Id));
 
     [RelayCommand]
     private void ShowCompletedFilterChanged()

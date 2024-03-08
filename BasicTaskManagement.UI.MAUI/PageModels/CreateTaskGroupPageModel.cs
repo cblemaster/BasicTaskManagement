@@ -41,5 +41,5 @@ public partial class CreateTaskGroupPageModel : ObservableObject
     }
 
     [RelayCommand]
-    private static void CancelClicked() => Shell.Current.Navigation.PopModalAsync();
+    private async Task CancelClicked() => await Shell.Current.Navigation.PopModalAsync();
 }

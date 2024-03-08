@@ -18,7 +18,7 @@ public partial class DeleteTaskItemPageModel(IDataService dataService) : Observa
     private async Task PageAppearing() => await LoadDataAsync();
 
     [RelayCommand]
-    private static void CancelClicked() => Shell.Current.Navigation.PopModalAsync();
+    private static async Task CancelClicked() => await Shell.Current.Navigation.PopModalAsync();
 
     [RelayCommand]
     private async Task DeleteClickedAsync()
