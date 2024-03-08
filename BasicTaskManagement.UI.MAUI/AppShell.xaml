@@ -7,9 +7,16 @@
     Shell.FlyoutBehavior="Disabled"
     Title="BasicTaskManagement.UI.MAUI">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate pages:TaskGroupsPage}"
-        Route="MainPage" />
+    <TabBar>
+        <ShellContent
+            Title="Task Groups"
+            ContentTemplate="{DataTemplate pages:TaskGroupsPage}"
+            Route="TaskGroups" />
+
+        <ShellContent
+            Title="Due Today"
+            ContentTemplate="{DataTemplate pages:TaskItemsDueTodayPage}"
+            Route="DueToday" />
+    </TabBar>
 
 </Shell>
