@@ -68,5 +68,55 @@ namespace BasicTaskManagement.Core.Services
             }
             catch (Exception) { throw; }
         }
+
+        public async Task<IEnumerable<TaskItemDTO>> GetImportantTaskItemsAsync(bool isShowComplete)
+        {
+            List<TaskItemDTO> items = [];
+
+            string route = isShowComplete ? "/taskitem/important/showcomplete" : "/taskitem/important";
+            try
+            {
+                HttpResponseMessage response = await _client.GetAsync(route);
+                if (response.IsSuccessStatusCode && response.Content is not null)
+                {
+                    items = response.Content.ReadFromJsonAsAsyncEnumerable<TaskItemDTO>().ToBlockingEnumerable().ToList();
+                }
+                return items is not null ? items.AsReadOnly() : Enumerable.Empty<TaskItemDTO>().ToList().AsReadOnly();
+            }
+            catch (Exception) { throw; }
+        }
+
+        public async Task<IEnumerable<TaskItemDTO>> GetTaskItemsDueTodayAsync(bool isShowComplete)
+        {
+            List<TaskItemDTO> items = [];
+
+            string route = isShowComplete ? "/taskitem/duetoday/showcomplete" : "/taskitem/duetoday";
+            try
+            {
+                HttpResponseMessage response = await _client.GetAsync(route);
+                if (response.IsSuccessStatusCode && response.Content is not null)
+                {
+                    items = response.Content.ReadFromJsonAsAsyncEnumerable<TaskItemDTO>().ToBlockingEnumerable().ToList();
+                }
+                return items is not null ? items.AsReadOnly() : Enumerable.Empty<TaskItemDTO>().ToList().AsReadOnly();
+            }
+            catch (Exception) { throw; }
+        }
+
+        public async Task<IEnumerable<TaskItemDTO>> GetCompletedTaskItemsAsync()
+        {
+            List<TaskItemDTO> items = [];
+
+            try
+            {
+                HttpResponseMessage response = await _client.GetAsync("/taskitem/completed");
+                if (response.IsSuccessStatusCode && response.Content is not null)
+                {
+                    items = response.Content.ReadFromJsonAsAsyncEnumerable<TaskItemDTO>().ToBlockingEnumerable().ToList();
+                }
+                return items is not null ? items.AsReadOnly() : Enumerable.Empty<TaskItemDTO>().ToList().AsReadOnly();
+            }
+            catch (Exception) { throw; }
+        }
     }
 }
