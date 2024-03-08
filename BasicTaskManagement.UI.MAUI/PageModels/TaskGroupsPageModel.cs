@@ -21,10 +21,10 @@ public partial class TaskGroupsPageModel(IDataService dataService) : ObservableO
     private bool IsShowComplete { get; set; }
 
     [RelayCommand]
-    private void PageAppearing()
+    private async Task PageAppearing()
     {
         IsShowComplete = false;
-        LoadDataAsync();
+        await LoadDataAsync();
     }
 
     [RelayCommand]
@@ -34,10 +34,10 @@ public partial class TaskGroupsPageModel(IDataService dataService) : ObservableO
     private static async Task CreateGroupClicked() => await Shell.Current.Navigation.PushModalAsync(new CreateTaskGroupPage());
 
     [RelayCommand]
-    private void ShowCompletedFilterChanged()
+    private async Task ShowCompletedFilterChanged()
     {
         IsShowComplete = !IsShowComplete;
-        LoadDataAsync();
+        await LoadDataAsync();
     }
 
     private async Task LoadDataAsync()

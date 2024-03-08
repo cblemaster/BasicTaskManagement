@@ -30,10 +30,10 @@ public partial class CompletedTaskItemsPageModel(IDataService dataService) : Obs
     private async Task ItemsSelectionChanged() => await Shell.Current.Navigation.PushModalAsync(new TaskItemPage(SelectedTaskItem.Id));
 
     [RelayCommand]
-    private void ShowCompletedFilterChanged()
+    private async Task ShowCompletedFilterChanged()
     {
         IsShowComplete = !IsShowComplete;
-        LoadDataAsync();
+        await LoadDataAsync();
     }
 
     private async Task LoadDataAsync() => TaskItems = (await _dataService.GetCompletedTaskItemsAsync()).ToList().AsReadOnly();

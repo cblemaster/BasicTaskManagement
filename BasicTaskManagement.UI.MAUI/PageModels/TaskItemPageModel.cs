@@ -16,7 +16,7 @@ public partial class TaskItemPageModel(IDataService dataService) : ObservableObj
     public int Id { get; set; }
 
     [RelayCommand]
-    private void PageAppearing() => LoadDataAsync();
+    private async Task PageAppearing() => await LoadDataAsync();
 
     [RelayCommand]
     private async static Task CloseClicked() => await Shell.Current.Navigation.PopModalAsync();
