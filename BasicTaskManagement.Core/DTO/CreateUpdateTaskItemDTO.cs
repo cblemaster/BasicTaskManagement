@@ -13,5 +13,5 @@ public class CreateUpdateTaskItemDTO
     public DateTime CreateDate { get; set; }
     public DateTime? UpdateDate { get; set; }
     public string TaskGroupName { get; set; } = string.Empty;
-    public  bool TaskGroupIsFavorite { get; set; }
+    public bool TaskGroupIsFavorite { get; set; }
 }
