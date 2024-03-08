@@ -25,9 +25,11 @@ namespace BasicTaskManagement.UI.MAUI
                 .AddTransient<TaskGroupsPage>()
                 .AddTransient<CreateTaskGroupPageModel>()
                 .AddTransient<TaskItemsDueTodayPageModel>()
-                .AddTransient<TaskItemsDueTodayPage>();
+                .AddTransient<TaskItemsDueTodayPage>()
                 .AddTransient<CompletedTaskItemsPageModel>()
                 .AddTransient<CompletedTaskItemsPage>()
+                .AddTransient<ImportantTaskItemsPageModel>()
+                .AddTransient<ImportantTaskItemsPage>();
 
 #if DEBUG
             builder.Logging.AddDebug();

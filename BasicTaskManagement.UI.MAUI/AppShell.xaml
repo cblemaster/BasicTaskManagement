@@ -19,6 +19,9 @@
             Route="DueToday" />
 
         <ShellContent
+            Title="Important"
+            ContentTemplate="{DataTemplate pages:ImportantTaskItemsPage}"
+            Route="Important" />
 
         <ShellContent
             Title="Completed"
