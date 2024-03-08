@@ -11,4 +11,19 @@ public static class DTOToEntity
             Name = dto.Name,
             IsFavorite = dto.IsFavorite,
         };
+
+    public static TaskItem MapCreateUpdateTaskItem(CreateUpdateTaskItemDTO dto) =>
+        new()
+        {
+            Id = dto.Id,
+            Name = dto.Name,
+            Notes = dto.Notes,
+            IsImportant = dto.IsImportant,
+            IsComplete = dto.IsComplete,
+            DueDate = dto.DueDate,
+            CompletedDate = dto.CompletedDate,
+            CreateDate = dto.CreateDate,
+            UpdateDate = dto.UpdateDate,
+            TaskGroupId = dto.TaskGroupId,
+        };
 }

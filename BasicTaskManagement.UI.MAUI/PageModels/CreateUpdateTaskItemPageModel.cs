@@ -1,5 +1,6 @@
 ﻿using BasicTaskManagement.Core.DTO;
 using BasicTaskManagement.Core.Services;
+using BasicTaskManagement.Core.Validation;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -14,6 +15,8 @@ public partial class CreateUpdateTaskItemPageModel(IDataService dataService) : O
 
     public int Id { get; set; }
 
+    public bool OriginalIsComplete { get; set; }
+
     [ObservableProperty]
     private IReadOnlyCollection<TaskGroupDTO> _taskGroups = default;
 
@@ -23,7 +26,11 @@ public partial class CreateUpdateTaskItemPageModel(IDataService dataService) : O
     [RelayCommand]
     private async Task PageAppearing()
     {
-        if (Id > 0) { await LoadDataAsync(); }
+        if (Id > 0)
+        {
+            await LoadDataAsync();
+            OriginalIsComplete = TaskItem.IsComplete;
+        }
         else { TaskItem = new(); }
 
         await LoadTaskGroupsAsync();
@@ -33,19 +40,36 @@ public partial class CreateUpdateTaskItemPageModel(IDataService dataService) : O
         }
     }
 
-    //[RelayCommand]
-    //private static void CancelClicked() => Shell.Current.Navigation.PopModalAsync();
+    [RelayCommand]
+    private static async Task CancelClickedAsync() => await Shell.Current.Navigation.PopModalAsync();
 
-    //[RelayCommand]
-    //private async Task DeleteClickedAsync()
-    //{
-    //    if (TaskItem is not null)
-    //    {
-    //        await _dataService.DeleteTaskItem(Id);
-    //        await Shell.Current.Navigation.PopModalAsync();
-    //        await Shell.Current.Navigation.PopModalAsync();
-    //    }
-    //}
+    [RelayCommand]
+    private async Task SaveClicked()
+    {
+        //if (OriginalIsComplete)
+        //{
+        //    await Shell.Current.DisplayAlert("Error!", "Completed task items cannot be updated.", "OK");
+        //    return;
+        //}
+        
+        ValidationResult validationResult = TaskItem.Validate();
+
+        if (!validationResult.IsValid)
+        {
+            await Shell.Current.DisplayAlert("Error!", validationResult.ErrorMessage, "OK");
+            return;
+        }
+
+        TaskItem.TaskGroupId = SelectedTaskGroup.Id;
+        TaskItem.UpdateDate = DateTime.Today;
+        if (TaskItem.IsComplete)
+        {
+            TaskItem.CompletedDate = DateTime.Today;
+        }
+        
+        await _dataService.UpdateTaskItemAsync(Id, TaskItem);
+        await Shell.Current.Navigation.PopModalAsync();
+    }
 
     private async Task LoadDataAsync()
     {

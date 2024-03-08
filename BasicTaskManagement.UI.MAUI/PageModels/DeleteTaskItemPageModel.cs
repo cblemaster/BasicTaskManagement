@@ -25,7 +25,7 @@ public partial class DeleteTaskItemPageModel(IDataService dataService) : Observa
     {
         if (TaskItem is not null)
         {
-            await _dataService.DeleteTaskItem(Id);
+            await _dataService.DeleteTaskItemAsync(Id);
             await Shell.Current.Navigation.PopModalAsync();
             await Shell.Current.Navigation.PopModalAsync();
         }

@@ -27,5 +27,9 @@
         <HorizontalStackLayout>
             <Picker ItemsSource="{Binding TaskGroups, Mode=TwoWay}" ItemDisplayBinding="{Binding Name, Mode=TwoWay}" SelectedItem="{Binding SelectedTaskGroup, Mode=TwoWay}" Title="Task group"  />
         </HorizontalStackLayout>
+        <HorizontalStackLayout>
+            <Button Command="{Binding CancelClickedCommand, Mode=OneWay}" Text="Cancel" />
+            <Button Command="{Binding SaveClickedCommand, Mode=OneWay}" Text="Save task item" />
+        </HorizontalStackLayout>
     </VerticalStackLayout>
 </ContentPage>

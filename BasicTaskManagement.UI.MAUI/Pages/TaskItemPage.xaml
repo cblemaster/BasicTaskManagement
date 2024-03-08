@@ -9,6 +9,9 @@
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding PageAppearingCommand, Mode=OneWay}" />
     </ContentPage.Behaviors>
+    <ContentPage.Resources>
+        <toolkit:InvertedBoolConverter x:Key="invbool" />
+    </ContentPage.Resources>
     <VerticalStackLayout Style="{StaticResource ContainerVerticalStackLayout}">
         <Label Text="{Binding TaskItem.Name, Mode=OneWay}" Style="{StaticResource LargeBoldLabel}" />
         <Label Text="{Binding TaskItem.Notes, Mode=OneWay, StringFormat='Notes: {0}'}" Style="{StaticResource MediumLabel}" />
@@ -22,7 +25,16 @@
         <Label Text="{Binding TaskItem.TaskGroupIsFavorite, Mode=OneWay, StringFormat='Task group is favorite?: {0}'}" Style="{StaticResource MediumLabel}" />
         <HorizontalStackLayout>
             <Button Command="{Binding CloseClickedCommand, Mode=OneWay}" Text="Close page" />
-            <Button Command="{Binding UpdateClickedCommand, Mode=OneWay}" Text="Update task item" />
+            <Button Command="{Binding UpdateClickedCommand, Mode=OneWay}" Text="Update task item">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button"
+                                 Binding="{Binding TaskItem.IsComplete, Mode=OneWay, Converter={StaticResource invbool}}"
+                                 Value="False">
+                        <Setter Property="IsEnabled"
+                                Value="False" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
             <Button Command="{Binding DeleteClickedCommand, Mode=OneWay}" Text="Delete task item" />
         </HorizontalStackLayout>
     </VerticalStackLayout>
