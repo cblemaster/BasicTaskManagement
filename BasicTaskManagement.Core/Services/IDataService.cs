@@ -1,4 +1,5 @@
 ﻿using BasicTaskManagement.Core.DTO;
+using System.Net.Http.Json;
 
 namespace BasicTaskManagement.Core.Services
 {
@@ -11,5 +12,6 @@ namespace BasicTaskManagement.Core.Services
         Task<IEnumerable<TaskItemDTO>> GetImportantTaskItemsAsync(bool isShowComplete);
         Task<IEnumerable<TaskItemDTO>> GetTaskItemsDueTodayAsync(bool isShowComplete);
         Task<IEnumerable<TaskItemDTO>> GetCompletedTaskItemsAsync();
+        Task<TaskItemDTO> GetTaskItemAsync(int id);
     }
 }

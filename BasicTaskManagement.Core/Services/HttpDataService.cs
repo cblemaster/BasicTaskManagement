@@ -118,5 +118,17 @@ namespace BasicTaskManagement.Core.Services
             }
             catch (Exception) { throw; }
         }
+
+        public async Task<TaskItemDTO> GetTaskItemAsync(int id)
+        {
+            try
+            {
+                HttpResponseMessage response = await _client.GetAsync($"/taskitem/{id}");
+                return response.IsSuccessStatusCode && response.Content is not null
+                    ? await response.Content.ReadFromJsonAsync<TaskItemDTO>() ?? TaskItemDTO.NotFound
+                    : TaskItemDTO.NotFound;
+            }
+            catch (Exception) { throw; }
+        }
     }
 }
