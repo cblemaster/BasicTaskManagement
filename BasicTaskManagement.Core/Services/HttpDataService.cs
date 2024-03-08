@@ -130,5 +130,15 @@ namespace BasicTaskManagement.Core.Services
             }
             catch (Exception) { throw; }
         }
+
+        public async Task DeleteTaskItem(int id)
+        {
+            try
+            {
+                HttpResponseMessage response = await _client.DeleteAsync($"/taskitem/{id}");
+                response.EnsureSuccessStatusCode();
+            }
+            catch (Exception) { throw; }
+        }
     }
 }

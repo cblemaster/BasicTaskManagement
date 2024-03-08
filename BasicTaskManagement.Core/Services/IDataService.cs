@@ -12,5 +12,6 @@ namespace BasicTaskManagement.Core.Services
         Task<IEnumerable<TaskItemDTO>> GetTaskItemsDueTodayAsync(bool isShowComplete);
         Task<IEnumerable<TaskItemDTO>> GetCompletedTaskItemsAsync();
         Task<TaskItemDTO> GetTaskItemAsync(int id);
+        Task DeleteTaskItem(int id);
     }
 }
