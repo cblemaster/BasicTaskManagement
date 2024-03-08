@@ -8,7 +8,7 @@
              Title="Create Task Group">
     <Grid Style="{StaticResource ContainerGrid}">
         <VerticalStackLayout Spacing="20">
-            <Entry Text="{Binding CreateGroup.Name, Mode=TwoWay}" Placeholder="Task group name">
+            <Entry Text="{Binding CreateGroup.Name, Mode=TwoWay}" Placeholder="Task group name" Style="{StaticResource ValidEntry}">
                 <Entry.Behaviors>
                     <toolkit:TextValidationBehavior InvalidStyle="{StaticResource InvalidEntry}" Flags="ValidateOnValueChanged" MaximumLength="50" MinimumLength="1" />
                 </Entry.Behaviors>
