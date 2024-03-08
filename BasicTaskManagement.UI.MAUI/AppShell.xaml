@@ -17,6 +17,13 @@
             Title="Due Today"
             ContentTemplate="{DataTemplate pages:TaskItemsDueTodayPage}"
             Route="DueToday" />
+
+        <ShellContent
+
+        <ShellContent
+            Title="Completed"
+            ContentTemplate="{DataTemplate pages:CompletedTaskItemsPage}"
+            Route="Completed" />
     </TabBar>
 
 </Shell>
