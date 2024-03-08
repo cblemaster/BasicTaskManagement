@@ -14,4 +14,19 @@ public class TaskItemDTO
     public DateTime? UpdateDate { get; init; }
     public required string TaskGroupName { get; init; }
     public required bool TaskGroupIsFavorite { get; init; }
+    public static TaskItemDTO NotFound => new()
+    {
+        Id = 0,
+        TaskGroupId = 0,
+        Name = "not found",
+        Notes = null,
+        IsImportant = false,
+        IsComplete = false,
+        DueDate = null,
+        CompletedDate = null,
+        CreateDate = DateTime.MinValue,
+        UpdateDate = null,
+        TaskGroupName = "not found",
+        TaskGroupIsFavorite = false,
+    };
 }
