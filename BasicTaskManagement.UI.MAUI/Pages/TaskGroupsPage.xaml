@@ -12,7 +12,7 @@
         <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding PageAppearingCommand, Mode=OneWay}" />
     </ContentPage.Behaviors>
     <Grid Style="{StaticResource ContainerGrid}">
-        <CollectionView ItemsSource="{Binding TaskGroups, Mode=OneWay}" SelectionChangedCommand="{Binding GroupsSelectionChangedCommand, Mode=OneWay}" IsGrouped="True" EmptyView="No groups found.">
+        <CollectionView ItemsSource="{Binding TaskGroups, Mode=OneWay}" SelectionChangedCommand="{Binding GroupsSelectionChangedCommand, Mode=OneWay}" SelectedItem="{Binding SelectedTaskItem, Mode=TwoWay}" IsGrouped="True" EmptyView="No groups found.">
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="5" />
             </CollectionView.ItemsLayout>
@@ -37,7 +37,7 @@
                 <DataTemplate x:DataType="{x:Type dtos:TaskItemDTO}">
                     <Frame>
                         <VerticalStackLayout>
-                            <Label Text="{Binding Name, Mode=OneWay}" Style="{StaticResource LargeInsideFrameLabel}">
+                            <Label Text="{Binding Name, Mode=OneWay}" Style="{StaticResource LargeLabel}">
                                 <Label.Triggers>
                                     <DataTrigger TargetType="Label" Binding="{Binding IsImportant, Mode=OneWay}" Value="True">
                                         <Setter Property="FontAttributes" Value="Bold" />
@@ -47,7 +47,7 @@
                                     </DataTrigger>
                                 </Label.Triggers>
                             </Label>
-                            <Label Text="{Binding DueDate, Mode=OneWay, StringFormat='Due date: {0:d}'}" Style="{StaticResource SmallInsideFrameLabel}" />
+                            <Label Text="{Binding DueDate, Mode=OneWay, StringFormat='Due date: {0:d}'}" Style="{StaticResource MediumLabel}" />
                         </VerticalStackLayout>
                     </Frame>
                 </DataTemplate>

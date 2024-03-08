@@ -15,6 +15,9 @@ public partial class TaskGroupsPageModel(IDataService dataService) : ObservableO
     [ObservableProperty]
     private ReadOnlyCollection<TaskGroupData> _taskGroups = default!;
 
+    [ObservableProperty]
+    private TaskItemDTO selectedTaskItem = default;
+
     private bool IsShowComplete { get; set; }
 
     [RelayCommand]
@@ -25,7 +28,7 @@ public partial class TaskGroupsPageModel(IDataService dataService) : ObservableO
     }
 
     [RelayCommand]
-    private static void GroupsSelectionChanged() { }
+    private void GroupsSelectionChanged() => Shell.Current.Navigation.PushModalAsync(new TaskItemPage(SelectedTaskItem.Id));
 
     [RelayCommand]
     private static void CreateGroupClicked() => Shell.Current.Navigation.PushModalAsync(new CreateTaskGroupPage());
