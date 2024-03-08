@@ -91,5 +91,66 @@ app.MapDelete("/taskgroup/{id:int}", async Task<Results<BadRequest<string>, NoCo
     return TypedResults.NotFound("Unable to find task group to delete.");
 });
 
+app.MapGet("/taskitem", Results<NotFound<string>, Ok<IEnumerable<TaskItemDTO>>> (Context context) =>
+{
+    IEnumerable<TaskItemDTO> items = EntityToDTO.MapTaskItemCollection(context.TaskItems.Include(ti => ti.TaskGroup).OrderByDescending(ti => ti.DueDate));
+    return items is null || !items.Any()
+        ? TypedResults.NotFound("No task items found.")
+        : TypedResults.Ok(items.AsEnumerable());
+});
+
+app.MapGet("/taskitem/important", Results<NotFound<string>, Ok<IEnumerable<TaskItemDTO>>> (Context context) =>
+{
+    IEnumerable<TaskItemDTO> items = EntityToDTO.MapTaskItemCollection(context.TaskItems.Include(ti => ti.TaskGroup).Where(ti => ti.IsImportant && !ti.IsComplete).OrderByDescending(ti => ti.DueDate).ThenBy(ti => ti.Name));
+    return items is null || !items.Any()
+        ? TypedResults.NotFound("No task items found.")
+        : TypedResults.Ok(items.AsEnumerable());
+});
+
+app.MapGet("/taskitem/important/showcomplete", Results<NotFound<string>, Ok<IEnumerable<TaskItemDTO>>> (Context context) =>
+{
+    IEnumerable<TaskItemDTO> items = EntityToDTO.MapTaskItemCollection(context.TaskItems.Include(ti => ti.TaskGroup).Where(ti => ti.IsImportant).OrderByDescending(ti => ti.DueDate).ThenBy(ti => ti.Name));
+    return items is null || !items.Any()
+        ? TypedResults.NotFound("No task items found.")
+        : TypedResults.Ok(items.AsEnumerable());
+});
+
+app.MapGet("/taskitem/duetoday", Results<NotFound<string>, Ok<IEnumerable<TaskItemDTO>>> (Context context) =>
+{
+    IEnumerable<TaskItemDTO> items = EntityToDTO.MapTaskItemCollection(context.TaskItems.Include(ti => ti.TaskGroup).Where(ti => ti.DueDate.HasValue && ti.DueDate.Value.Date == DateTime.Today && !ti.IsComplete).OrderBy(ti => ti.Name));
+    return items is null || !items.Any()
+        ? TypedResults.NotFound("No task items found.")
+        : TypedResults.Ok(items.AsEnumerable());
+});
+
+app.MapGet("/taskitem/duetoday/showcomplete", Results<NotFound<string>, Ok<IEnumerable<TaskItemDTO>>> (Context context) =>
+{
+    IEnumerable<TaskItemDTO> items = EntityToDTO.MapTaskItemCollection(context.TaskItems.Include(ti => ti.TaskGroup).Where(ti => ti.DueDate.HasValue && ti.DueDate.Value.Date == DateTime.Today).OrderBy(ti => ti.Name));
+    return items is null || !items.Any()
+        ? TypedResults.NotFound("No task items found.")
+        : TypedResults.Ok(items.AsEnumerable());
+});
+
+app.MapGet("/taskitem/completed", Results<NotFound<string>, Ok<IEnumerable<TaskItemDTO>>> (Context context) =>
+{
+    IEnumerable<TaskItemDTO> items = EntityToDTO.MapTaskItemCollection(context.TaskItems.Include(ti => ti.TaskGroup).Where(ti => ti.IsComplete).OrderByDescending(ti => ti.DueDate).ThenBy(ti => ti.Name));
+    return items is null || !items.Any()
+        ? TypedResults.NotFound("No task items found.")
+        : TypedResults.Ok(items.AsEnumerable());
+});
+
+app.MapGet("/taskitem/{id:int}", async Task<Results<BadRequest<string>, Ok<TaskItemDTO>, NotFound<string>>> (Context context, int id) =>
+{
+    if (id < 1)
+    {
+        return TypedResults.BadRequest("Invalid task item id.");
+    }
+    if (await context.TaskItems.SingleOrDefaultAsync(ti => ti.Id == id) is TaskItem taskitem)
+    {
+        TaskItemDTO item = EntityToDTO.MapTaskItem(taskitem);
+        return TypedResults.Ok(item);
+    }
+    return TypedResults.NotFound($"No task item with id {id} found.");
+});
 
 app.Run();
