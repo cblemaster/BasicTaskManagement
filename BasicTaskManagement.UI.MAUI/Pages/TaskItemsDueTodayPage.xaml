@@ -19,7 +19,7 @@
                 <DataTemplate x:DataType="{x:Type dtos:TaskItemDTO}">
                     <Frame>
                         <VerticalStackLayout>
-                            <Label Text="{Binding Name, Mode=OneWay}" Style="{StaticResource LargeInsideFrameLabel}">
+                            <Label Text="{Binding Name, Mode=OneWay}" Style="{StaticResource LargeLabel}">
                                 <Label.Triggers>
                                     <DataTrigger TargetType="Label" Binding="{Binding IsImportant, Mode=OneWay}" Value="True">
                                         <Setter Property="FontAttributes" Value="Bold" />
@@ -29,7 +29,7 @@
                                     </DataTrigger>
                                 </Label.Triggers>
                             </Label>
-                            <Label Text="{Binding DueDate, Mode=OneWay, StringFormat='Due date: {0:d}'}" Style="{StaticResource SmallInsideFrameLabel}" />
+                            <Label Text="{Binding DueDate, Mode=OneWay, StringFormat='Due date: {0:d}'}" Style="{StaticResource MediumLabel}" />
                         </VerticalStackLayout>
                     </Frame>
                 </DataTemplate>
