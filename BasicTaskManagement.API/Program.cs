@@ -153,4 +153,22 @@ app.MapGet("/taskitem/{id:int}", async Task<Results<BadRequest<string>, Ok<TaskI
     return TypedResults.NotFound($"No task item with id {id} found.");
 });
 
+app.MapDelete("/taskitem/{id:int}", async Task<Results<BadRequest<string>, NoContent, NotFound<string>>> (Context context, int id) =>
+{
+    if (id < 1)
+    {
+        return TypedResults.BadRequest("Invalid task item id.");
+    }
+
+    if (await context.TaskItems.Include(ti => ti.TaskGroup).SingleOrDefaultAsync(ti => ti.Id == id) is TaskItem item)
+    {
+        context.TaskItems.Remove(item);
+        await context.SaveChangesAsync();
+
+        return TypedResults.NoContent();
+    }
+
+    return TypedResults.NotFound("Unable to find format to delete.");
+});
+
 app.Run();
