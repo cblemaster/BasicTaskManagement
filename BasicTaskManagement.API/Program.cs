@@ -145,7 +145,7 @@ app.MapGet("/taskitem/{id:int}", async Task<Results<BadRequest<string>, Ok<TaskI
     {
         return TypedResults.BadRequest("Invalid task item id.");
     }
-    if (await context.TaskItems.SingleOrDefaultAsync(ti => ti.Id == id) is TaskItem taskitem)
+    if (await context.TaskItems.Include(ti => ti.TaskGroup).SingleOrDefaultAsync(ti => ti.Id == id) is TaskItem taskitem)
     {
         TaskItemDTO item = EntityToDTO.MapTaskItem(taskitem);
         return TypedResults.Ok(item);
