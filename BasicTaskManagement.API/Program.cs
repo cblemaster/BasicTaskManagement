@@ -171,4 +171,36 @@ app.MapDelete("/taskitem/{id:int}", async Task<Results<BadRequest<string>, NoCon
     return TypedResults.NotFound("Unable to find format to delete.");
 });
 
+app.MapPut("/taskitem/{id:int}", async Task<Results<BadRequest<string>, NoContent>> (Context context, int id, CreateUpdateTaskItemDTO dto) =>
+{
+    if (dto is null)
+    {
+        return TypedResults.BadRequest("No task item to update provided.");
+    }
+
+    if (id < 1 || id != dto.Id)
+    {
+        return TypedResults.BadRequest("Invalid task item id.");
+    }
+
+    ValidationResult validationResult = dto.Validate();
+
+    if (!validationResult.IsValid)
+    {
+        return TypedResults.BadRequest(validationResult.ErrorMessage);
+    }
+
+    TaskItem check = await context.TaskItems.SingleOrDefaultAsync(ti => ti.Id == id);
+    if (check is not null && check.IsComplete)
+    {
+        return TypedResults.BadRequest("Completed task items cannot be updated.");
+    }
+    
+    TaskItem entity = DTOToEntity.MapCreateUpdateTaskItem(dto);    
+    context.TaskItems.Entry(entity).State = EntityState.Modified;
+    await context.SaveChangesAsync();
+
+    return TypedResults.NoContent();
+});
+
 app.Run();
