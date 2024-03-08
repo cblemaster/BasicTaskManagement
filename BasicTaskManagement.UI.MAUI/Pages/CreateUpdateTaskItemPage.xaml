@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:pagemodels="clr-namespace:BasicTaskManagement.UI.MAUI.PageModels"
+             x:Class="BasicTaskManagement.UI.MAUI.Pages.CreateUpdateTaskItemPage"
+             x:DataType="{x:Type pagemodels:CreateUpdateTaskItemPageModel}"
+             Title="Create Update Task Item">
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding PageAppearingCommand, Mode=OneWay}" />
+    </ContentPage.Behaviors>
+    <VerticalStackLayout Style="{StaticResource ContainerVerticalStackLayout}">
+        <Entry Text="{Binding TaskItem.Name, Mode=TwoWay}" Placeholder="Name" WidthRequest="400" />
+        <Entry Text="{Binding TaskItem.Notes, Mode=TwoWay}" Placeholder="Notes" WidthRequest="400" />
+        <HorizontalStackLayout>
+            <Label Text="Important?" VerticalOptions="Center" />
+            <Switch IsToggled="{Binding TaskItem.IsImportant, Mode=TwoWay}" />
+        </HorizontalStackLayout>
+        <HorizontalStackLayout>
+            <Label Text="Complete?" VerticalOptions="Center" />
+            <Switch IsToggled="{Binding TaskItem.IsComplete, Mode=TwoWay}" />
+        </HorizontalStackLayout>
+        <HorizontalStackLayout>
+            <Label Text="Due Date" VerticalOptions="Center" />
+            <DatePicker Date="{Binding TaskItem.DueDate, Mode=TwoWay}" />
+        </HorizontalStackLayout>
+        <HorizontalStackLayout>
+            <Picker ItemsSource="{Binding TaskGroups, Mode=TwoWay}" ItemDisplayBinding="{Binding Name, Mode=TwoWay}" SelectedItem="{Binding SelectedTaskGroup, Mode=TwoWay}" Title="Task group"  />
+        </HorizontalStackLayout>
+    </VerticalStackLayout>
+</ContentPage>
