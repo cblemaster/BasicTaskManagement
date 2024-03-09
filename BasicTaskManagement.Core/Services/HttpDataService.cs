@@ -80,13 +80,9 @@ public class HttpDataService : IDataService
     {
         if (id < 1) { return; }
 
-        IEnumerable<TaskGroupDTO?> groups = await GetTaskGroupsAsync(true);
-
-
-        List<string?> groupNames = groups.Select(g => g?.Name).ToList();
         TaskGroupDTO group = await GetTaskGroupAsync(id);
 
-        if (groupNames.Count != 0 && groupNames.Contains(group.Name)) { return; }
+        if (group is not null && group.TaskItems.Any()) { return; }
 
         try
         {

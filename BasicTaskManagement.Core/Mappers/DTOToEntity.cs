@@ -22,18 +22,18 @@ public static class DTOToEntity
         return entity;
     }
 
-    public static TaskItem MapCreateUpdateTaskItem(CreateUpdateTaskItemDTO createItem) =>
-        new()
-        {
-            Id = createItem.Id,
-            Name = createItem.Name,
-            Notes = createItem.Notes,
-            IsImportant = createItem.IsImportant,
-            IsComplete = createItem.IsComplete,
-            DueDate = createItem.DueDate,
-            CompletedDate = createItem.CompletedDate,
-            CreateDate = createItem.CreateDate,
-            UpdateDate = createItem.UpdateDate,
-            TaskGroupId = createItem.TaskGroupId,
-        };
+    public static TaskItem MapCreateUpdateTaskItem(CreateUpdateTaskItemDTO dto, TaskItem entity)
+    {
+        entity.Name = dto.Name;
+        entity.Notes = dto.Notes;
+        entity.IsImportant = dto.IsImportant;
+        entity.IsComplete = dto.IsComplete;
+        entity.TaskGroupId = dto.TaskGroupId;
+        entity.DueDate = dto.DueDate;
+        entity.UpdateDate = dto.UpdateDate;
+        entity.CompletedDate = dto.CompletedDate;
+        entity.CreateDate = dto.CreateDate;
+        
+        return entity;
+    }
 }
