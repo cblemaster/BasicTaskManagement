@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:pagemodels="clr-namespace:BasicTaskManagement.UI.MAUI.PageModels"
+             xmlns:converters="clr-namespace:BasicTaskManagement.UI.MAUI.Converters"
              x:Class="BasicTaskManagement.UI.MAUI.Pages.TaskItemPage"
              x:DataType="{x:Type pagemodels:TaskItemPageModel}"
              Title="Task Item">
@@ -11,18 +12,19 @@
     </ContentPage.Behaviors>
     <ContentPage.Resources>
         <toolkit:InvertedBoolConverter x:Key="invbool" />
+        <converters:BoolToYesNoConverter x:Key="boolyesno" />
     </ContentPage.Resources>
     <VerticalStackLayout Style="{StaticResource ContainerVerticalStackLayout}">
         <Label Text="{Binding TaskItem.Name, Mode=OneWay}" Style="{StaticResource LargeBoldLabel}" />
         <Label Text="{Binding TaskItem.Notes, Mode=OneWay, StringFormat='Notes: {0}'}" Style="{StaticResource MediumLabel}" />
-        <Label Text="{Binding TaskItem.IsImportant, Mode=OneWay, StringFormat='Important?: {0}'}" Style="{StaticResource MediumLabel}" />
-        <Label Text="{Binding TaskItem.IsComplete, Mode=OneWay, StringFormat='Complete?: {0}'}" Style="{StaticResource MediumLabel}" />
+        <Label Text="{Binding TaskItem.IsImportant, Mode=OneWay, StringFormat='Important?: {0}', Converter={StaticResource boolyesno}}" Style="{StaticResource MediumLabel}" />
+        <Label Text="{Binding TaskItem.IsComplete, Mode=OneWay, StringFormat='Complete?: {0}', Converter={StaticResource boolyesno}}" Style="{StaticResource MediumLabel}" />
         <Label Text="{Binding TaskItem.DueDate, Mode=OneWay, StringFormat='Due date: {0:d}'}" Style="{StaticResource MediumLabel}" />
         <Label Text="{Binding TaskItem.CompletedDate, Mode=OneWay, StringFormat='Completed date: {0:d}'}" Style="{StaticResource MediumLabel}" />
         <Label Text="{Binding TaskItem.CreateDate, Mode=OneWay, StringFormat='Create Date: {0:d}'}" Style="{StaticResource MediumLabel}" />
         <Label Text="{Binding TaskItem.UpdateDate, Mode=OneWay, StringFormat='Update Date: {0:d}'}" Style="{StaticResource MediumLabel}" />
         <Label Text="{Binding TaskItem.TaskGroupName, Mode=OneWay, StringFormat='Task group name: {0}'}" Style="{StaticResource MediumLabel}" />
-        <Label Text="{Binding TaskItem.TaskGroupIsFavorite, Mode=OneWay, StringFormat='Task group is favorite?: {0}'}" Style="{StaticResource MediumLabel}" />
+        <Label Text="{Binding TaskItem.TaskGroupIsFavorite, Mode=OneWay, StringFormat='Task group is favorite?: {0}', Converter={StaticResource boolyesno}}" Style="{StaticResource MediumLabel}" />
         <HorizontalStackLayout>
             <Button Command="{Binding CloseClickedCommand, Mode=OneWay}" Text="Close page" />
             <Button Command="{Binding UpdateClickedCommand, Mode=OneWay}" Text="Update task item">
