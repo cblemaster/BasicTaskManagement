@@ -39,7 +39,7 @@ public partial class CreateUpdateTaskGroupPageModel(IDataService dataService) : 
                 return;
             }
         }
-        
+
         ValidationResult validationResult = CreateGroup.Validate();
 
         if (!validationResult.IsValid)
@@ -72,13 +72,11 @@ public partial class CreateUpdateTaskGroupPageModel(IDataService dataService) : 
         CreateGroup = MapTaskGroupDTOToCreateTaskGroupDTO(group);
     }
 
-    private CreateTaskGroupDTO MapTaskGroupDTOToCreateTaskGroupDTO(TaskGroupDTO group)
-    {
-        return new()
+    private static CreateTaskGroupDTO MapTaskGroupDTOToCreateTaskGroupDTO(TaskGroupDTO group) =>
+        new()
         {
             Id = group.Id,
             Name = group.Name,
             IsFavorite = group.IsFavorite,
         };
-    }
 }

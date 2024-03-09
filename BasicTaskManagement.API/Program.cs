@@ -99,7 +99,7 @@ app.MapDelete("/taskgroup/{id:int}", async Task<Results<BadRequest<string>, NoCo
         {
             return TypedResults.BadRequest("Cannot delete task group since it contains task items.");
         }
-        
+
         context.TaskGroups.Remove(group);
         await context.SaveChangesAsync();
 
@@ -213,8 +213,8 @@ app.MapPut("/taskitem/{id:int}", async Task<Results<BadRequest<string>, NoConten
     {
         return TypedResults.BadRequest("Completed task items cannot be updated.");
     }
-    
-    TaskItem entity = DTOToEntity.MapCreateUpdateTaskItem(dto);    
+
+    TaskItem entity = DTOToEntity.MapCreateUpdateTaskItem(dto);
     context.TaskItems.Entry(entity).State = EntityState.Modified;
     await context.SaveChangesAsync();
 

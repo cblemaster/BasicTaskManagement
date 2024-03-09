@@ -4,9 +4,9 @@ namespace BasicTaskManagement.UI.MAUI.Pages;
 
 public partial class TaskGroupPage : ContentPage
 {
-	public TaskGroupPage(int id)
-	{
-		InitializeComponent();
+    public TaskGroupPage(int id)
+    {
+        InitializeComponent();
         Shell shell = Shell.Current;
 
         IViewHandler? handler = shell.Handler;

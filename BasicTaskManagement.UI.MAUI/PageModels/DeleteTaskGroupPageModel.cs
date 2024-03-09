@@ -1,5 +1,4 @@
 ﻿using BasicTaskManagement.Core.DTO;
-using BasicTaskManagement.Core.Entities;
 using BasicTaskManagement.Core.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -31,7 +30,7 @@ public partial class DeleteTaskGroupPageModel(IDataService dataService) : Observ
                 await Shell.Current.DisplayAlert("Error!", "Cannot delete task group since it contains task items.", "OK");
                 return;
             }
-            
+
             await _dataService.DeleteTaskGroupAsync(Id);
             await Shell.Current.Navigation.PopModalAsync();
             await Shell.Current.Navigation.PopModalAsync();

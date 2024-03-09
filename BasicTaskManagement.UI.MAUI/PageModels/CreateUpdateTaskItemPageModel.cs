@@ -34,7 +34,7 @@ public partial class CreateUpdateTaskItemPageModel(IDataService dataService) : O
         else { TaskItem = new(); }
 
         await LoadTaskGroupsAsync();
-        if (TaskItem.Id > 0  && TaskGroups.SingleOrDefault(tg => tg.Id == TaskItem.TaskGroupId) is TaskGroupDTO dto)
+        if (TaskItem.Id > 0 && TaskGroups.SingleOrDefault(tg => tg.Id == TaskItem.TaskGroupId) is TaskGroupDTO dto)
         {
             SelectedTaskGroup = dto;
         }
@@ -65,7 +65,7 @@ public partial class CreateUpdateTaskItemPageModel(IDataService dataService) : O
 
         if (TaskItem.Id > 0) { await SetValuesForUpdateAsync(); }
         else { await SetValuesForCreateAsync(); }
-        
+
         await Shell.Current.Navigation.PopModalAsync();
 
         async Task SetValuesForUpdateAsync()
@@ -76,13 +76,13 @@ public partial class CreateUpdateTaskItemPageModel(IDataService dataService) : O
                 return;
             }
             TaskItem.UpdateDate = DateTime.Today;
-            await _dataService.UpdateTaskItemAsync(Id, TaskItem);    
+            await _dataService.UpdateTaskItemAsync(Id, TaskItem);
         }
 
         async Task SetValuesForCreateAsync()
         {
             TaskItem.CreateDate = DateTime.Today;
-            await _dataService.CreateTaskItemAsync(TaskItem);            
+            await _dataService.CreateTaskItemAsync(TaskItem);
         }
     }
 

@@ -4,9 +4,9 @@ namespace BasicTaskManagement.UI.MAUI.Pages;
 
 public partial class DeleteTaskGroupPage : ContentPage
 {
-	public DeleteTaskGroupPage(int id)
-	{
-		InitializeComponent();
+    public DeleteTaskGroupPage(int id)
+    {
+        InitializeComponent();
         Shell shell = Shell.Current;
 
         IViewHandler? handler = shell.Handler;

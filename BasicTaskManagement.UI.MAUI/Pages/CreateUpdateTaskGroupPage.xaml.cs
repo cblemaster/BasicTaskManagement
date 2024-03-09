@@ -8,18 +8,18 @@ public partial class CreateUpdateTaskGroupPage : ContentPage
     {
         InitializeComponent();
         Shell shell = Shell.Current;
-        
+
         IViewHandler? handler = shell.Handler;
         if (handler is null) { return; }
-        
+
         IMauiContext? context = handler.MauiContext;
         if (context is null) { return; }
-        
+
         IServiceProvider services = context.Services;
-        
+
         CreateUpdateTaskGroupPageModel? pageModel = services.GetService<CreateUpdateTaskGroupPageModel>();
         if (pageModel is null) { return; }
-        
+
         BindingContext = pageModel;
         pageModel.Id = id;
     }

@@ -63,7 +63,7 @@ public class HttpDataService : IDataService
     {
         IEnumerable<string> list = (await GetTaskGroupsAsync(true)).Select(tg => tg.Name);
         if (list.Contains(createGroup.Name)) { return TaskGroupDTO.NotFound; }  //TODO: Should really return an object representing the error...
-        
+
         StringContent content = new(JsonSerializer.Serialize(createGroup));
         content.Headers.ContentType = new("application/json");
 
@@ -80,10 +80,10 @@ public class HttpDataService : IDataService
     {
         if (id < 1) { return; }
 
-        var groups = await GetTaskGroupsAsync(true);
-        var groupNames = groups.Select(g => g.Name).ToList();
-        var group = await GetTaskGroupAsync(id);
-                
+        IEnumerable<TaskGroupDTO> groups = await GetTaskGroupsAsync(true);
+        List<string> groupNames = groups.Select(g => g.Name).ToList();
+        TaskGroupDTO group = await GetTaskGroupAsync(id);
+
         if (groupNames.Contains(group.Name)) { return; }
 
         try
@@ -169,7 +169,7 @@ public class HttpDataService : IDataService
     public async Task UpdateTaskItemAsync(int id, CreateUpdateTaskItemDTO dto)
     {
         if ((await GetTaskItemAsync(id)).IsComplete) { return; }
-        
+
         if (dto is null || id < 1 || id != dto.Id) { return; }
 
         StringContent content = new(JsonSerializer.Serialize(dto));
