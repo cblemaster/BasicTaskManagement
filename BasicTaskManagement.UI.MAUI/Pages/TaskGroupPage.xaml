@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:pagemodels="clr-namespace:BasicTaskManagement.UI.MAUI.PageModels"
+             xmlns:converters="clr-namespace:BasicTaskManagement.UI.MAUI.Converters"
+             x:Class="BasicTaskManagement.UI.MAUI.Pages.TaskGroupPage"
+             x:DataType="{x:Type pagemodels:TaskGroupPageModel}"
+             Title="Task Group">
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding PageAppearingCommand, Mode=OneWay}" />
+    </ContentPage.Behaviors>
+    <ContentPage.Resources>
+        <converters:BoolToYesNoConverter x:Key="boolyesno" />
+    </ContentPage.Resources>
+    <VerticalStackLayout Style="{StaticResource ContainerVerticalStackLayout}">
+        <Label Text="{Binding TaskGroup.Name, Mode=OneWay}" Style="{StaticResource LargeBoldLabel}" />
+        <Label Text="{Binding TaskGroup.IsFavorite, Mode=OneWay, StringFormat='Favorite?: {0}', Converter={StaticResource boolyesno}}" Style="{StaticResource MediumLabel}" />
+        <HorizontalStackLayout>
+            <Button Command="{Binding CloseClickedCommand, Mode=OneWay}" Text="Close page" />
+            <Button Command="{Binding UpdateClickedCommand, Mode=OneWay}" Text="Update task group" />
+            <Button Command="{Binding DeleteClickedCommand, Mode=OneWay}" Text="Delete task group" />
+        </HorizontalStackLayout>
+    </VerticalStackLayout>
+</ContentPage>
