@@ -16,4 +16,5 @@ public interface IDataService
     Task UpdateTaskItemAsync(int id, CreateUpdateTaskItemDTO dto);
     Task<TaskItemDTO> CreateTaskItemAsync(CreateUpdateTaskItemDTO createItem);
     Task<IEnumerable<TaskGroupDTO>> GetTaskGroupsForManagementAsync();
+    Task UpdateTaskGroupAsync(int id, CreateTaskGroupDTO dto);
 }

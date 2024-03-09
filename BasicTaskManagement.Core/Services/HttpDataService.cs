@@ -196,4 +196,19 @@ public class HttpDataService : IDataService
         }
         catch (Exception) { throw; }
     }
+
+    public async Task UpdateTaskGroupAsync(int id, CreateTaskGroupDTO dto)
+    {
+        if (dto is null || id < 1 || id != dto.Id) { return; }
+
+        StringContent content = new(JsonSerializer.Serialize(dto));
+        content.Headers.ContentType = new("application/json");
+
+        try
+        {
+            HttpResponseMessage response = await _client.PutAsync($"/taskgroup/{id}", content);
+            response.EnsureSuccessStatusCode();
+        }
+        catch (Exception) { throw; }
+    }
 }
