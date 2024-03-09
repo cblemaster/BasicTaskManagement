@@ -80,6 +80,12 @@ public class HttpDataService : IDataService
     {
         if (id < 1) { return; }
 
+        var groups = await GetTaskGroupsAsync(true);
+        var groupNames = groups.Select(g => g.Name).ToList();
+        var group = await GetTaskGroupAsync(id);
+                
+        if (groupNames.Contains(group.Name)) { return; }
+
         try
         {
             HttpResponseMessage response = await _client.DeleteAsync($"/taskgroup/{id}");
