@@ -27,8 +27,6 @@
                             </Label.Triggers>
                         </Label>
                         <Label Text="{Binding Count, Mode=OneWay, StringFormat='Total tasks: {0:D}'}" Style="{StaticResource VerticallyCenteredLabel}" />
-                        <Button Text="Update task group" Style="{StaticResource Key=SmallMagentaButton}" />
-                        <Button Text="Delete task group" Style="{StaticResource Key=SmallMagentaButton}" />                        
                     </HorizontalStackLayout>
                 </DataTemplate>
             </CollectionView.GroupHeaderTemplate>
