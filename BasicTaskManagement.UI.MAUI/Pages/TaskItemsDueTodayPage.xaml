@@ -36,6 +36,7 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
         <HorizontalStackLayout Grid.Row="1">
+            <Button Command="{Binding CreateTaskItemClickedCommand, Mode=OneWay}" Text="Create task item" />
             <Label Text="Show completed?" Style="{StaticResource SwitchLabel}" />
             <Switch IsToggled="False">
                 <Switch.Behaviors>

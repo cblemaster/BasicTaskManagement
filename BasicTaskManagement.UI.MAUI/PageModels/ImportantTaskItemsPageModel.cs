@@ -32,5 +32,8 @@ public partial class ImportantTaskItemsPageModel(IDataService dataService) : Obs
         await LoadDataAsync();
     }
 
+    [RelayCommand]
+    private static async Task CreateTaskItemClicked() => await Shell.Current.Navigation.PushModalAsync(new CreateUpdateTaskItemPage(0));
+
     private async Task LoadDataAsync() => TaskItems = (await _dataService.GetImportantTaskItemsAsync(IsShowComplete)).ToList().AsReadOnly();
 }

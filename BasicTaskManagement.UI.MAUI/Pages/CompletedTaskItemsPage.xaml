@@ -11,7 +11,7 @@
         <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding PageAppearingCommand, Mode=OneWay}" />
     </ContentPage.Behaviors>
     <Grid Style="{StaticResource ContainerGrid}">
-        <CollectionView ItemsSource="{Binding TaskItems, Mode=OneWay}" SelectionChangedCommand="{Binding ItemsSelectionChangedCommand, Mode=OneWay}" SelectedItem="{Binding SelectedTaskItem, Mode=TwoWay}" EmptyView="No items found." Grid.RowSpan="2">
+        <CollectionView ItemsSource="{Binding TaskItems, Mode=OneWay}" SelectionChangedCommand="{Binding ItemsSelectionChangedCommand, Mode=OneWay}" SelectedItem="{Binding SelectedTaskItem, Mode=TwoWay}" EmptyView="No items found.">
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="5" />
             </CollectionView.ItemsLayout>
@@ -35,5 +35,8 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+        <HorizontalStackLayout Grid.Row="1">
+            <Button Command="{Binding CreateTaskItemClickedCommand, Mode=OneWay}" Text="Create task item" />
+        </HorizontalStackLayout>
     </Grid>
 </ContentPage>

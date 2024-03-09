@@ -32,5 +32,8 @@ public partial class TaskItemsDueTodayPageModel(IDataService dataService) : Obse
         await LoadDataAsync();
     }
 
+    [RelayCommand]
+    private static async Task CreateTaskItemClicked() => await Shell.Current.Navigation.PushModalAsync(new CreateUpdateTaskItemPage(0));
+
     private async Task LoadDataAsync() => TaskItems = (await _dataService.GetTaskItemsDueTodayAsync(IsShowComplete)).ToList().AsReadOnly();
 }
