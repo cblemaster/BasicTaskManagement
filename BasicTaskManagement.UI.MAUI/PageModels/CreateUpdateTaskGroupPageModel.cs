@@ -6,7 +6,7 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace BasicTaskManagement.UI.MAUI.PageModels;
 
-public partial class CreateTaskGroupPageModel(IDataService dataService) : ObservableObject
+public partial class CreateUpdateTaskGroupPageModel(IDataService dataService) : ObservableObject
 {
     private readonly IDataService _dataService = dataService;
 

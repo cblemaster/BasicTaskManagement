@@ -23,7 +23,7 @@ namespace BasicTaskManagement.UI.MAUI
                 .AddSingleton<AppShell>()
                 .AddTransient<TaskGroupsPageModel>()
                 .AddTransient<TaskGroupsPage>()
-                .AddTransient<CreateTaskGroupPageModel>()
+                .AddTransient<CreateUpdateTaskGroupPageModel>()
                 .AddTransient<TaskItemsDueTodayPageModel>()
                 .AddTransient<TaskItemsDueTodayPage>()
                 .AddTransient<CompletedTaskItemsPageModel>()

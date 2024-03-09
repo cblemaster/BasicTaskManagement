@@ -22,7 +22,7 @@ public partial class TaskGroupPageModel(IDataService dataService) : ObservableOb
     private async static Task CloseClickedAsync() => await Shell.Current.Navigation.PopModalAsync();
 
     [RelayCommand]
-    private async Task UpdateClickedAsync() => await Shell.Current.Navigation.PushModalAsync(new CreateTaskGroupPage(Id));
+    private async Task UpdateClickedAsync() => await Shell.Current.Navigation.PushModalAsync(new CreateUpdateTaskGroupPage(Id));
 
     [RelayCommand]
     private async Task DeleteClickedAsync() => await Shell.Current.Navigation.PushModalAsync(new DeleteTaskGroupPage(Id));

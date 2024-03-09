@@ -2,9 +2,9 @@ using BasicTaskManagement.UI.MAUI.PageModels;
 
 namespace BasicTaskManagement.UI.MAUI.Pages;
 
-public partial class CreateTaskGroupPage : ContentPage
+public partial class CreateUpdateTaskGroupPage : ContentPage
 {
-    public CreateTaskGroupPage(int id)
+    public CreateUpdateTaskGroupPage(int id)
     {
         InitializeComponent();
         Shell shell = Shell.Current;
@@ -17,7 +17,7 @@ public partial class CreateTaskGroupPage : ContentPage
         
         IServiceProvider services = context.Services;
         
-        CreateTaskGroupPageModel? pageModel = services.GetService<CreateTaskGroupPageModel>();
+        CreateUpdateTaskGroupPageModel? pageModel = services.GetService<CreateUpdateTaskGroupPageModel>();
         if (pageModel is null) { return; }
         
         BindingContext = pageModel;
