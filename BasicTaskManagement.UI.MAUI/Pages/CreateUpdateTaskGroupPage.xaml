@@ -21,7 +21,7 @@
                 <Switch IsToggled="{Binding CreateGroup.IsFavorite, Mode=TwoWay}" />
             </HorizontalStackLayout>
             <HorizontalStackLayout>
-                <Button Command="{Binding CreateClickedCommand, Mode=OneWay}" Text="Create" />
+                <Button Command="{Binding SaveClickedCommand, Mode=OneWay}" Text="Save" />
                 <Button Command="{Binding CancelClickedCommand, Mode=OneWay}" Text="Cancel" />
             </HorizontalStackLayout>
         </VerticalStackLayout>

@@ -29,7 +29,7 @@ public partial class CreateUpdateTaskGroupPageModel(IDataService dataService) : 
     private static async Task CancelClickedAsync() => await Shell.Current.Navigation.PopModalAsync();
 
     [RelayCommand]
-    private async Task CreateClickedAsync()
+    private async Task SaveClickedAsync()
     {
         foreach (TaskGroupDTO group in await _dataService.GetTaskGroupsAsync(true))
         {
