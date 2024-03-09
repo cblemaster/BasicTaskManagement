@@ -109,6 +109,40 @@ app.MapDelete("/taskgroup/{id:int}", async Task<Results<BadRequest<string>, NoCo
     return TypedResults.NotFound("Unable to find task group to delete.");
 });
 
+app.MapPut("/taskgroup/{id:int}", async Task<Results<BadRequest<string>, NoContent>> (Context context, int id, CreateTaskGroupDTO dto) =>
+{
+    if (dto is null)
+    {
+        return TypedResults.BadRequest("No task group to update provided.");
+    }
+
+    if (id < 1 || id != dto.Id)
+    {
+        return TypedResults.BadRequest("Invalid task group id.");
+    }
+
+    foreach (TaskGroup group in context.TaskGroups)
+    {
+        if (group.Id != dto.Id && group.Name == dto.Name)
+        {
+            return TypedResults.BadRequest($"Task group name {dto.Name} is already used.");
+        }
+    }
+
+    ValidationResult validationResult = dto.Validate();
+
+    if (!validationResult.IsValid)
+    {
+        return TypedResults.BadRequest(validationResult.ErrorMessage);
+    }
+
+    TaskGroup entity = await context.TaskGroups.SingleOrDefaultAsync(g => g.Id == id);
+    entity = DTOToEntity.MapCreateTaskGroup(dto);
+    await context.SaveChangesAsync();
+
+    return TypedResults.NoContent();
+});
+
 app.MapGet("/taskitem", Results<NotFound<string>, Ok<IEnumerable<TaskItemDTO>>> (Context context) =>
 {
     IEnumerable<TaskItemDTO> items = EntityToDTO.MapTaskItemCollection(context.TaskItems.Include(ti => ti.TaskGroup).OrderByDescending(ti => ti.DueDate));
@@ -171,6 +205,28 @@ app.MapGet("/taskitem/{id:int}", async Task<Results<BadRequest<string>, Ok<TaskI
     return TypedResults.NotFound($"No task item with id {id} found.");
 });
 
+app.MapPost("/taskitem", async Task<Results<BadRequest<string>, Created<TaskItemDTO>>> (Context context, CreateUpdateTaskItemDTO createItem) =>
+{
+    if (createItem is null)
+    {
+        return TypedResults.BadRequest("No item to create provided.");
+    }
+
+    ValidationResult validationResult = createItem.Validate();
+
+    if (!validationResult.IsValid)
+    {
+        return TypedResults.BadRequest(validationResult.ErrorMessage);
+    }
+
+    TaskItem itemToCreate = DTOToEntity.MapCreateUpdateTaskItem(createItem);
+    context.TaskItems.Add(itemToCreate);
+    await context.SaveChangesAsync();
+
+    itemToCreate.TaskGroup = await context.TaskGroups.SingleOrDefaultAsync(tg => tg.Id == itemToCreate.TaskGroupId);
+    return TypedResults.Created($"/taskitem/{itemToCreate.Id}", EntityToDTO.MapTaskItem(itemToCreate));
+});
+
 app.MapDelete("/taskitem/{id:int}", async Task<Results<BadRequest<string>, NoContent, NotFound<string>>> (Context context, int id) =>
 {
     if (id < 1)
@@ -216,62 +272,6 @@ app.MapPut("/taskitem/{id:int}", async Task<Results<BadRequest<string>, NoConten
 
     TaskItem entity = DTOToEntity.MapCreateUpdateTaskItem(dto);
     context.TaskItems.Entry(entity).State = EntityState.Modified;
-    await context.SaveChangesAsync();
-
-    return TypedResults.NoContent();
-});
-
-app.MapPost("/taskitem", async Task<Results<BadRequest<string>, Created<TaskItemDTO>>> (Context context, CreateUpdateTaskItemDTO createItem) =>
-{
-    if (createItem is null)
-    {
-        return TypedResults.BadRequest("No item to create provided.");
-    }
-
-    ValidationResult validationResult = createItem.Validate();
-
-    if (!validationResult.IsValid)
-    {
-        return TypedResults.BadRequest(validationResult.ErrorMessage);
-    }
-
-    TaskItem itemToCreate = DTOToEntity.MapCreateUpdateTaskItem(createItem);
-    context.TaskItems.Add(itemToCreate);
-    await context.SaveChangesAsync();
-
-    itemToCreate.TaskGroup = await context.TaskGroups.SingleOrDefaultAsync(tg => tg.Id == itemToCreate.TaskGroupId);
-    return TypedResults.Created($"/taskitem/{itemToCreate.Id}", EntityToDTO.MapTaskItem(itemToCreate));
-});
-
-app.MapPut("/taskgroup/{id:int}", async Task<Results<BadRequest<string>, NoContent>> (Context context, int id, CreateTaskGroupDTO dto) =>
-{
-    if (dto is null)
-    {
-        return TypedResults.BadRequest("No task group to update provided.");
-    }
-
-    if (id < 1 || id != dto.Id)
-    {
-        return TypedResults.BadRequest("Invalid task group id.");
-    }
-
-    foreach (TaskGroup group in context.TaskGroups)
-    {
-        if (group.Id != dto.Id && group.Name == dto.Name)
-        {
-            return TypedResults.BadRequest($"Task group name {dto.Name} is already used.");
-        }
-    }
-
-    ValidationResult validationResult = dto.Validate();
-
-    if (!validationResult.IsValid)
-    {
-        return TypedResults.BadRequest(validationResult.ErrorMessage);
-    }
-
-    TaskGroup entity = await context.TaskGroups.SingleOrDefaultAsync(g => g.Id == id);
-    entity = DTOToEntity.MapCreateTaskGroup(dto);
     await context.SaveChangesAsync();
 
     return TypedResults.NoContent();
