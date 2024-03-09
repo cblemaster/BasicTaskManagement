@@ -31,6 +31,18 @@ public class HttpDataService : IDataService
         catch (Exception) { throw; }
     }
 
+    public async Task<TaskGroupDTO> GetTaskGroupAsync(int id)
+    {
+        try
+        {
+            HttpResponseMessage response = await _client.GetAsync($"/taskgroup/{id}");
+            return response.IsSuccessStatusCode && response.Content is not null
+                ? await response.Content.ReadFromJsonAsync<TaskGroupDTO>() ?? TaskGroupDTO.NotFound
+                : TaskGroupDTO.NotFound;
+        }
+        catch (Exception) { throw; }
+    }
+
     public async Task<IEnumerable<TaskGroupDTO>> GetTaskGroupsForManagementAsync()
     {
         List<TaskGroupDTO> groups = [];
@@ -45,19 +57,7 @@ public class HttpDataService : IDataService
             return groups is not null ? groups.AsReadOnly() : Enumerable.Empty<TaskGroupDTO>().ToList().AsReadOnly();
         }
         catch (Exception) { throw; }
-    }
-
-    public async Task<TaskGroupDTO> GetTaskGroupAsync(int id)
-    {
-        try
-        {
-            HttpResponseMessage response = await _client.GetAsync($"/taskgroup/{id}");
-            return response.IsSuccessStatusCode && response.Content is not null
-                ? await response.Content.ReadFromJsonAsync<TaskGroupDTO>() ?? TaskGroupDTO.NotFound
-                : TaskGroupDTO.NotFound;
-        }
-        catch (Exception) { throw; }
-    }
+    }    
 
     public async Task<TaskGroupDTO> CreateTaskGroupAsync(CreateTaskGroupDTO createGroup)
     {
@@ -90,6 +90,33 @@ public class HttpDataService : IDataService
         {
             HttpResponseMessage response = await _client.DeleteAsync($"/taskgroup/{id}");
             response.EnsureSuccessStatusCode();
+        }
+        catch (Exception) { throw; }
+    }
+
+    public async Task UpdateTaskGroupAsync(int id, CreateTaskGroupDTO dto)
+    {
+        if (dto is null || id < 1 || id != dto.Id) { return; }
+
+        StringContent content = new(JsonSerializer.Serialize(dto));
+        content.Headers.ContentType = new("application/json");
+
+        try
+        {
+            HttpResponseMessage response = await _client.PutAsync($"/taskgroup/{id}", content);
+            response.EnsureSuccessStatusCode();
+        }
+        catch (Exception) { throw; }
+    }
+
+    public async Task<TaskItemDTO> GetTaskItemAsync(int id)
+    {
+        try
+        {
+            HttpResponseMessage response = await _client.GetAsync($"/taskitem/{id}");
+            return response.IsSuccessStatusCode && response.Content is not null
+                ? await response.Content.ReadFromJsonAsync<TaskItemDTO>() ?? TaskItemDTO.NotFound
+                : TaskItemDTO.NotFound;
         }
         catch (Exception) { throw; }
     }
@@ -144,14 +171,16 @@ public class HttpDataService : IDataService
         catch (Exception) { throw; }
     }
 
-    public async Task<TaskItemDTO> GetTaskItemAsync(int id)
+    public async Task<TaskItemDTO> CreateTaskItemAsync(CreateUpdateTaskItemDTO createItem)
     {
+        StringContent content = new(JsonSerializer.Serialize(createItem));
+        content.Headers.ContentType = new("application/json");
+
         try
         {
-            HttpResponseMessage response = await _client.GetAsync($"/taskitem/{id}");
-            return response.IsSuccessStatusCode && response.Content is not null
-                ? await response.Content.ReadFromJsonAsync<TaskItemDTO>() ?? TaskItemDTO.NotFound
-                : TaskItemDTO.NotFound;
+            HttpResponseMessage response = await _client.PostAsync("/taskitem", content);
+            response.EnsureSuccessStatusCode();
+            return await GetTaskItemAsync(await response.Content.ReadFromJsonAsync<TaskItemDTO>() is TaskItemDTO newItem ? newItem.Id : 0);
         }
         catch (Exception) { throw; }
     }
@@ -183,32 +212,7 @@ public class HttpDataService : IDataService
         catch (Exception) { throw; }
     }
 
-    public async Task<TaskItemDTO> CreateTaskItemAsync(CreateUpdateTaskItemDTO createItem)
-    {
-        StringContent content = new(JsonSerializer.Serialize(createItem));
-        content.Headers.ContentType = new("application/json");
+    
 
-        try
-        {
-            HttpResponseMessage response = await _client.PostAsync("/taskitem", content);
-            response.EnsureSuccessStatusCode();
-            return await GetTaskItemAsync(await response.Content.ReadFromJsonAsync<TaskItemDTO>() is TaskItemDTO newItem ? newItem.Id : 0);
-        }
-        catch (Exception) { throw; }
-    }
-
-    public async Task UpdateTaskGroupAsync(int id, CreateTaskGroupDTO dto)
-    {
-        if (dto is null || id < 1 || id != dto.Id) { return; }
-
-        StringContent content = new(JsonSerializer.Serialize(dto));
-        content.Headers.ContentType = new("application/json");
-
-        try
-        {
-            HttpResponseMessage response = await _client.PutAsync($"/taskgroup/{id}", content);
-            response.EnsureSuccessStatusCode();
-        }
-        catch (Exception) { throw; }
-    }
+    
 }
