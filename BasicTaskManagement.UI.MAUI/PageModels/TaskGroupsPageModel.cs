@@ -21,11 +21,7 @@ public partial class TaskGroupsPageModel(IDataService dataService) : ObservableO
     private bool IsShowComplete { get; set; }
 
     [RelayCommand]
-    private async Task PageAppearing()
-    {
-        IsShowComplete = false;
-        await LoadDataAsync();
-    }
+    private async Task PageAppearing() => await LoadDataAsync();
 
     [RelayCommand]
     private async Task GroupsSelectionChanged() => await Shell.Current.Navigation.PushModalAsync(new TaskItemPage(SelectedTaskItem.Id));

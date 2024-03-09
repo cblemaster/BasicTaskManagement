@@ -20,11 +20,7 @@ public partial class TaskItemsDueTodayPageModel(IDataService dataService) : Obse
     private bool IsShowComplete { get; set; }
 
     [RelayCommand]
-    private async Task PageAppearing()
-    {
-        IsShowComplete = false;
-        await LoadDataAsync();
-    }
+    private async Task PageAppearing() => await LoadDataAsync();
 
     [RelayCommand]
     private async Task ItemsSelectionChanged() => await Shell.Current.Navigation.PushModalAsync(new TaskItemPage(SelectedTaskItem.Id));
