@@ -30,8 +30,7 @@
                             </VerticalStackLayout>
                             <HorizontalStackLayout>
                                 <Button Text="Update task group" Style="{StaticResource SmallMagentaButton}" />
-                                <!--<Button IsVisible="{Binding CountOfTaskItems, Mode=TwoWay, Converter={StaticResource inttobool}}" Text="Delete task group" Style="{StaticResource SmallMagentaButton}" />-->
-                                <Button Text="Delete task group" Style="{StaticResource SmallMagentaButton}" />
+                                <Button IsVisible="{Binding CountOfTaskItems, Mode=OneWay, Converter={StaticResource inttobool}}" Text="Delete task group" Style="{StaticResource SmallMagentaButton}" />
                             </HorizontalStackLayout>
                         </HorizontalStackLayout>
                     </Frame>
