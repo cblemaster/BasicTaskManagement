@@ -17,5 +17,5 @@ public interface IDataService
     Task<TaskItemDTO> CreateTaskItemAsync(CreateUpdateTaskItemDTO createItem);
     Task DeleteTaskItemAsync(int id);
     Task UpdateTaskItemAsync(int id, CreateUpdateTaskItemDTO dto);
-    
+
 }

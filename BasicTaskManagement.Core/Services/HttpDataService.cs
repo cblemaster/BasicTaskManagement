@@ -57,7 +57,7 @@ public class HttpDataService : IDataService
             return groups is not null ? groups.AsReadOnly() : Enumerable.Empty<TaskGroupDTO>().ToList().AsReadOnly();
         }
         catch (Exception) { throw; }
-    }    
+    }
 
     public async Task<TaskGroupDTO> CreateTaskGroupAsync(CreateTaskGroupDTO createGroup)
     {
@@ -212,7 +212,7 @@ public class HttpDataService : IDataService
         catch (Exception) { throw; }
     }
 
-    
 
-    
+
+
 }

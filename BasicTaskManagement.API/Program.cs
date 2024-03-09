@@ -95,7 +95,7 @@ app.MapDelete("/taskgroup/{id:int}", async Task<Results<BadRequest<string>, NoCo
 
     if (await context.TaskGroups.Include(tg => tg.TaskItems).SingleOrDefaultAsync(tg => tg.Id == id) is TaskGroup group)
     {
-        if (group.TaskItems.Any())
+        if (group.TaskItems.Count != 0)
         {
             return TypedResults.BadRequest("Cannot delete task group since it contains task items.");
         }
