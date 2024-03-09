@@ -78,8 +78,20 @@
         <Setter Property="FontSize" Value="16" />
     </Style>
 
+    <Style TargetType="Label" BasedOn="{StaticResource MediumLabel}" x:Key="MediumBoldLabel">
+        <Setter Property="FontAttributes" Value="Bold" />
+    </Style>
+
     <Style TargetType="Label" x:Key="VerticallyCenteredLabel">
         <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="IndentedLabel">
+        <Setter Property="Margin" Value="10,0,0,0" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="VeryIndentedLabel">
+        <Setter Property="Margin" Value="20,0,0,0" />
     </Style>
 
     <Style TargetType="VerticalStackLayout" x:Key="ContainerVerticalStackLayout">

@@ -27,6 +27,11 @@
             Title="Completed"
             ContentTemplate="{DataTemplate pages:CompletedTaskItemsPage}"
             Route="Completed" />
+
+        <ShellContent
+            Title="How To"
+            ContentTemplate="{DataTemplate pages:HowToPage}"
+            Route="HowTo" />
     </TabBar>
 
 </Shell>
