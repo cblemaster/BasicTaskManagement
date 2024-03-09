@@ -137,7 +137,9 @@ app.MapPut("/taskgroup/{id:int}", async Task<Results<BadRequest<string>, NoConte
     }
 
     TaskGroup entity = await context.TaskGroups.SingleOrDefaultAsync(g => g.Id == id);
-    entity = DTOToEntity.MapCreateTaskGroup(dto);
+
+    entity = DTOToEntity.MapUpdateTaskGroup(dto, entity);
+
     await context.SaveChangesAsync();
 
     return TypedResults.NoContent();
