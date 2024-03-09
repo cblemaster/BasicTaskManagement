@@ -17,6 +17,11 @@
         <Setter Property="VerticalOptions" Value="CenterAndExpand" />
     </Style>
 
+    <Style TargetType="Editor" x:Key="WideAndTallEditor">
+        <Setter Property="WidthRequest" Value="500" />
+        <Setter Property="HeightRequest" Value="60" />
+    </Style>
+
     <Style TargetType="Entry" x:Key="ValidEntry">
         <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
@@ -25,6 +30,10 @@
     <Style TargetType="Entry" x:Key="InvalidEntry">
         <Setter Property="PlaceholderColor" Value="{StaticResource Magenta}" />
         <Setter Property="BackgroundColor" Value="{StaticResource LightPinkAccent}" />
+    </Style>
+
+    <Style TargetType="Entry" x:Key="WideEntry">
+        <Setter Property="WidthRequest" Value="500" />
     </Style>
 
     <Style TargetType="Grid" x:Key="ContainerGrid">

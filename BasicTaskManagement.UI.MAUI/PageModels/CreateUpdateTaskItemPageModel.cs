@@ -34,7 +34,7 @@ public partial class CreateUpdateTaskItemPageModel(IDataService dataService) : O
         else { TaskItem = new(); }
 
         await LoadTaskGroupsAsync();
-        if (TaskGroups.SingleOrDefault(tg => tg.Id == TaskItem.TaskGroupId) is TaskGroupDTO dto)
+        if (TaskItem.Id > 0  && TaskGroups.SingleOrDefault(tg => tg.Id == TaskItem.TaskGroupId) is TaskGroupDTO dto)
         {
             SelectedTaskGroup = dto;
         }
@@ -46,12 +46,12 @@ public partial class CreateUpdateTaskItemPageModel(IDataService dataService) : O
     [RelayCommand]
     private async Task SaveClicked()
     {
-        //if (OriginalIsComplete)
-        //{
-        //    await Shell.Current.DisplayAlert("Error!", "Completed task items cannot be updated.", "OK");
-        //    return;
-        //}
-        
+        if (SelectedTaskGroup is null || SelectedTaskGroup.Id == 0)
+        {
+            await Shell.Current.DisplayAlert("Error!", "You must select a task group for the new task item.", "OK");
+            return;
+        }
+
         ValidationResult validationResult = TaskItem.Validate();
 
         if (!validationResult.IsValid)
@@ -61,14 +61,29 @@ public partial class CreateUpdateTaskItemPageModel(IDataService dataService) : O
         }
 
         TaskItem.TaskGroupId = SelectedTaskGroup.Id;
-        TaskItem.UpdateDate = DateTime.Today;
-        if (TaskItem.IsComplete)
-        {
-            TaskItem.CompletedDate = DateTime.Today;
-        }
+        if (TaskItem.IsComplete) { TaskItem.CompletedDate = DateTime.Today; }
+
+        if (TaskItem.Id > 0) { await SetValuesForUpdate(); }
+        else { await SetValuesForCreate(); }
         
-        await _dataService.UpdateTaskItemAsync(Id, TaskItem);
         await Shell.Current.Navigation.PopModalAsync();
+
+        async Task SetValuesForUpdate()
+        {
+            if (OriginalIsComplete)
+            {
+                await Shell.Current.DisplayAlert("Error!", "Completed task items cannot be updated.", "OK");
+                return;
+            }
+            TaskItem.UpdateDate = DateTime.Today;
+            await _dataService.UpdateTaskItemAsync(Id, TaskItem);            
+        }
+
+        async Task SetValuesForCreate()
+        {
+            TaskItem.CreateDate = DateTime.Today;
+            await _dataService.CreateTaskItemAsync(TaskItem);            
+        }
     }
 
     private async Task LoadDataAsync()

@@ -12,18 +12,18 @@ public static class DTOToEntity
             IsFavorite = dto.IsFavorite,
         };
 
-    public static TaskItem MapCreateUpdateTaskItem(CreateUpdateTaskItemDTO dto) =>
+    public static TaskItem MapCreateUpdateTaskItem(CreateUpdateTaskItemDTO createItem) =>
         new()
         {
-            Id = dto.Id,
-            Name = dto.Name,
-            Notes = dto.Notes,
-            IsImportant = dto.IsImportant,
-            IsComplete = dto.IsComplete,
-            DueDate = dto.DueDate,
-            CompletedDate = dto.CompletedDate,
-            CreateDate = dto.CreateDate,
-            UpdateDate = dto.UpdateDate,
-            TaskGroupId = dto.TaskGroupId,
+            Id = createItem.Id,
+            Name = createItem.Name,
+            Notes = createItem.Notes,
+            IsImportant = createItem.IsImportant,
+            IsComplete = createItem.IsComplete,
+            DueDate = createItem.DueDate,
+            CompletedDate = createItem.CompletedDate,
+            CreateDate = createItem.CreateDate,
+            UpdateDate = createItem.UpdateDate,
+            TaskGroupId = createItem.TaskGroupId,
         };
 }

@@ -20,15 +20,13 @@ public class CreateUpdateTaskItemDTO
 
     public ValidationResult Validate()
     {
-        bool taskGroupIdIsValid = TaskGroupId > 0;
         bool NameIsValid = !string.IsNullOrWhiteSpace(Name) && Name.Length > 1 && Name.Length <= 50;
         bool NotesIsValid = Notes is null || Notes.Length <= 100;
-        bool allIsValid = taskGroupIdIsValid && NameIsValid && NotesIsValid;
+        bool allIsValid = NameIsValid && NotesIsValid;
 
         if (allIsValid) { return new() { IsValid = true, ErrorMessage = string.Empty }; }
 
         StringBuilder sb = new();
-        if (!taskGroupIdIsValid) { sb.AppendLine("Invalid task group id."); }
         if (!NameIsValid) { sb.AppendLine("Name is required and must be 50 characters or fewer."); }
         if (!NotesIsValid) { sb.AppendLine("If Notes are provided, they must be 100 or fewer characters."); }
 

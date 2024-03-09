@@ -208,4 +208,26 @@ app.MapPut("/taskitem/{id:int}", async Task<Results<BadRequest<string>, NoConten
     return TypedResults.NoContent();
 });
 
+app.MapPost("/taskitem", async Task<Results<BadRequest<string>, Created<TaskItemDTO>>> (Context context, CreateUpdateTaskItemDTO createItem) =>
+{
+    if (createItem is null)
+    {
+        return TypedResults.BadRequest("No item to create provided.");
+    }
+
+    ValidationResult validationResult = createItem.Validate();
+
+    if (!validationResult.IsValid)
+    {
+        return TypedResults.BadRequest(validationResult.ErrorMessage);
+    }
+
+    TaskItem itemToCreate = DTOToEntity.MapCreateUpdateTaskItem(createItem);
+    context.TaskItems.Add(itemToCreate);
+    await context.SaveChangesAsync();
+
+    itemToCreate.TaskGroup = await context.TaskGroups.SingleOrDefaultAsync(tg => tg.Id == itemToCreate.TaskGroupId);
+    return TypedResults.Created($"/taskitem/{itemToCreate.Id}", EntityToDTO.MapTaskItem(itemToCreate));
+});
+
 app.Run();

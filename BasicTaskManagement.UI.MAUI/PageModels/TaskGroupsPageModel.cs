@@ -34,6 +34,9 @@ public partial class TaskGroupsPageModel(IDataService dataService) : ObservableO
     private static async Task CreateGroupClicked() => await Shell.Current.Navigation.PushModalAsync(new CreateTaskGroupPage());
 
     [RelayCommand]
+    private static async Task CreateTaskItemClicked() => await Shell.Current.Navigation.PushModalAsync(new CreateUpdateTaskItemPage(0));
+
+    [RelayCommand]
     private async Task ShowCompletedFilterChanged()
     {
         IsShowComplete = !IsShowComplete;

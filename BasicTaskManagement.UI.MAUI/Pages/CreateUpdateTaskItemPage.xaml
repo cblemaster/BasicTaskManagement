@@ -10,22 +10,30 @@
         <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding PageAppearingCommand, Mode=OneWay}" />
     </ContentPage.Behaviors>
     <VerticalStackLayout Style="{StaticResource ContainerVerticalStackLayout}">
-        <Entry Text="{Binding TaskItem.Name, Mode=TwoWay}" Placeholder="Name" WidthRequest="400" />
-        <Entry Text="{Binding TaskItem.Notes, Mode=TwoWay}" Placeholder="Notes" WidthRequest="400" />
+        <Entry Text="{Binding TaskItem.Name, Mode=TwoWay}" Placeholder="Name" Style="{StaticResource WideEntry}">
+            <Entry.Behaviors>
+                <toolkit:TextValidationBehavior InvalidStyle="{StaticResource InvalidEntry}" Flags="ValidateOnValueChanged" MaximumLength="50" MinimumLength="1" />
+            </Entry.Behaviors>
+        </Entry>
+        <Editor Text="{Binding TaskItem.Notes, Mode=TwoWay}" Placeholder="Notes" Style="{StaticResource WideAndTallEditor}">
+            <Editor.Behaviors>
+                <toolkit:TextValidationBehavior InvalidStyle="{StaticResource InvalidEntry}" Flags="ValidateOnValueChanged" MaximumLength="100" MinimumLength="0" />
+            </Editor.Behaviors>
+        </Editor>
         <HorizontalStackLayout>
-            <Label Text="Important?" VerticalOptions="Center" />
+            <Label Text="Important?" Style="{StaticResource VerticallyCenteredLabel}" />
             <Switch IsToggled="{Binding TaskItem.IsImportant, Mode=TwoWay}" />
         </HorizontalStackLayout>
         <HorizontalStackLayout>
-            <Label Text="Complete?" VerticalOptions="Center" />
+            <Label Text="Complete?" Style="{StaticResource VerticallyCenteredLabel}" />
             <Switch IsToggled="{Binding TaskItem.IsComplete, Mode=TwoWay}" />
         </HorizontalStackLayout>
         <HorizontalStackLayout>
-            <Label Text="Due Date" VerticalOptions="Center" />
+            <Label Text="Due Date" Style="{StaticResource VerticallyCenteredLabel}" />
             <DatePicker Date="{Binding TaskItem.DueDate, Mode=TwoWay}" />
         </HorizontalStackLayout>
         <HorizontalStackLayout>
-            <Picker ItemsSource="{Binding TaskGroups, Mode=TwoWay}" ItemDisplayBinding="{Binding Name, Mode=TwoWay}" SelectedItem="{Binding SelectedTaskGroup, Mode=TwoWay}" Title="Task group"  />
+            <Picker ItemsSource="{Binding TaskGroups, Mode=TwoWay}" ItemDisplayBinding="{Binding Name, Mode=TwoWay}" SelectedItem="{Binding SelectedTaskGroup, Mode=TwoWay}" Title="Task group" WidthRequest="200"  />
         </HorizontalStackLayout>
         <HorizontalStackLayout>
             <Button Command="{Binding CancelClickedCommand, Mode=OneWay}" Text="Cancel" />

@@ -28,8 +28,7 @@
                         </Label>
                         <Label Text="{Binding Count, Mode=OneWay, StringFormat='Total tasks: {0:D}'}" Style="{StaticResource VerticallyCenteredLabel}" />
                         <Button Text="Update task group" Style="{StaticResource Key=SmallMagentaButton}" />
-                        <Button Text="Delete task group" Style="{StaticResource Key=SmallMagentaButton}" />
-                        <Button Text="Create task item" Style="{StaticResource Key=SmallMagentaButton}" />
+                        <Button Text="Delete task group" Style="{StaticResource Key=SmallMagentaButton}" />                        
                     </HorizontalStackLayout>
                 </DataTemplate>
             </CollectionView.GroupHeaderTemplate>
@@ -55,6 +54,7 @@
         </CollectionView>
         <HorizontalStackLayout Grid.Row="1">
             <Button Command="{Binding CreateGroupClickedCommand, Mode=OneWay}" Text="Create task group" />
+            <Button Command="{Binding CreateTaskItemClickedCommand, Mode=OneWay}" Text="Create task item" />
             <Label Text="Show completed?" Style="{StaticResource SwitchLabel}" />
             <Switch IsToggled="False">
                 <Switch.Behaviors>
