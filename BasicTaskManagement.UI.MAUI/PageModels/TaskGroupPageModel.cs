@@ -11,7 +11,7 @@ public partial class TaskGroupPageModel(IDataService dataService) : ObservableOb
     private readonly IDataService _dataService = dataService;
 
     [ObservableProperty]
-    private TaskGroupDTO _taskGroup = default;
+    private TaskGroupDTO _taskGroup = default!;
 
     public int Id { get; set; }
 

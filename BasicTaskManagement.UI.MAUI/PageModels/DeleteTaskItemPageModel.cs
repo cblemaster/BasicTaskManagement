@@ -10,7 +10,7 @@ public partial class DeleteTaskItemPageModel(IDataService dataService) : Observa
     private readonly IDataService _dataService = dataService;
 
     [ObservableProperty]
-    private TaskItemDTO _taskItem = default;
+    private TaskItemDTO _taskItem = default!;
 
     public int Id { get; set; }
 

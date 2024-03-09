@@ -14,9 +14,9 @@ public class HttpDataService : IDataService
         BaseAddress = new Uri(BASE_URI)
     };
 
-    public async Task<IEnumerable<TaskGroupDTO>> GetTaskGroupsAsync(bool isShowComplete)
+    public async Task<IEnumerable<TaskGroupDTO?>> GetTaskGroupsAsync(bool isShowComplete)
     {
-        List<TaskGroupDTO> groups = [];
+        List<TaskGroupDTO?> groups = [];
 
         string route = isShowComplete ? "/taskgroup/showcomplete" : "/taskgroup";
         try
@@ -26,7 +26,7 @@ public class HttpDataService : IDataService
             {
                 groups = response.Content.ReadFromJsonAsAsyncEnumerable<TaskGroupDTO>().ToBlockingEnumerable().ToList();
             }
-            return groups is not null ? groups.AsReadOnly() : Enumerable.Empty<TaskGroupDTO>().ToList().AsReadOnly();
+            return groups is not null ? groups : Enumerable.Empty<TaskGroupDTO>().ToList().AsReadOnly();
         }
         catch (Exception) { throw; }
     }
@@ -43,9 +43,9 @@ public class HttpDataService : IDataService
         catch (Exception) { throw; }
     }
 
-    public async Task<IEnumerable<TaskGroupDTO>> GetTaskGroupsForManagementAsync()
+    public async Task<IEnumerable<TaskGroupDTO?>> GetTaskGroupsForManagementAsync()
     {
-        List<TaskGroupDTO> groups = [];
+        List<TaskGroupDTO?> groups = [];
 
         try
         {
@@ -54,15 +54,15 @@ public class HttpDataService : IDataService
             {
                 groups = response.Content.ReadFromJsonAsAsyncEnumerable<TaskGroupDTO>().ToBlockingEnumerable().ToList();
             }
-            return groups is not null ? groups.AsReadOnly() : Enumerable.Empty<TaskGroupDTO>().ToList().AsReadOnly();
+            return groups is not null ? groups : Enumerable.Empty<TaskGroupDTO>().ToList().AsReadOnly();
         }
         catch (Exception) { throw; }
     }
 
     public async Task<TaskGroupDTO> CreateTaskGroupAsync(CreateTaskGroupDTO createGroup)
     {
-        IEnumerable<string> list = (await GetTaskGroupsAsync(true)).Select(tg => tg.Name);
-        if (list.Contains(createGroup.Name)) { return TaskGroupDTO.NotFound; }  //TODO: Should really return an object representing the error...
+        IEnumerable<string> list = (await GetTaskGroupsAsync(true)).Select(tg => tg?.Name)!;
+        if (list is not null && list.Contains(createGroup.Name)) { return TaskGroupDTO.NotFound; }  //TODO: Should really return an object representing the error...
 
         StringContent content = new(JsonSerializer.Serialize(createGroup));
         content.Headers.ContentType = new("application/json");
@@ -80,11 +80,13 @@ public class HttpDataService : IDataService
     {
         if (id < 1) { return; }
 
-        IEnumerable<TaskGroupDTO> groups = await GetTaskGroupsAsync(true);
-        List<string> groupNames = groups.Select(g => g.Name).ToList();
+        IEnumerable<TaskGroupDTO?> groups = await GetTaskGroupsAsync(true);
+
+
+        List<string?> groupNames = groups.Select(g => g?.Name).ToList();
         TaskGroupDTO group = await GetTaskGroupAsync(id);
 
-        if (groupNames.Contains(group.Name)) { return; }
+        if (groupNames.Count != 0 && groupNames.Contains(group.Name)) { return; }
 
         try
         {
@@ -121,9 +123,9 @@ public class HttpDataService : IDataService
         catch (Exception) { throw; }
     }
 
-    public async Task<IEnumerable<TaskItemDTO>> GetImportantTaskItemsAsync(bool isShowComplete)
+    public async Task<IEnumerable<TaskItemDTO?>> GetImportantTaskItemsAsync(bool isShowComplete)
     {
-        List<TaskItemDTO> items = [];
+        List<TaskItemDTO?> items = [];
 
         string route = isShowComplete ? "/taskitem/important/showcomplete" : "/taskitem/important";
         try
@@ -133,14 +135,14 @@ public class HttpDataService : IDataService
             {
                 items = response.Content.ReadFromJsonAsAsyncEnumerable<TaskItemDTO>().ToBlockingEnumerable().ToList();
             }
-            return items is not null ? items.AsReadOnly() : Enumerable.Empty<TaskItemDTO>().ToList().AsReadOnly();
+            return items is not null ? items : Enumerable.Empty<TaskItemDTO>().ToList().AsReadOnly();
         }
         catch (Exception) { throw; }
     }
 
-    public async Task<IEnumerable<TaskItemDTO>> GetTaskItemsDueTodayAsync(bool isShowComplete)
+    public async Task<IEnumerable<TaskItemDTO?>> GetTaskItemsDueTodayAsync(bool isShowComplete)
     {
-        List<TaskItemDTO> items = [];
+        List<TaskItemDTO?> items = [];
 
         string route = isShowComplete ? "/taskitem/duetoday/showcomplete" : "/taskitem/duetoday";
         try
@@ -150,14 +152,14 @@ public class HttpDataService : IDataService
             {
                 items = response.Content.ReadFromJsonAsAsyncEnumerable<TaskItemDTO>().ToBlockingEnumerable().ToList();
             }
-            return items is not null ? items.AsReadOnly() : Enumerable.Empty<TaskItemDTO>().ToList().AsReadOnly();
+            return items is not null ? items : Enumerable.Empty<TaskItemDTO>().ToList().AsReadOnly();
         }
         catch (Exception) { throw; }
     }
 
-    public async Task<IEnumerable<TaskItemDTO>> GetCompletedTaskItemsAsync()
+    public async Task<IEnumerable<TaskItemDTO?>> GetCompletedTaskItemsAsync()
     {
-        List<TaskItemDTO> items = [];
+        List<TaskItemDTO?> items = [];
 
         try
         {
@@ -166,7 +168,7 @@ public class HttpDataService : IDataService
             {
                 items = response.Content.ReadFromJsonAsAsyncEnumerable<TaskItemDTO>().ToBlockingEnumerable().ToList();
             }
-            return items is not null ? items.AsReadOnly() : Enumerable.Empty<TaskItemDTO>().ToList().AsReadOnly();
+            return items is not null ? items : Enumerable.Empty<TaskItemDTO>().ToList().AsReadOnly();
         }
         catch (Exception) { throw; }
     }

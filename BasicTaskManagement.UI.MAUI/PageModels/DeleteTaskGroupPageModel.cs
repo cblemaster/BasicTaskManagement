@@ -10,7 +10,7 @@ public partial class DeleteTaskGroupPageModel(IDataService dataService) : Observ
     private readonly IDataService _dataService = dataService;
 
     [ObservableProperty]
-    private TaskGroupDTO _taskGroup = default;
+    private TaskGroupDTO _taskGroup = default!;
 
     public int Id { get; set; }
 

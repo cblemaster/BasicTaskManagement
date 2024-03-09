@@ -136,10 +136,14 @@ app.MapPut("/taskgroup/{id:int}", async Task<Results<BadRequest<string>, NoConte
         return TypedResults.BadRequest(validationResult.ErrorMessage);
     }
 
-    TaskGroup entity = await context.TaskGroups.SingleOrDefaultAsync(g => g.Id == id);
+    TaskGroup entity = (await context.TaskGroups.SingleOrDefaultAsync(g => g.Id == id))!;
+
+    if (entity is null)
+    {
+        return TypedResults.BadRequest("Unable to find task group to update.");
+    }
 
     entity = DTOToEntity.MapUpdateTaskGroup(dto, entity);
-
     await context.SaveChangesAsync();
 
     return TypedResults.NoContent();
@@ -225,7 +229,7 @@ app.MapPost("/taskitem", async Task<Results<BadRequest<string>, Created<TaskItem
     context.TaskItems.Add(itemToCreate);
     await context.SaveChangesAsync();
 
-    itemToCreate.TaskGroup = await context.TaskGroups.SingleOrDefaultAsync(tg => tg.Id == itemToCreate.TaskGroupId);
+    itemToCreate.TaskGroup = await context.TaskGroups.SingleOrDefaultAsync(tg => tg.Id == itemToCreate.TaskGroupId) ?? new();
     return TypedResults.Created($"/taskitem/{itemToCreate.Id}", EntityToDTO.MapTaskItem(itemToCreate));
 });
 
@@ -266,7 +270,7 @@ app.MapPut("/taskitem/{id:int}", async Task<Results<BadRequest<string>, NoConten
         return TypedResults.BadRequest(validationResult.ErrorMessage);
     }
 
-    TaskItem check = await context.TaskItems.SingleOrDefaultAsync(ti => ti.Id == id);
+    TaskItem check = (await context.TaskItems.SingleOrDefaultAsync(ti => ti.Id == id))!;
     if (check is not null && check.IsComplete)
     {
         return TypedResults.BadRequest("Completed task items cannot be updated.");

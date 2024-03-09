@@ -13,10 +13,10 @@ public partial class TaskGroupsPageModel(IDataService dataService) : ObservableO
     private readonly IDataService _dataService = dataService;
 
     [ObservableProperty]
-    private ReadOnlyCollection<TaskGroupData> _taskGroups = default;
+    private ReadOnlyCollection<TaskGroupData> _taskGroups = default!;
 
     [ObservableProperty]
-    private TaskItemDTO selectedTaskItem = default;
+    private TaskItemDTO selectedTaskItem = default!;
 
     private bool IsShowComplete { get; set; }
 
@@ -41,18 +41,25 @@ public partial class TaskGroupsPageModel(IDataService dataService) : ObservableO
 
     private async Task LoadDataAsync()
     {
-        IEnumerable<TaskGroupDTO> groups = await _dataService.GetTaskGroupsAsync(IsShowComplete);
-        TaskGroups = MapTaskGroupDTOCollectionToTaskGroupDataCollection(groups).ToList().AsReadOnly();
+        IEnumerable<TaskGroupDTO?> groups = await _dataService.GetTaskGroupsAsync(IsShowComplete);
+        if (groups is not null && groups.Any())
+        {
+            TaskGroups = MapTaskGroupDTOCollectionToTaskGroupDataCollection(groups).ToList().AsReadOnly();
+        }
+        
     }
 
-    public static IEnumerable<TaskGroupData> MapTaskGroupDTOCollectionToTaskGroupDataCollection(IEnumerable<TaskGroupDTO> dtos)
+    public static IEnumerable<TaskGroupData> MapTaskGroupDTOCollectionToTaskGroupDataCollection(IEnumerable<TaskGroupDTO?> dtos)
     {
         List<TaskGroupData> collectionToReturn = [];
 
-        foreach (TaskGroupDTO dto in dtos)
+        foreach (TaskGroupDTO? dto in dtos)
         {
-            TaskGroupData data = MapTaskGroupDTOToTaskGroupData(dto);
-            collectionToReturn.Add(data);
+            if (dto is not null)
+            {
+                TaskGroupData data = MapTaskGroupDTOToTaskGroupData(dto);
+                collectionToReturn.Add(data);
+            }            
         }
 
         return collectionToReturn.AsEnumerable();

@@ -11,7 +11,7 @@ public partial class CreateUpdateTaskGroupPageModel(IDataService dataService) : 
     private readonly IDataService _dataService = dataService;
 
     [ObservableProperty]
-    private CreateTaskGroupDTO createGroup = default;
+    private CreateTaskGroupDTO createGroup = default!;
 
     public int Id { get; set; }
 
@@ -31,9 +31,9 @@ public partial class CreateUpdateTaskGroupPageModel(IDataService dataService) : 
     [RelayCommand]
     private async Task SaveClickedAsync()
     {
-        foreach (TaskGroupDTO group in await _dataService.GetTaskGroupsAsync(true))
+        foreach (TaskGroupDTO? group in await _dataService.GetTaskGroupsAsync(true))
         {
-            if (group.Id != CreateGroup.Id && group.Name == CreateGroup.Name)
+            if (group is not null && group.Id != CreateGroup.Id && group.Name == CreateGroup.Name)
             {
                 await Shell.Current.DisplayAlert("Error!", $"There is already a task group named {CreateGroup.Name}", "OK");
                 return;
