@@ -29,6 +29,7 @@
 - Completed task items can be deleted, but they cannot be updated, they cannot be made incomplete
 - Task items can be due in the past
 - Task items do not require a due date
+- Task group names must be unique
 
 ## UI conventions:
 - Grouped task items are displayed with the task group names sorted ascending (favorite task groups then sorting to top), then the task items in each task group sorted by due date descending
@@ -49,3 +50,6 @@
 
 ## Improvement opportunities:
 - Keep this up to date with the latest .NET LTS releases
+- There is a lot of xaml duplication in the tasks due today page, important tasks page, and completed tasks page
+	- This could be extracted into a shared template
+	- But this might complicate data binding
