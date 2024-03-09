@@ -16,16 +16,16 @@ public partial class TaskItemPageModel(IDataService dataService) : ObservableObj
     public int Id { get; set; }
 
     [RelayCommand]
-    private async Task PageAppearing() => await LoadDataAsync();
+    private async Task PageAppearingAsync() => await LoadDataAsync();
 
     [RelayCommand]
-    private async static Task CloseClicked() => await Shell.Current.Navigation.PopModalAsync();
+    private async static Task CloseClickedAsync() => await Shell.Current.Navigation.PopModalAsync();
 
     [RelayCommand]
-    private async Task UpdateClicked() => await Shell.Current.Navigation.PushModalAsync(new CreateUpdateTaskItemPage(Id));
+    private async Task UpdateClickedAsync() => await Shell.Current.Navigation.PushModalAsync(new CreateUpdateTaskItemPage(Id));
 
     [RelayCommand]
-    private async Task DeleteClicked() => await Shell.Current.Navigation.PushModalAsync(new DeleteTaskItemPage(Id));
+    private async Task DeleteClickedAsync() => await Shell.Current.Navigation.PushModalAsync(new DeleteTaskItemPage(Id));
 
     private async Task LoadDataAsync() => TaskItem = (await _dataService.GetTaskItemAsync(Id));
 }

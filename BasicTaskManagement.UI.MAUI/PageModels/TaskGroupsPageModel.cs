@@ -21,19 +21,19 @@ public partial class TaskGroupsPageModel(IDataService dataService) : ObservableO
     private bool IsShowComplete { get; set; }
 
     [RelayCommand]
-    private async Task PageAppearing() => await LoadDataAsync();
+    private async Task PageAppearingAsync() => await LoadDataAsync();
 
     [RelayCommand]
-    private async Task GroupsSelectionChanged() => await Shell.Current.Navigation.PushModalAsync(new TaskItemPage(SelectedTaskItem.Id));
+    private async Task GroupsSelectionChangedAsync() => await Shell.Current.Navigation.PushModalAsync(new TaskItemPage(SelectedTaskItem.Id));
 
     [RelayCommand]
-    private static async Task CreateGroupClicked() => await Shell.Current.Navigation.PushModalAsync(new CreateTaskGroupPage(0));
+    private static async Task CreateGroupClickedAsync() => await Shell.Current.Navigation.PushModalAsync(new CreateTaskGroupPage(0));
 
     [RelayCommand]
-    private static async Task CreateTaskItemClicked() => await Shell.Current.Navigation.PushModalAsync(new CreateUpdateTaskItemPage(0));
+    private static async Task CreateTaskItemClickedAsync() => await Shell.Current.Navigation.PushModalAsync(new CreateUpdateTaskItemPage(0));
 
     [RelayCommand]
-    private async Task ShowCompletedFilterChanged()
+    private async Task ShowCompletedFilterChangedAsync()
     {
         IsShowComplete = !IsShowComplete;
         await LoadDataAsync();

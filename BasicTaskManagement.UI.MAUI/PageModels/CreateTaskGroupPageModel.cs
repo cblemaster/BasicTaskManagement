@@ -16,7 +16,7 @@ public partial class CreateTaskGroupPageModel(IDataService dataService) : Observ
     public int Id { get; set; }
 
     [RelayCommand]
-    private async Task PageAppearing()
+    private async Task PageAppearingAsync()
     {
         if (Id > 0)
         {

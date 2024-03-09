@@ -17,10 +17,10 @@ public partial class ManageTaskGroupsPageModel(IDataService dataService) : Obser
     private TaskGroupSummaryDTO selectedTaskGroup = default;
 
     [RelayCommand]
-    private async Task PageAppearing() => await LoadDataAsync();
+    private async Task PageAppearingAsync() => await LoadDataAsync();
 
     [RelayCommand]
-    private async Task GroupsSelectionChanged() => await Shell.Current.Navigation.PushModalAsync(new TaskGroupPage(SelectedTaskGroup.Id));
+    private async Task GroupsSelectionChangedAsync() => await Shell.Current.Navigation.PushModalAsync(new TaskGroupPage(SelectedTaskGroup.Id));
 
     private async Task LoadDataAsync()
     {

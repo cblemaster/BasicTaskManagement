@@ -24,7 +24,7 @@ public partial class CreateUpdateTaskItemPageModel(IDataService dataService) : O
     private TaskGroupDTO selectedTaskGroup = default;
 
     [RelayCommand]
-    private async Task PageAppearing()
+    private async Task PageAppearingAsync()
     {
         if (Id > 0)
         {
@@ -44,7 +44,7 @@ public partial class CreateUpdateTaskItemPageModel(IDataService dataService) : O
     private static async Task CancelClickedAsync() => await Shell.Current.Navigation.PopModalAsync();
 
     [RelayCommand]
-    private async Task SaveClicked()
+    private async Task SaveClickedAsync()
     {
         if (SelectedTaskGroup is null || SelectedTaskGroup.Id == 0)
         {
@@ -63,12 +63,12 @@ public partial class CreateUpdateTaskItemPageModel(IDataService dataService) : O
         TaskItem.TaskGroupId = SelectedTaskGroup.Id;
         if (TaskItem.IsComplete) { TaskItem.CompletedDate = DateTime.Today; }
 
-        if (TaskItem.Id > 0) { await SetValuesForUpdate(); }
-        else { await SetValuesForCreate(); }
+        if (TaskItem.Id > 0) { await SetValuesForUpdateAsync(); }
+        else { await SetValuesForCreateAsync(); }
         
         await Shell.Current.Navigation.PopModalAsync();
 
-        async Task SetValuesForUpdate()
+        async Task SetValuesForUpdateAsync()
         {
             if (OriginalIsComplete)
             {
@@ -79,7 +79,7 @@ public partial class CreateUpdateTaskItemPageModel(IDataService dataService) : O
             await _dataService.UpdateTaskItemAsync(Id, TaskItem);    
         }
 
-        async Task SetValuesForCreate()
+        async Task SetValuesForCreateAsync()
         {
             TaskItem.CreateDate = DateTime.Today;
             await _dataService.CreateTaskItemAsync(TaskItem);            

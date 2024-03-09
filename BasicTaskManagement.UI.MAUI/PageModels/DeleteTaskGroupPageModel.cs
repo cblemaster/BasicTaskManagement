@@ -16,10 +16,10 @@ public partial class DeleteTaskGroupPageModel(IDataService dataService) : Observ
     public int Id { get; set; }
 
     [RelayCommand]
-    private async Task PageAppearing() => await LoadDataAsync();
+    private async Task PageAppearingAsync() => await LoadDataAsync();
 
     [RelayCommand]
-    private static async Task CancelClicked() => await Shell.Current.Navigation.PopModalAsync();
+    private static async Task CancelClickedAsync() => await Shell.Current.Navigation.PopModalAsync();
 
     [RelayCommand]
     private async Task DeleteClickedAsync()
