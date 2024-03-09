@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:pagemodels="clr-namespace:BasicTaskManagement.UI.MAUI.PageModels"
+             xmlns:dtos="clr-namespace:BasicTaskManagement.Core.DTO;assembly=BasicTaskManagement.Core"
+             x:Class="BasicTaskManagement.UI.MAUI.Pages.ManageTaskGroupsPage"
+             x:DataType="{x:Type pagemodels:ManageTaskGroupsPageModel}"
+             Title="Manage Task Groups">
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding PageAppearingCommand, Mode=OneWay}" />
+    </ContentPage.Behaviors>
+    <Grid Style="{StaticResource ContainerGrid}">
+        <CollectionView ItemsSource="{Binding TaskGroups, Mode=OneWay}" SelectedItem="{Binding SelectedTaskGroup, Mode=OneWay}" Grid.RowSpan="2" EmptyView="No items found.">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="5" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="{x:Type dtos:TaskGroupDTO}">
+                    <Frame>
+                        <VerticalStackLayout>
+                            <Label Text="{Binding Name, Mode=OneWay}" Style="{StaticResource LargeLabel}" />
+                            <Label Text="{Binding IsFavorite, Mode=OneWay, StringFormat='Favorite?: {0}'}" Style="{StaticResource MediumLabel}" />
+                            <Label Text="{Binding TaskItems.Count, Mode=OneWay, StringFormat='Count of task items: {0}'}" Style="{StaticResource MediumLabel}" />
+                        </VerticalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

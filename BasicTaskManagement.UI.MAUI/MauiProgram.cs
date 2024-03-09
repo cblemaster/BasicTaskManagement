@@ -33,7 +33,9 @@ namespace BasicTaskManagement.UI.MAUI
                 .AddTransient<TaskItemPageModel>()
                 .AddTransient<DeleteTaskItemPageModel>()
                 .AddTransient<CreateUpdateTaskItemPageModel>()
-                .AddTransient<HowToPage>();
+                .AddTransient<HowToPage>()
+                .AddTransient<ManageTaskGroupsPageModel>()
+                .AddTransient<ManageTaskGroupsPage>();
 
 #if DEBUG
             builder.Logging.AddDebug();

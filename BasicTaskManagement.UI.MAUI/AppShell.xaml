@@ -29,6 +29,11 @@
             Route="Completed" />
 
         <ShellContent
+            Title="Manage Task Groups"
+            ContentTemplate="{DataTemplate pages:ManageTaskGroupsPage}"
+            Route="ManageTaskGroups" />
+        
+        <ShellContent
             Title="How To"
             ContentTemplate="{DataTemplate pages:HowToPage}"
             Route="HowTo" />
