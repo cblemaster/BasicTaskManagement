@@ -76,7 +76,7 @@ public partial class CreateUpdateTaskItemPageModel(IDataService dataService) : O
                 return;
             }
             TaskItem.UpdateDate = DateTime.Today;
-            await _dataService.UpdateTaskItemAsync(Id, TaskItem);            
+            await _dataService.UpdateTaskItemAsync(Id, TaskItem);    
         }
 
         async Task SetValuesForCreate()

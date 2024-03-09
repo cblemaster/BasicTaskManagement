@@ -7,7 +7,6 @@ public partial class CreateUpdateTaskItemPage : ContentPage
     public CreateUpdateTaskItemPage(int id)
     {
         InitializeComponent();
-        InitializeComponent();
         Shell shell = Shell.Current;
 
         IViewHandler? handler = shell.Handler;

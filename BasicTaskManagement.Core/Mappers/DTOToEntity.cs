@@ -8,9 +8,19 @@ public static class DTOToEntity
     public static TaskGroup MapCreateTaskGroup(CreateTaskGroupDTO dto) =>
         new()
         {
+            Id = dto.Id,
             Name = dto.Name,
             IsFavorite = dto.IsFavorite,
         };
+
+    public static TaskGroup MapUpdateTaskGroup(CreateTaskGroupDTO dto, TaskGroup entity)
+    {
+        entity.Name = dto.Name;
+        entity.IsFavorite = dto.IsFavorite;
+        entity.TaskItems = entity.TaskItems;
+
+        return entity;
+    }
 
     public static TaskItem MapCreateUpdateTaskItem(CreateUpdateTaskItemDTO createItem) =>
         new()

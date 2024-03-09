@@ -4,7 +4,7 @@ namespace BasicTaskManagement.UI.MAUI.Pages;
 
 public partial class CreateTaskGroupPage : ContentPage
 {
-    public CreateTaskGroupPage()
+    public CreateTaskGroupPage(int id)
     {
         InitializeComponent();
         Shell shell = Shell.Current;
@@ -21,5 +21,6 @@ public partial class CreateTaskGroupPage : ContentPage
         if (pageModel is null) { return; }
         
         BindingContext = pageModel;
+        pageModel.Id = id;
     }
 }

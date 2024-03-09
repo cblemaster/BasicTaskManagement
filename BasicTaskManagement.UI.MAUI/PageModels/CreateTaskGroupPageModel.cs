@@ -6,28 +6,38 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace BasicTaskManagement.UI.MAUI.PageModels;
 
-public partial class CreateTaskGroupPageModel : ObservableObject
+public partial class CreateTaskGroupPageModel(IDataService dataService) : ObservableObject
 {
-    private readonly IDataService _dataService;
-
-    public CreateTaskGroupPageModel(IDataService dataService)
-    {
-        _dataService = dataService;
-        CreateGroup = new();
-    }
+    private readonly IDataService _dataService = dataService;
 
     [ObservableProperty]
     private CreateTaskGroupDTO createGroup = default;
 
+    public int Id { get; set; }
+
+    [RelayCommand]
+    private async Task PageAppearing()
+    {
+        if (Id > 0)
+        {
+            await LoadDataAsync();
+        }
+        else { CreateGroup = new(); }
+    }
+
+    [RelayCommand]
+    private static async Task CancelClickedAsync() => await Shell.Current.Navigation.PopModalAsync();
+
     [RelayCommand]
     private async Task CreateClickedAsync()
     {
-        bool groupNameIsUsed = (await _dataService.GetTaskGroupsAsync(true)).Select(tg => tg.Name).Contains(CreateGroup.Name);
-                
-        if (groupNameIsUsed)
+        foreach (TaskGroupDTO group in await _dataService.GetTaskGroupsAsync(true))
         {
-            await Shell.Current.DisplayAlert("Error!", $"There is already a task group named {CreateGroup.Name}", "OK");
-            return;
+            if (group.Id != CreateGroup.Id && group.Name == CreateGroup.Name)
+            {
+                await Shell.Current.DisplayAlert("Error!", $"There is already a task group named {CreateGroup.Name}", "OK");
+                return;
+            }
         }
         
         ValidationResult validationResult = CreateGroup.Validate();
@@ -38,16 +48,37 @@ public partial class CreateTaskGroupPageModel : ObservableObject
             return;
         }
 
-        if (await _dataService.CreateTaskGroupAsync(CreateGroup) is not null)
+        if (Id > 0)
         {
+            await _dataService.UpdateTaskGroupAsync(Id, CreateGroup);
             await Shell.Current.Navigation.PopModalAsync();
         }
         else
         {
-            await Shell.Current.DisplayAlert("Error!", "Error creating task group.", "OK");
+            if (await _dataService.CreateTaskGroupAsync(CreateGroup) is not null)
+            {
+                await Shell.Current.Navigation.PopModalAsync();
+            }
+            else
+            {
+                await Shell.Current.DisplayAlert("Error!", "Error creating task group.", "OK");
+            }
         }
     }
 
-    [RelayCommand]
-    private async static Task CancelClicked() => await Shell.Current.Navigation.PopModalAsync();
+    private async Task LoadDataAsync()
+    {
+        TaskGroupDTO group = await _dataService.GetTaskGroupAsync(Id);
+        CreateGroup = MapTaskGroupDTOToCreateTaskGroupDTO(group);
+    }
+
+    private CreateTaskGroupDTO MapTaskGroupDTOToCreateTaskGroupDTO(TaskGroupDTO group)
+    {
+        return new()
+        {
+            Id = group.Id,
+            Name = group.Name,
+            IsFavorite = group.IsFavorite,
+        };
+    }
 }

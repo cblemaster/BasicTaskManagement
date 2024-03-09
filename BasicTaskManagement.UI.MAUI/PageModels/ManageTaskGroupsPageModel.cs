@@ -1,6 +1,6 @@
-﻿using BasicTaskManagement.Core.DataModels;
-using BasicTaskManagement.Core.DTO;
+﻿using BasicTaskManagement.Core.DTO;
 using BasicTaskManagement.Core.Services;
+using BasicTaskManagement.UI.MAUI.Pages;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -11,13 +11,16 @@ public partial class ManageTaskGroupsPageModel(IDataService dataService) : Obser
     private readonly IDataService _dataService = dataService;
 
     [ObservableProperty]
-    private IReadOnlyCollection<TaskGroupSummaryDTO> _taskGroups;
+    private IReadOnlyCollection<TaskGroupSummaryDTO> _taskGroups = default;
 
     [ObservableProperty]
-    private TaskGroupDTO selectedTaskGroup;
+    private TaskGroupSummaryDTO selectedTaskGroup = default;
 
     [RelayCommand]
     private async Task PageAppearing() => await LoadDataAsync();
+
+    [RelayCommand]
+    private async Task GroupsSelectionChanged() => await Shell.Current.Navigation.PushModalAsync(new TaskGroupPage(SelectedTaskGroup.Id));
 
     private async Task LoadDataAsync()
     {

@@ -7,32 +7,27 @@
              xmlns:converters="clr-namespace:BasicTaskManagement.UI.MAUI.Converters"
              x:Class="BasicTaskManagement.UI.MAUI.Pages.ManageTaskGroupsPage"
              x:DataType="{x:Type pagemodels:ManageTaskGroupsPageModel}"
+             x:Name="ThisPage"
              Title="Manage Task Groups">
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding PageAppearingCommand, Mode=OneWay}" />
     </ContentPage.Behaviors>
     <ContentPage.Resources>
-        <converters:IntToBoolConverter x:Key="inttobool" />
+        <converters:BoolToYesNoConverter x:Key="boolyesno" />
     </ContentPage.Resources>
     <Grid Style="{StaticResource ContainerGrid}">
-        <CollectionView ItemsSource="{Binding TaskGroups, Mode=OneWay}" SelectedItem="{Binding SelectedTaskGroup, Mode=OneWay}" Grid.RowSpan="2" EmptyView="No items found.">
+        <CollectionView ItemsSource="{Binding TaskGroups, Mode=OneWay}" SelectionChangedCommand="{Binding GroupsSelectionChangedCommand, Mode=OneWay}" SelectedItem="{Binding SelectedTaskGroup, Mode=TwoWay}" Grid.RowSpan="2" EmptyView="No groups found.">
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="5" />
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="{x:Type dtos:TaskGroupSummaryDTO}">
                     <Frame>
-                        <HorizontalStackLayout>
-                            <VerticalStackLayout>
-                                <Label Text="{Binding Name, Mode=OneWay}" Style="{StaticResource LargeLabel}" />
-                                <Label Text="{Binding IsFavorite, Mode=OneWay, StringFormat='Favorite?: {0}'}" Style="{StaticResource MediumLabel}" />
-                                <Label Text="{Binding CountOfTaskItems, Mode=OneWay, StringFormat='Count of task items: {0}'}" Style="{StaticResource MediumLabel}" />
-                            </VerticalStackLayout>
-                            <HorizontalStackLayout>
-                                <Button Text="Update task group" Style="{StaticResource SmallMagentaButton}" />
-                                <Button IsVisible="{Binding CountOfTaskItems, Mode=OneWay, Converter={StaticResource inttobool}}" Text="Delete task group" Style="{StaticResource SmallMagentaButton}" />
-                            </HorizontalStackLayout>
-                        </HorizontalStackLayout>
+                        <VerticalStackLayout>
+                            <Label Text="{Binding Name, Mode=OneWay}" Style="{StaticResource LargeLabel}" />
+                            <Label Text="{Binding IsFavorite, Mode=OneWay, StringFormat='Favorite?: {0}', Converter={StaticResource boolyesno}}" Style="{StaticResource MediumLabel}" />
+                            <Label Text="{Binding CountOfTaskItems, Mode=OneWay, StringFormat='Count of task items: {0}'}" Style="{StaticResource MediumLabel}" />
+                        </VerticalStackLayout>
                     </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

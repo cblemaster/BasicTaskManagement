@@ -6,6 +6,9 @@
              x:Class="BasicTaskManagement.UI.MAUI.Pages.CreateTaskGroupPage"
              x:DataType="{x:Type pagemodels:CreateTaskGroupPageModel}"
              Title="Create Task Group">
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding PageAppearingCommand, Mode=OneWay}" />
+    </ContentPage.Behaviors>
     <Grid Style="{StaticResource ContainerGrid}">
         <VerticalStackLayout Spacing="20">
             <Entry Text="{Binding CreateGroup.Name, Mode=TwoWay}" Placeholder="Task group name" Style="{StaticResource ValidEntry}">
