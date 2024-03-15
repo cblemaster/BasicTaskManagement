@@ -56,4 +56,26 @@ public static class EntityToDTO
 
         return collectionToReturn.AsEnumerable();
     }
+
+    public static TaskGroupSummaryDTO MapTaskGroupSummary(TaskGroup entity) =>
+        new()
+        {
+            Id = entity.Id,
+            Name = entity.Name,
+            IsFavorite = entity.IsFavorite,
+            CountOfTaskItems = entity.TaskItems.Count,
+        };
+
+    public static IEnumerable<TaskGroupSummaryDTO> MapTaskGroupSummaryCollection(IEnumerable<TaskGroup> entities)
+    {
+        List<TaskGroupSummaryDTO> collectionToReturn = [];
+
+        foreach (TaskGroup entity in entities)
+        {
+            TaskGroupSummaryDTO dto = MapTaskGroupSummary(entity);
+            collectionToReturn.Add(dto);
+        }
+
+        return collectionToReturn.AsEnumerable();
+    }
 }
