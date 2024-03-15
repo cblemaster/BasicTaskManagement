@@ -4,7 +4,7 @@ namespace BasicTaskManagement.Core.Services;
 
 public interface IDataService
 {
-    Task<IEnumerable<TaskGroupDTO?>> GetTaskGroupsAsync(bool isShowComplete);
+    Task<IEnumerable<TaskGroupSummaryDTO?>> GetTaskGroupsAsync();
     Task<TaskGroupDTO> GetTaskGroupAsync(int id);
     Task<IEnumerable<TaskGroupDTO?>> GetTaskGroupsForManagementAsync();
     Task<TaskGroupDTO> CreateTaskGroupAsync(CreateTaskGroupDTO createGroup);

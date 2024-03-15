@@ -14,19 +14,18 @@ public class HttpDataService : IDataService
         BaseAddress = new Uri(BASE_URI)
     };
 
-    public async Task<IEnumerable<TaskGroupDTO?>> GetTaskGroupsAsync(bool isShowComplete)
+    public async Task<IEnumerable<TaskGroupSummaryDTO?>> GetTaskGroupsAsync()
     {
-        List<TaskGroupDTO?> groups = [];
+        List<TaskGroupSummaryDTO?> groups = [];
 
-        string route = isShowComplete ? "/taskgroup/showcomplete" : "/taskgroup";
         try
         {
-            HttpResponseMessage response = await _client.GetAsync(route);
+            HttpResponseMessage response = await _client.GetAsync("/taskgroup");
             if (response.IsSuccessStatusCode && response.Content is not null)
             {
-                groups = response.Content.ReadFromJsonAsAsyncEnumerable<TaskGroupDTO>().ToBlockingEnumerable().ToList();
+                groups = response.Content.ReadFromJsonAsAsyncEnumerable<TaskGroupSummaryDTO>().ToBlockingEnumerable().ToList();
             }
-            return groups is not null ? groups : Enumerable.Empty<TaskGroupDTO>().ToList().AsReadOnly();
+            return groups is not null ? groups : Enumerable.Empty<TaskGroupSummaryDTO>().ToList().AsReadOnly();
         }
         catch (Exception) { throw; }
     }
@@ -61,7 +60,7 @@ public class HttpDataService : IDataService
 
     public async Task<TaskGroupDTO> CreateTaskGroupAsync(CreateTaskGroupDTO createGroup)
     {
-        IEnumerable<string> list = (await GetTaskGroupsAsync(true)).Select(tg => tg?.Name)!;
+        IEnumerable<string> list = (await GetTaskGroupsAsync()).Select(tg => tg?.Name)!;
         if (list is not null && list.Contains(createGroup.Name)) { return TaskGroupDTO.NotFound; }  //TODO: Should really return an object representing the error...
 
         StringContent content = new(JsonSerializer.Serialize(createGroup));
