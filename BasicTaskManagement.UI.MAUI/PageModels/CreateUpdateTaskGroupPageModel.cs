@@ -31,7 +31,7 @@ public partial class CreateUpdateTaskGroupPageModel(IDataService dataService) : 
     [RelayCommand]
     private async Task SaveClickedAsync()
     {
-        foreach (TaskGroupDTO? group in await _dataService.GetTaskGroupsAsync(true))
+        foreach (TaskGroupSummaryDTO? group in await _dataService.GetTaskGroupsAsync())
         {
             if (group is not null && group.Id != CreateGroup.Id && group.Name == CreateGroup.Name)
             {
