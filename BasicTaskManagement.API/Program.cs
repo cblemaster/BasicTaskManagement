@@ -22,9 +22,9 @@ var app = builder.Build();
 
 app.MapGet("/", () => "Welcome to BasicTaskManagement!");
 
-app.MapGet("/taskgroup", Results<NotFound<string>, Ok<IEnumerable<TaskGroupDTO>>> (Context context) =>
+app.MapGet("/taskgroup", Results<NotFound<string>, Ok<IEnumerable<TaskGroupSummaryDTO>>> (Context context) =>
 {
-    IEnumerable<TaskGroupDTO> groups = EntityToDTO.MapTaskGroupCollection(context.TaskGroups.Include(tg => tg.TaskItems.Where(ti => !ti.IsComplete).OrderByDescending(ti => ti.DueDate)));
+    IEnumerable<TaskGroupSummaryDTO> groups = EntityToDTO.MapTaskGroupSummaryCollection(context.TaskGroups.Include(tg => tg.TaskItems.Where(ti => !ti.IsComplete).OrderByDescending(ti => ti.DueDate)));
     return groups is null || !groups.Any()
         ? TypedResults.NotFound("No task groups found.")
         : TypedResults.Ok(groups.OrderByDescending(g => g.IsFavorite).ThenBy(g => g.Name).AsEnumerable());
