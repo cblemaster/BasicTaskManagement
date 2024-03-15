@@ -13,7 +13,7 @@
             ContentTemplate="{DataTemplate pages:TaskGroupsPage}"
             Route="TaskGroups" />
 
-        <ShellContent
+        <!--<ShellContent
             Title="Due Today"
             ContentTemplate="{DataTemplate pages:TaskItemsDueTodayPage}"
             Route="DueToday" />
@@ -36,7 +36,7 @@
         <ShellContent
             Title="How To"
             ContentTemplate="{DataTemplate pages:HowToPage}"
-            Route="HowTo" />
+            Route="HowTo" />-->
     </TabBar>
 
 </Shell>

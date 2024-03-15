@@ -3,48 +3,35 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:pagemodels="clr-namespace:BasicTaskManagement.UI.MAUI.PageModels"
-             xmlns:datamodels="clr-namespace:BasicTaskManagement.Core.DataModels;assembly=BasicTaskManagement.Core"
              xmlns:dtos="clr-namespace:BasicTaskManagement.Core.DTO;assembly=BasicTaskManagement.Core"
+             xmlns:converters="clr-namespace:BasicTaskManagement.UI.MAUI.Converters"
              x:Class="BasicTaskManagement.UI.MAUI.Pages.TaskGroupsPage"
              x:DataType="{x:Type pagemodels:TaskGroupsPageModel}"
              Title="Task Groups">
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding PageAppearingCommand, Mode=OneWay}" />
     </ContentPage.Behaviors>
+    <ContentPage.Resources>
+        <converters:BoolToYesNoConverter x:Key="booltoyesno" />
+    </ContentPage.Resources>
     <Grid Style="{StaticResource ContainerGrid}">
-        <CollectionView ItemsSource="{Binding TaskGroups, Mode=OneWay}" SelectionChangedCommand="{Binding GroupsSelectionChangedCommand, Mode=OneWay}" SelectedItem="{Binding SelectedTaskItem, Mode=TwoWay}" IsGrouped="True" EmptyView="No groups found.">
+        <CollectionView ItemsSource="{Binding TaskGroups, Mode=OneWay}" SelectionChangedCommand="{Binding GroupsSelectionChangedCommand, Mode=OneWay}" SelectedItem="{Binding SelectedTaskGroup, Mode=TwoWay}" EmptyView="No task groups found.">
             <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Vertical" ItemSpacing="5" />
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="3" />
             </CollectionView.ItemsLayout>
-            <CollectionView.GroupHeaderTemplate>
-                <DataTemplate x:DataType="{x:Type datamodels:TaskGroupData}">
-                    <HorizontalStackLayout Style="{StaticResource YellowBackgoundHorizontalStackLayout}">
-                        <Label Text="{Binding Name, Mode=OneWay}" Style="{StaticResource GroupHeaderLabel}">
-                            <Label.Triggers>
-                                <DataTrigger TargetType="Label" Binding="{Binding IsFavorite, Mode=OneWay}" Value="True">
-                                    <Setter Property="TextColor" Value="{StaticResource Magenta}" />
-                                </DataTrigger>
-                            </Label.Triggers>
-                        </Label>
-                        <Label Text="{Binding Count, Mode=OneWay, StringFormat='Total tasks: {0:D}'}" Style="{StaticResource VerticallyCenteredLabel}" />
-                    </HorizontalStackLayout>
-                </DataTemplate>
-            </CollectionView.GroupHeaderTemplate>
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="{x:Type dtos:TaskItemDTO}">
+                <DataTemplate x:DataType="{x:Type dtos:TaskGroupSummaryDTO}">
                     <Frame>
                         <VerticalStackLayout>
-                            <Label Text="{Binding Name, Mode=OneWay}" Style="{StaticResource LargeLabel}">
+                            <Label Text="{Binding Name, Mode=OneWay}" Style="{StaticResource LargeBoldLabel}">
                                 <Label.Triggers>
-                                    <DataTrigger TargetType="Label" Binding="{Binding IsImportant, Mode=OneWay}" Value="True">
-                                        <Setter Property="FontAttributes" Value="Bold" />
-                                    </DataTrigger>
-                                    <DataTrigger TargetType="Label" Binding="{Binding IsComplete, Mode=OneWay}" Value="True">
-                                        <Setter Property="TextDecorations" Value="Strikethrough" />
+                                    <DataTrigger TargetType="Label" Binding="{Binding IsFavorite, Mode=OneWay}" Value="True">
+                                        <Setter Property="TextColor" Value="{StaticResource Magenta}" />
                                     </DataTrigger>
                                 </Label.Triggers>
                             </Label>
-                            <Label Text="{Binding DueDate, Mode=OneWay, StringFormat='Due date: {0:d}'}" Style="{StaticResource MediumLabel}" />
+                            <Label Text="{Binding IsFavorite, Mode=OneWay, StringFormat='Favorite?: {0}', Converter={StaticResource booltoyesno}}" Style="{StaticResource MediumLabel}" />
+                            <Label Text="{Binding CountOfTaskItems, Mode=OneWay, StringFormat='Count of task items: {0}'}" Style="{StaticResource MediumLabel}" />
                         </VerticalStackLayout>
                     </Frame>
                 </DataTemplate>
@@ -52,13 +39,6 @@
         </CollectionView>
         <HorizontalStackLayout Grid.Row="1">
             <Button Command="{Binding CreateGroupClickedCommand, Mode=OneWay}" Text="Create task group" />
-            <Button Command="{Binding CreateTaskItemClickedCommand, Mode=OneWay}" Text="Create task item" />
-            <Label Text="Show completed?" Style="{StaticResource SwitchLabel}" />
-            <Switch IsToggled="False">
-                <Switch.Behaviors>
-                    <toolkit:EventToCommandBehavior EventName="Toggled" Command="{Binding ShowCompletedFilterChangedCommand, Mode=OneWay}" />
-                </Switch.Behaviors>
-            </Switch>
         </HorizontalStackLayout>
     </Grid>
 </ContentPage>
