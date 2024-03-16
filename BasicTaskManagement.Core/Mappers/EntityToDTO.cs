@@ -44,19 +44,6 @@ public static class EntityToDTO
             TaskItems = MapTaskItemCollection(entity.TaskItems),
         };
 
-    public static IEnumerable<TaskGroupDTO> MapTaskGroupCollection(IEnumerable<TaskGroup> entities)
-    {
-        List<TaskGroupDTO> collectionToReturn = [];
-
-        foreach (TaskGroup entity in entities)
-        {
-            TaskGroupDTO dto = MapTaskGroup(entity);
-            collectionToReturn.Add(dto);
-        }
-
-        return collectionToReturn.AsEnumerable();
-    }
-
     public static TaskGroupSummaryDTO MapTaskGroupSummary(TaskGroup entity) =>
         new()
         {
