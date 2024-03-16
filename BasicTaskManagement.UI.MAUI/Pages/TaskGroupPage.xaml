@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:pagemodels="clr-namespace:BasicTaskManagement.UI.MAUI.PageModels"
+             xmlns:dtos="clr-namespace:BasicTaskManagement.Core.DTO;assembly=BasicTaskManagement.Core"
              xmlns:converters="clr-namespace:BasicTaskManagement.UI.MAUI.Converters"
              x:Class="BasicTaskManagement.UI.MAUI.Pages.TaskGroupPage"
              x:DataType="{x:Type pagemodels:TaskGroupPageModel}"
@@ -13,13 +14,58 @@
     <ContentPage.Resources>
         <converters:BoolToYesNoConverter x:Key="boolyesno" />
     </ContentPage.Resources>
-    <VerticalStackLayout Style="{StaticResource ContainerVerticalStackLayout}">
-        <Label Text="{Binding TaskGroup.Name, Mode=OneWay}" Style="{StaticResource LargeBoldLabel}" />
-        <Label Text="{Binding TaskGroup.IsFavorite, Mode=OneWay, StringFormat='Favorite?: {0}', Converter={StaticResource boolyesno}}" Style="{StaticResource MediumLabel}" />
-        <HorizontalStackLayout>
-            <Button Command="{Binding CloseClickedCommand, Mode=OneWay}" Text="Close page" />
-            <Button Command="{Binding UpdateClickedCommand, Mode=OneWay}" Text="Update task group" />
-            <Button Command="{Binding DeleteClickedCommand, Mode=OneWay}" Text="Delete task group" />
+    <Grid Style="{StaticResource ContainerGrid}">
+        <Grid RowDefinitions="3*,7*">
+            <Grid ColumnDefinitions="6*,4*">
+                <VerticalStackLayout>
+                    <Label Text="{Binding TaskGroup.Name,Mode=OneWay}" Style="{StaticResource LargeBoldLabel}">
+                        <Label.Triggers>
+                            <DataTrigger TargetType="Label" Binding="{Binding TaskGroup.IsFavorite, Mode=OneWay}" Value="True">
+                                <Setter Property="TextColor" Value="{StaticResource Magenta}" />
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                    <Label Text="{Binding TaskGroup.IsFavorite, Mode=OneWay, StringFormat='Favorite?: {0}', Converter={StaticResource boolyesno}}" Style="{StaticResource MediumLabel}" />
+                </VerticalStackLayout>
+                <HorizontalStackLayout Grid.Column="1" VerticalOptions="StartAndExpand">
+                    <Button Command="{Binding UpdateTaskGroupClickedCommand, Mode=OneWay}" Text="Update task group" />
+                    <Button Command="{Binding DeleteTaskGroupClickedCommand, Mode=OneWay}" Text="Delete task group" />
+                </HorizontalStackLayout>
+            </Grid>
+            <CollectionView ItemsSource="{Binding FilteredTaskItems, Mode=OneWay}" SelectedItem="{Binding SelectedTaskItem, Mode=TwoWay}" SelectionChangedCommand="{Binding ItemsSelectionChangedCommand, Mode=OneWay}" Grid.Row="1" EmptyView="Task group not found.">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="3" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="{x:Type dtos:TaskItemDTO }">
+                        <Frame>
+                            <VerticalStackLayout>
+                                <Label Text="{Binding Name, Mode=OneWay}" Style="{StaticResource LargeLabel}">
+                                    <Label.Triggers>
+                                        <DataTrigger TargetType="Label" Binding="{Binding IsImportant, Mode=OneWay}" Value="True">
+                                            <Setter Property="FontAttributes" Value="Bold" />
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="Label" Binding="{Binding IsComplete, Mode=OneWay}" Value="True">
+                                            <Setter Property="TextDecorations" Value="Strikethrough" />
+                                        </DataTrigger>
+                                    </Label.Triggers>
+                                </Label>
+                                <Label Text="{Binding DueDate, Mode=OneWay, StringFormat='Due date: {0:d}'}" Style="{StaticResource MediumLabel}" />
+                            </VerticalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+        <HorizontalStackLayout Grid.Row="1">
+            <Button Command="{Binding CloseClickedCommand, Mode=OneWay}" Text="Close" />
+            <Button Command="{Binding CreateTaskItemClickedCommand, Mode=OneWay}" Text="Create task item" />
+            <Label Text="Show completed?" Style="{StaticResource SwitchLabel}" />
+            <Switch IsToggled="False">
+                <Switch.Behaviors>
+                    <toolkit:EventToCommandBehavior EventName="Toggled" Command="{Binding ShowCompletedFilterChangedCommand, Mode=OneWay}" />
+                </Switch.Behaviors>
+            </Switch>
         </HorizontalStackLayout>
-    </VerticalStackLayout>
+    </Grid>
 </ContentPage>

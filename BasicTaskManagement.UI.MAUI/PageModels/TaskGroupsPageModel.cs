@@ -21,7 +21,7 @@ public partial class TaskGroupsPageModel(IDataService dataService) : ObservableO
     private async Task PageAppearingAsync() => await LoadDataAsync();
 
     [RelayCommand]
-    private async Task GroupsSelectionChangedAsync() => await Shell.Current.Navigation.PushModalAsync(new TaskItemPage(SelectedTaskGroup.Id));
+    private async Task GroupsSelectionChangedAsync() => await Shell.Current.Navigation.PushModalAsync(new TaskGroupPage(SelectedTaskGroup.Id));
 
     [RelayCommand]
     private static async Task CreateGroupClickedAsync() => await Shell.Current.Navigation.PushModalAsync(new CreateUpdateTaskGroupPage(0));
