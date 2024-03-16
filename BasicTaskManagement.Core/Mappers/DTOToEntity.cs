@@ -33,7 +33,7 @@ public static class DTOToEntity
         entity.UpdateDate = dto.UpdateDate;
         entity.CompletedDate = dto.CompletedDate;
         entity.CreateDate = dto.CreateDate;
-        
+
         return entity;
     }
 }

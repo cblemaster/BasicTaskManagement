@@ -33,6 +33,6 @@ public partial class TaskGroupsPageModel(IDataService dataService) : ObservableO
         {
             TaskGroups = groups.ToList().AsReadOnly();
         }
-        
+
     }
 }
