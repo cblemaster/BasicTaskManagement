@@ -36,7 +36,7 @@ app.MapGet("/taskgroup/{id:int}", async Task<Results<BadRequest<string>, Ok<Task
     {
         return TypedResults.BadRequest("Invalid task group id.");
     }
-    if (await context.TaskGroups.Include(tg => tg.TaskItems).SingleOrDefaultAsync(tg => tg.Id == id) is TaskGroup taskgroup)
+    if (await context.TaskGroups.Include(tg => tg.TaskItems.OrderByDescending(ti => ti.DueDate)).SingleOrDefaultAsync(tg => tg.Id == id) is TaskGroup taskgroup)
     {
         TaskGroupDTO group = EntityToDTO.MapTaskGroup(taskgroup);
         return TypedResults.Ok(group);
