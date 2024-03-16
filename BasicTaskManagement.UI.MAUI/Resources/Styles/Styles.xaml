@@ -54,6 +54,10 @@
         <Setter Property="Margin" Value="50,0,0,0" />
     </Style>
 
+    <Style TargetType="Label" BasedOn="{StaticResource SwitchLabel}" x:Key="NoMarginSwitchLabel">
+        <Setter Property="Margin" Value="0,0,0,0" />
+    </Style>
+
     <Style TargetType="Label" x:Key="GroupHeaderLabel">
         <Setter Property="VerticalOptions" Value="Center" />
         <Setter Property="FontSize" Value="24" />
@@ -242,6 +246,7 @@
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="MinimumHeightRequest" Value="44"/>
         <Setter Property="MinimumWidthRequest" Value="44"/>
+        <Setter Property="WidthRequest" Value="200" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">

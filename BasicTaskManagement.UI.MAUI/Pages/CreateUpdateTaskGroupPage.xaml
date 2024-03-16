@@ -17,7 +17,7 @@
                 </Entry.Behaviors>
             </Entry>
             <HorizontalStackLayout>
-                <Label Text="Favorite?" Style="{StaticResource SwitchLabel}" Margin="0,0,0,0" />
+                <Label Text="Favorite?" Style="{StaticResource NoMarginSwitchLabel}" />
                 <Switch IsToggled="{Binding CreateGroup.IsFavorite, Mode=TwoWay}" />
             </HorizontalStackLayout>
             <HorizontalStackLayout>
