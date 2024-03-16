@@ -16,12 +16,13 @@
 	- MVVM pattern
 
 ## Features:
+- View all task groups, including a count of task items not complete
 - View task items by task group
 - View all task items marked important
 - View all task items due today
 - View all completed task items
 - Filter views of task items to show or hide completed task items
-- Create, rename, and delete (if no task items) task groups
+- Create, update, and delete (if no task items) task groups
 - Create, update (including changing task group), and delete task items
 
 ## Business rules:
@@ -32,8 +33,9 @@
 - Task group names must be unique
 
 ## UI conventions:
-- Grouped task items are displayed with the task group names sorted ascending (favorite task groups then sorting to top), then the task items in each task group sorted by due date descending
-- Collections of task items are displayed sorted by due date descending
+- Collections of task groups are displayed sorted by favorites, then by name
+- Favorite task groups have their name displayed in a magenta font
+- Collections of task items are displayed sorted by due date descending, then by name
 - Important task items have their name displayed in a bold font
 - Completed task items have their name displayed in a strikethrough font
 
