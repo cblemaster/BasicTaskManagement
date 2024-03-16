@@ -5,7 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:pages="clr-namespace:BasicTaskManagement.UI.MAUI.Pages"
     Shell.FlyoutBehavior="Disabled"
-    Title="BasicTaskManagement.UI.MAUI">
+    Title="Basic Task Management">
 
     <TabBar>
         <ShellContent
@@ -13,7 +13,7 @@
             ContentTemplate="{DataTemplate pages:TaskGroupsPage}"
             Route="TaskGroups" />
 
-        <!--<ShellContent
+        <ShellContent
             Title="Due Today"
             ContentTemplate="{DataTemplate pages:TaskItemsDueTodayPage}"
             Route="DueToday" />
@@ -29,14 +29,9 @@
             Route="Completed" />
 
         <ShellContent
-            Title="Manage Task Groups"
-            ContentTemplate="{DataTemplate pages:ManageTaskGroupsPage}"
-            Route="ManageTaskGroups" />
-        
-        <ShellContent
             Title="How To"
             ContentTemplate="{DataTemplate pages:HowToPage}"
-            Route="HowTo" />-->
+            Route="HowTo" />
     </TabBar>
 
 </Shell>
