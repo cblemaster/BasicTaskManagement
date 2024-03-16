@@ -4,13 +4,14 @@
              x:Class="BasicTaskManagement.UI.MAUI.Pages.HowToPage"
              Title="How To">
     <ScrollView>
-        <VerticalStackLayout Style="{StaticResource ContainerVerticalStackLayout}" HorizontalOptions="StartAndExpand">
+        <VerticalStackLayout Style="{StaticResource ContainerVerticalStackLayout}" HorizontalOptions="StartAndExpand" Margin="50,10,50,50">
             <Label Text="Task Groups" Style="{StaticResource MediumBoldLabel}" />
-            <Label Text="This page shows all task groups and task items." Style="{StaticResource IndentedLabel}" />
-            <Label Text="Use the filter switch at the bottom to show or hide completed task items." Style="{StaticResource IndentedLabel}" />
-            <Label Text="Select a task item from the list to see its full details, or to update or delete the task item." Style="{StaticResource IndentedLabel}" />
-            <Label Text="Note that only task items that are not complete can be updated." Style="{StaticResource VeryIndentedLabel}" />
-            <Label Text="There are buttons at the bottom for creating new task groups and task items." Style="{StaticResource IndentedLabel}" />
+            <Label Text="This page shows all task groups, with a count of incomplete task items belonging to each task group." Style="{StaticResource IndentedLabel}" />
+            <Label Text="Task groups that are favorites are displayed with their name in a magenta font." Style="{StaticResource IndentedLabel}" />
+            <Label Text="Task groups are sorted by whether or not a favorite, then by name." Style="{StaticResource IndentedLabel}" />
+            <Label Text="Select a task group from the list to see its full details, including task items sorted by due date descending, then by name. From here you can update or delete the task group, or create a task item. Use the filter switch at the bottom to show or hide completed task items. Select a task item from the list to see its full details, or to update or delete the task item." Style="{StaticResource IndentedLabel}" />
+            <Label Text="Note that only task groups with no task items can be deleted. Delete the task items that belong to a task group before deleting the task group." Style="{StaticResource VeryIndentedLabel}" />
+            <Label Text="There is a button at the bottom for creating new task groups." Style="{StaticResource IndentedLabel}" />
             <Label Text="Note that when creating a new task group, you must select a unique name that is not already used." Style="{StaticResource VeryIndentedLabel}" />
             <Label Text="Due Today" Style="{StaticResource MediumBoldLabel}" />
             <Label Text="This page shows all task items that are due today." Style="{StaticResource IndentedLabel}" />
@@ -29,10 +30,6 @@
             <Label Text="Select a task item from the list to see its full details, or to update or delete the task item." Style="{StaticResource IndentedLabel}" />
             <Label Text="Note that only task items that are not complete can be updated." Style="{StaticResource VeryIndentedLabel}" />
             <Label Text="There is a button at the bottom for creating new task items." Style="{StaticResource IndentedLabel}" />
-            <Label Text="Manage Task Groups" Style="{StaticResource MediumBoldLabel}" />
-            <Label Text="This page shows all task groups, with a count of task items for each." Style="{StaticResource IndentedLabel}" />
-            <Label Text="Select a task group from the list to see its full details, or to update or delete the task group." Style="{StaticResource IndentedLabel}" />
-            <Label Text="Note that only task groups with no task items can be deleted. Delete the task items that belong to a task group before deleting the task group." Style="{StaticResource VeryIndentedLabel}" />
             <Label Text="All Pages" Style="{StaticResource MediumBoldLabel}" />
             <Label Text="Important task items have their name displayed with a bold font." Style="{StaticResource IndentedLabel}" />
             <Label Text="Completed task items have their name displayed with a strikethrough font." Style="{StaticResource IndentedLabel}" />
