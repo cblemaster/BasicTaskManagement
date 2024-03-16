@@ -18,10 +18,10 @@ public partial class CreateUpdateTaskItemPageModel(IDataService dataService) : O
     public bool OriginalIsComplete { get; set; }
 
     [ObservableProperty]
-    private IReadOnlyCollection<TaskGroupDTO?> _taskGroups = default!;
+    private IReadOnlyCollection<TaskGroupSummaryDTO?> _taskGroups = default!;
 
     [ObservableProperty]
-    private TaskGroupDTO selectedTaskGroup = default!;
+    private TaskGroupSummaryDTO selectedTaskGroup = default!;
 
     [RelayCommand]
     private async Task PageAppearingAsync()
@@ -34,7 +34,7 @@ public partial class CreateUpdateTaskItemPageModel(IDataService dataService) : O
         else { TaskItem = new(); }
 
         await LoadTaskGroupsAsync();
-        if (TaskItem.Id > 0 && TaskGroups.SingleOrDefault(tg => tg?.Id == TaskItem.TaskGroupId) is TaskGroupDTO dto)
+        if (TaskItem.Id > 0 && TaskGroups.SingleOrDefault(tg => tg?.Id == TaskItem.TaskGroupId) is TaskGroupSummaryDTO dto)
         {
             SelectedTaskGroup = dto;
         }
@@ -94,8 +94,8 @@ public partial class CreateUpdateTaskItemPageModel(IDataService dataService) : O
 
     private async Task LoadTaskGroupsAsync()
     {
-        List<TaskGroupDTO?> groups = (await _dataService.GetTaskGroupsAsync(true)).ToList();
-        groups.Insert(0, new() { Id = 0, Name = "not selected", IsFavorite = false, TaskItems = Enumerable.Empty<TaskItemDTO>() });
+        List<TaskGroupSummaryDTO?> groups = (await _dataService.GetTaskGroupsAsync()).ToList();
+        groups.Insert(0, new() { Id = 0, Name = "not selected", IsFavorite = false, CountOfTaskItems = 0 });
 
         TaskGroups = groups.AsReadOnly();
     }
