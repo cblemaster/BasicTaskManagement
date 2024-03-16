@@ -30,14 +30,6 @@ app.MapGet("/taskgroup", Results<NotFound<string>, Ok<IEnumerable<TaskGroupSumma
         : TypedResults.Ok(groups.OrderByDescending(g => g.IsFavorite).ThenBy(g => g.Name).AsEnumerable());
 });
 
-app.MapGet("/taskgroup/manage", Results<NotFound<string>, Ok<IEnumerable<TaskGroupDTO>>> (Context context) =>
-{
-    IEnumerable<TaskGroupDTO> groups = EntityToDTO.MapTaskGroupCollection(context.TaskGroups.Include(tg => tg.TaskItems.OrderByDescending(ti => ti.DueDate)));
-    return groups is null || !groups.Any()
-        ? TypedResults.NotFound("No task groups found.")
-        : TypedResults.Ok(groups.OrderBy(g => g.Name).AsEnumerable());
-});
-
 app.MapGet("/taskgroup/{id:int}", async Task<Results<BadRequest<string>, Ok<TaskGroupDTO>, NotFound<string>>> (Context context, int id) =>
 {
     if (id < 1)
@@ -50,14 +42,6 @@ app.MapGet("/taskgroup/{id:int}", async Task<Results<BadRequest<string>, Ok<Task
         return TypedResults.Ok(group);
     }
     return TypedResults.NotFound($"No task group with id {id} found.");
-});
-
-app.MapGet("/taskgroup/showcomplete", Results<NotFound<string>, Ok<IEnumerable<TaskGroupDTO>>> (Context context) =>
-{
-    IEnumerable<TaskGroupDTO> groups = EntityToDTO.MapTaskGroupCollection(context.TaskGroups.Include(tg => tg.TaskItems.OrderByDescending(ti => ti.DueDate)));
-    return groups is null || !groups.Any()
-        ? TypedResults.NotFound("No task groups found.")
-        : TypedResults.Ok(groups.OrderByDescending(g => g.IsFavorite).ThenBy(g => g.Name).AsEnumerable());
 });
 
 app.MapPost("/taskgroup", async Task<Results<BadRequest<string>, Created<TaskGroupDTO>>> (Context context, CreateTaskGroupDTO createGroup) =>
