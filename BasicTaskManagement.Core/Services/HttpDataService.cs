@@ -42,22 +42,6 @@ public class HttpDataService : IDataService
         catch (Exception) { throw; }
     }
 
-    public async Task<IEnumerable<TaskGroupDTO?>> GetTaskGroupsForManagementAsync()
-    {
-        List<TaskGroupDTO?> groups = [];
-
-        try
-        {
-            HttpResponseMessage response = await _client.GetAsync("/taskgroup/manage");
-            if (response.IsSuccessStatusCode && response.Content is not null)
-            {
-                groups = response.Content.ReadFromJsonAsAsyncEnumerable<TaskGroupDTO>().ToBlockingEnumerable().ToList();
-            }
-            return groups is not null ? groups : Enumerable.Empty<TaskGroupDTO>().ToList().AsReadOnly();
-        }
-        catch (Exception) { throw; }
-    }
-
     public async Task<TaskGroupDTO> CreateTaskGroupAsync(CreateTaskGroupDTO createGroup)
     {
         IEnumerable<string> list = (await GetTaskGroupsAsync()).Select(tg => tg?.Name)!;

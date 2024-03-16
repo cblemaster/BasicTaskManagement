@@ -6,7 +6,6 @@ public interface IDataService
 {
     Task<IEnumerable<TaskGroupSummaryDTO?>> GetTaskGroupsAsync();
     Task<TaskGroupDTO> GetTaskGroupAsync(int id);
-    Task<IEnumerable<TaskGroupDTO?>> GetTaskGroupsForManagementAsync();
     Task<TaskGroupDTO> CreateTaskGroupAsync(CreateTaskGroupDTO createGroup);
     Task DeleteTaskGroupAsync(int id);
     Task UpdateTaskGroupAsync(int id, CreateTaskGroupDTO dto);
