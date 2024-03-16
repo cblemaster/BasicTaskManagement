@@ -32,7 +32,7 @@
                     <Button Command="{Binding DeleteTaskGroupClickedCommand, Mode=OneWay}" Text="Delete task group" />
                 </HorizontalStackLayout>
             </Grid>
-            <CollectionView ItemsSource="{Binding FilteredTaskItems, Mode=OneWay}" SelectedItem="{Binding SelectedTaskItem, Mode=TwoWay}" SelectionChangedCommand="{Binding ItemsSelectionChangedCommand, Mode=OneWay}" Grid.Row="1" EmptyView="Task group not found.">
+            <CollectionView ItemsSource="{Binding FilteredTaskItems, Mode=OneWay}" SelectedItem="{Binding SelectedTaskItem, Mode=TwoWay}" SelectionChangedCommand="{Binding ItemsSelectionChangedCommand, Mode=OneWay}" Grid.Row="1" EmptyView="No task items found for this task group.">
                 <CollectionView.ItemsLayout>
                     <LinearItemsLayout Orientation="Vertical" ItemSpacing="3" />
                 </CollectionView.ItemsLayout>
