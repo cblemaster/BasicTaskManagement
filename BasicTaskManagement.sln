@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicTaskManagement.API", "BasicTaskManagement.API\BasicTaskManagement.API.csproj", "{8906851F-3BD2-4C7A-BF99-E2AC5DD81E04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BasicTaskManagement.API", "BasicTaskManagement.API\BasicTaskManagement.API.csproj", "{8906851F-3BD2-4C7A-BF99-E2AC5DD81E04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicTaskManagement.Core", "BasicTaskManagement.Core\BasicTaskManagement.Core.csproj", "{822CBC27-9E96-4D51-A78C-342DA05D58E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BasicTaskManagement.Core", "BasicTaskManagement.Core\BasicTaskManagement.Core.csproj", "{822CBC27-9E96-4D51-A78C-342DA05D58E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicTaskManagement.UI.MAUI", "BasicTaskManagement.UI.MAUI\BasicTaskManagement.UI.MAUI.csproj", "{A2410158-E062-44A7-B18C-F4287347CD30}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BasicTaskManagement.UI.MAUI", "BasicTaskManagement.UI.MAUI\BasicTaskManagement.UI.MAUI.csproj", "{A2410158-E062-44A7-B18C-F4287347CD30}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicTaskManagement.WPF", "BasicTaskManagement.WPF\BasicTaskManagement.WPF.csproj", "{AC2C1BB8-1CA1-474D-8F1D-873282E06240}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +31,10 @@ Global
 		{A2410158-E062-44A7-B18C-F4287347CD30}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A2410158-E062-44A7-B18C-F4287347CD30}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A2410158-E062-44A7-B18C-F4287347CD30}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{AC2C1BB8-1CA1-474D-8F1D-873282E06240}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC2C1BB8-1CA1-474D-8F1D-873282E06240}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC2C1BB8-1CA1-474D-8F1D-873282E06240}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC2C1BB8-1CA1-474D-8F1D-873282E06240}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
