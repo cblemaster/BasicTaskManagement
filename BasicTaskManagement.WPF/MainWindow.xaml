@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:BasicTaskManagement.WPF"
         xmlns:models="clr-namespace:BasicTaskManagement.Core.DTO;assembly=BasicTaskManagement.Core"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="1000">
+        Title="MainWindow"
+        Height="450"
+        Width="1000">
     <Window.Resources>
         <Style TargetType="Label">
             <Setter Property="VerticalAlignment" Value="Center" />
@@ -21,6 +23,11 @@
             <Setter Property="VerticalAlignment" Value="Stretch" />
             <Setter Property="Margin" Value="5" />
         </Style>
+        <Style TargetType="Button">
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="0,5,0,0" />
+        </Style>
         <local:BoolToYesNoConverter x:Key="booltoyesno" />
     </Window.Resources>
     <Grid>
@@ -34,14 +41,19 @@
                 <RowDefinition Height="8*" />
                 <RowDefinition Height="2*" />
             </Grid.RowDefinitions>
-            <ListView x:Name="MainList" ItemsSource="{Binding Path=TaskGroups}" SelectionMode="Single" SelectionChanged="MainList_SelectionChanged">
+            <ListView ItemsSource="{Binding Path=TaskGroups}"
+                      SelectionChanged="MainList_SelectionChanged"
+                      x:Name="MainList"
+                      SelectionMode="Single">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate DataType="{x:Type models:TaskGroupSummaryDTO}">
                                     <StackPanel Orientation="Vertical" Margin="2">
-                                        <TextBlock Text="{Binding Name}" FontWeight="Bold" HorizontalAlignment="Stretch" />
+                                        <TextBlock Text="{Binding Name}"
+                                                   FontWeight="Bold"
+                                                   HorizontalAlignment="Stretch" />
                                         <TextBlock Text="{Binding IsFavorite, Converter={StaticResource booltoyesno}, StringFormat=Favorite? {0}}" />
                                         <TextBlock Text="{Binding CountOfTaskItems, StringFormat=Count of task items not complete: {0}}" />
                                     </StackPanel>
@@ -51,7 +63,11 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-            <ListView x:Name="SubList" Grid.Column="1" ItemsSource="{Binding Path=TaskItemsForSelectedTaskGroup}" SelectionMode="Single" SelectionChanged="SubList_SelectionChanged">
+            <ListView ItemsSource="{Binding Path=TaskItemsForSelectedTaskGroup}"
+                      SelectionChanged="SubList_SelectionChanged"
+                      Grid.Column="1"
+                      x:Name="SubList"
+                      SelectionMode="Single">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn>
@@ -63,10 +79,14 @@
                                     </StackPanel>
                                     <DataTemplate.Triggers>
                                         <DataTrigger Binding="{Binding IsComplete}" Value="True">
-                                            <Setter Property="TextDecorations" TargetName="NameText" Value="Strikethrough" />
+                                            <Setter Property="TextDecorations"
+                                                    TargetName="NameText"
+                                                    Value="Strikethrough" />
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding IsImportant}" Value="True">
-                                            <Setter Property="FontWeight" TargetName="NameText" Value="Bold" />
+                                            <Setter Property="FontWeight"
+                                                    TargetName="NameText"
+                                                    Value="Bold" />
                                         </DataTrigger>
                                     </DataTemplate.Triggers>
                                 </DataTemplate>
@@ -99,32 +119,84 @@
                 <Label Grid.Row="5" Content="Completed Date" />
                 <Label Grid.Row="6" Content="Date Created" />
                 <Label Grid.Row="7" Content="Date Updated" />
-                <TextBox Text="{Binding SelectedTaskItem.Name}" IsEnabled="{Binding IsEditingTask}" Grid.Column="1" />
-                <TextBox Text="{Binding SelectedTaskItem.Notes}" IsEnabled="{Binding IsEditingTask}" Grid.Column="1" Grid.Row="1" />
-                <CheckBox IsChecked="{Binding SelectedTaskItem.IsImportant}" IsEnabled="{Binding IsEditingTask}" Grid.Column="1" Grid.Row="2" />
-                <CheckBox IsChecked="{Binding SelectedTaskItem.IsComplete}" IsEnabled="{Binding IsEditingTask}" Grid.Column="1" Grid.Row="3" />
-                <DatePicker SelectedDate="{Binding SelectedTaskItem.DueDate}" IsEnabled="{Binding IsEditingTask}" Grid.Column="1" Grid.Row="4" />
-                <DatePicker SelectedDate="{Binding SelectedTaskItem.CompletedDate}" IsEnabled="{Binding IsEditingTask}" Grid.Column="1" Grid.Row="5" />
-                <DatePicker SelectedDate="{Binding SelectedTaskItem.CreateDate}" IsEnabled="{Binding IsEditingTask}" Grid.Column="1" Grid.Row="6" />
-                <DatePicker SelectedDate="{Binding SelectedTaskItem.UpdateDate}" IsEnabled="{Binding IsEditingTask}" Grid.Column="1" Grid.Row="7" />
+                <TextBox Text="{Binding SelectedTaskItem.Name}"
+                         IsEnabled="{Binding IsEditingTask}"
+                         Grid.Column="1" />
+                <TextBox Text="{Binding SelectedTaskItem.Notes}"
+                         IsEnabled="{Binding IsEditingTask}"
+                         Grid.Column="1"
+                         Grid.Row="1" />
+                <CheckBox IsChecked="{Binding SelectedTaskItem.IsImportant}"
+                          IsEnabled="{Binding IsEditingTask}"
+                          Grid.Column="1"
+                          Grid.Row="2" />
+                <CheckBox IsChecked="{Binding SelectedTaskItem.IsComplete}"
+                          IsEnabled="{Binding IsEditingTask}"
+                          Grid.Column="1"
+                          Grid.Row="3" />
+                <DatePicker SelectedDate="{Binding SelectedTaskItem.DueDate}"
+                            IsEnabled="{Binding IsEditingTask}"
+                            Grid.Column="1"
+                            Grid.Row="4" />
+                <DatePicker SelectedDate="{Binding SelectedTaskItem.CompletedDate}"
+                            IsEnabled="{Binding IsEditingTask}"
+                            Grid.Column="1"
+                            Grid.Row="5" />
+                <DatePicker SelectedDate="{Binding SelectedTaskItem.CreateDate}"
+                            IsEnabled="{Binding IsEditingTask}"
+                            Grid.Column="1"
+                            Grid.Row="6" />
+                <DatePicker SelectedDate="{Binding SelectedTaskItem.UpdateDate}"
+                            IsEnabled="{Binding IsEditingTask}"
+                            Grid.Column="1"
+                            Grid.Row="7" />
             </Grid>
             <StackPanel Grid.Row="1" Orientation="Vertical" Margin="5,5,5,5">
-                <Button x:Name="AddFolderButton" Content="Add Folder" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,5,0,0" />
+                <Button x:Name="AddFolderButton"
+                        Content="Add Folder" />
                 <StackPanel Orientation="Horizontal">
-                    <Button IsEnabled="{Binding IsTaskGroupSelected}" x:Name="RenameFolderButton" Click="RenameFolderButton_Click" Content="Rename Selected Folder" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,5,0,0" />
-                    <Button IsEnabled="{Binding IsRenamingFolder}" Click="CancelAddFolderButton_Click" x:Name="CancelAddFolderButton" Content="Cancel" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,5,0,0" />
+                    <Button IsEnabled="{Binding IsTaskGroupSelected}"
+                            Click="RenameFolderButton_Click" x:Name="RenameFolderButton"
+                            Content="Rename Selected Folder" />
+                    <Button IsEnabled="{Binding IsRenamingFolder}"
+                            Click="CancelAddFolderButton_Click"
+                            x:Name="CancelAddFolderButton"
+                            Content="Cancel"
+                            Margin="5,5,0,0" />
                 </StackPanel>
-                <Button IsEnabled="{Binding IsTaskGroupSelected}" Click="DeleteFolderButton_Click" x:Name="DeleteFolderButton" Content="Delete Selected Folder" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,5,0,0" />
+                <Button IsEnabled="{Binding IsTaskGroupSelected}"
+                        Click="DeleteFolderButton_Click"
+                        x:Name="DeleteFolderButton"
+                        Content="Delete Selected Folder" />
             </StackPanel>
             <StackPanel Grid.Column="2" Grid.Row="1" Orientation="Vertical" Margin="5,5,5,5">
-                <Button IsEnabled="{Binding IsTaskGroupSelected}" x:Name="AddTaskButton" Content="Add Task" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,5,0,0" />
+                <Button IsEnabled="{Binding IsTaskGroupSelected}"
+                        x:Name="AddTaskButton"
+                        Content="Add Task" />
                 <StackPanel Orientation="Horizontal">
-                    <Button IsEnabled="{Binding IsTaskItemSelected}" Click="EditTaskButton_Click" x:Name="EditTaskButton" Content="Edit Task" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,5,0,0" />
-                    <Button IsEnabled="{Binding IsEditingTask}" Click="CancelEditTaskButton_Click" x:Name="CancelEditTaskButton" Content="Cancel" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,5,0,0" />
+                    <Button IsEnabled="{Binding IsTaskItemSelected}"
+                            Click="EditTaskButton_Click"
+                            x:Name="EditTaskButton"
+                            Content="Edit Task" />
+                    <Button IsEnabled="{Binding IsEditingTask}"
+                            Click="CancelEditTaskButton_Click"
+                            x:Name="CancelEditTaskButton"
+                            Content="Cancel"
+                            Margin="5,5,0,0" />
                 </StackPanel>
-                <Button IsEnabled="{Binding IsTaskItemSelected}" x:Name="DeleteTaskButton" Content="Delete Task" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,5,0,0" />
+                <Button IsEnabled="{Binding IsTaskItemSelected}"
+                        x:Name="DeleteTaskButton"
+                        Content="Delete Task" />
             </StackPanel>
-            <CheckBox Grid.Column="1" Content="Show Complete?" HorizontalAlignment="Center" Grid.Row="1"/>
+            <CheckBox IsEnabled="{Binding IsTaskGroupSelected}"
+                      Checked="FilterCheckbox_Checked" 
+                      Unchecked="FilterCheckbox_Unchecked"
+                      Grid.Column="1"
+                      Grid.Row="1"
+                      x:Name="FilterCheckbox"
+                      Content="Show Complete?"
+                      IsChecked="False"
+                      HorizontalAlignment="Center" />
         </Grid>
     </Grid>
 </Window>
