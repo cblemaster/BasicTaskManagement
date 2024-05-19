@@ -16,11 +16,12 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     private readonly HttpDataService _service;
     private ObservableCollection<TaskGroupSummaryDTO> _taskGroups = null;
     private ObservableCollection<TaskItemDTO> _taskItemsForSelectedTaskGroup = null;
+    private TaskGroupSummaryDTO? _selectedTaskGroup;
     private TaskItemDTO? _selectedTaskItem = null;
     private bool _isTaskGroupSelected;
     private bool _isTaskItemSelected;
     private bool _isEditingTask;
-    private bool _isRenamingFolder;
+    private bool _isRenamingFolder;    
     #endregion
 
     #region ctor
@@ -30,11 +31,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         DataContext = this;
 
         _service = new HttpDataService();
-
-        IEnumerable<TaskGroupSummaryDTO?> taskGroups =
-            Task.Run(() => _service.GetTaskGroupsAsync()).Result;
-
-        TaskGroups = new ObservableCollection<TaskGroupSummaryDTO>(taskGroups);
+        LoadTaskGroups();
     }
     #endregion
 
@@ -74,6 +71,19 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             {
                 _selectedTaskItem = value;
                 PropertyChanged(this, new PropertyChangedEventArgs(nameof(SelectedTaskItem)));
+            }
+        }
+    }
+
+    public TaskGroupSummaryDTO? SelectedTaskGroup
+    {
+        get => _selectedTaskGroup;
+        set
+        {
+            if (value != _selectedTaskGroup)
+            {
+                _selectedTaskGroup = value;
+                PropertyChanged(this, new PropertyChangedEventArgs(nameof(SelectedTaskGroup)));
             }
         }
     }
@@ -136,33 +146,25 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
     private void MainList_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (e.AddedItems is not null && e.AddedItems.Count > 0 && e.AddedItems[0] is TaskGroupSummaryDTO selectedTaskgroup)
+        if (SelectedTaskGroup is not null)
         {
             if ((bool)FilterCheckbox.IsChecked)
             {
-                LoadTaskItemsForSelectedTaskGroup(selectedTaskgroup.Id, true);
+                LoadTaskItemsForSelectedTaskGroup(SelectedTaskGroup.Id, true);
             }
             else
             {
-                LoadTaskItemsForSelectedTaskGroup(selectedTaskgroup.Id, false);
+                LoadTaskItemsForSelectedTaskGroup(SelectedTaskGroup.Id, false);
             }
 
             IsTaskGroupSelected = true;
-
             SelectedTaskItem = null;
             IsTaskItemSelected = false;
         }
     }
 
-    private void SubList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        if (e.AddedItems is not null && e.AddedItems.Count > 0 && e.AddedItems[0] is TaskItemDTO selectedTaskItem)
-        {
-            SelectedTaskItem = selectedTaskItem;
-
-            IsTaskItemSelected = true;
-        }
-    }
+    private void SubList_SelectionChanged(object sender, SelectionChangedEventArgs e) =>
+        IsTaskItemSelected = true;
 
     private void RenameFolderButton_Click(object sender, RoutedEventArgs e) =>
         IsRenamingFolder = true;
@@ -176,6 +178,39 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     private void CancelEditTaskButton_Click(object sender, RoutedEventArgs e) =>
         IsEditingTask = false;
 
+    private void DeleteTaskButton_Click(object sender, RoutedEventArgs e)
+    {
+        // if no task item is selected, we don't know what to delete
+        if (SelectedTaskItem is null) { return; }
+
+        // get the selected task group; we'll need it later
+        TaskGroupSummaryDTO selectedTaskGroup = SelectedTaskGroup;
+
+        // show confirmation dialog
+        string messageBoxText = $"Are you sure you want to delete task {SelectedTaskItem.Name} ?";
+        string caption = "Confirm Delete";
+        MessageBoxButton button = MessageBoxButton.YesNo;
+        MessageBoxImage icon = MessageBoxImage.Question;
+
+        MessageBoxResult result = MessageBox.Show(messageBoxText, caption, button, icon, MessageBoxResult.No);
+        if (result == MessageBoxResult.Yes)
+        {
+            // delete from the db
+            Task.Run(() => _service.DeleteTaskItemAsync(SelectedTaskItem.Id)).Wait();
+
+            // pull fresh task group data from db; counts may have changed
+            // and task items have definitely changed
+            LoadTaskGroups();
+
+            // select the previously selected task group
+            TaskGroupSummaryDTO taskGroupToSelect = MainList.Items.Cast<TaskGroupSummaryDTO>().SingleOrDefault(t => t.Id == selectedTaskGroup.Id);
+            SelectedTaskGroup = taskGroupToSelect;
+
+            // no task item for the selected task group should be selected
+            SelectedTaskItem = null;
+        }
+    }
+
     private void DeleteFolderButton_Click(object sender, RoutedEventArgs e)
     {
         string messageBoxText = string.Empty;
@@ -186,7 +221,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
         TaskGroupSummaryDTO selectedTaskGroup = (TaskGroupSummaryDTO)MainList.SelectedItem;
 
-        if (selectedTaskGroup != null)
+        if (selectedTaskGroup is not null)
         {
             TaskGroupDTO taskGroup =
                 Task.Run(() => _service.GetTaskGroupAsync(selectedTaskGroup.Id)).Result;
@@ -246,6 +281,14 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         }
 
         TaskItemsForSelectedTaskGroup = new ObservableCollection<TaskItemDTO>(taskItems.ToList());
+    }
+
+    private void LoadTaskGroups()
+    {
+        IEnumerable<TaskGroupSummaryDTO?> taskGroups =
+            Task.Run(() => _service.GetTaskGroupsAsync()).Result;
+
+        TaskGroups = new ObservableCollection<TaskGroupSummaryDTO>(taskGroups);
     }
     #endregion
 }

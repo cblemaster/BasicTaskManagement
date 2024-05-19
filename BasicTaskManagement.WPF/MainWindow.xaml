@@ -42,6 +42,7 @@
                 <RowDefinition Height="2*" />
             </Grid.RowDefinitions>
             <ListView ItemsSource="{Binding Path=TaskGroups}"
+                      SelectedItem="{Binding SelectedTaskGroup}"
                       SelectionChanged="MainList_SelectionChanged"
                       x:Name="MainList"
                       SelectionMode="Single">
@@ -64,6 +65,7 @@
                 </ListView.View>
             </ListView>
             <ListView ItemsSource="{Binding Path=TaskItemsForSelectedTaskGroup}"
+                      SelectedItem="{Binding SelectedTaskItem}"
                       SelectionChanged="SubList_SelectionChanged"
                       Grid.Column="1"
                       x:Name="SubList"
@@ -185,6 +187,7 @@
                             Margin="5,5,0,0" />
                 </StackPanel>
                 <Button IsEnabled="{Binding IsTaskItemSelected}"
+                        Click="DeleteTaskButton_Click"
                         x:Name="DeleteTaskButton"
                         Content="Delete Task" />
             </StackPanel>
