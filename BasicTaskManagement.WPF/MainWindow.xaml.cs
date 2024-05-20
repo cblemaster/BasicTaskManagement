@@ -127,7 +127,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         }
     }
 
-    public bool IsEditingTaskGroup
+    public bool IsEditingTaskItem
     {
         get => _isEditingTaskItem;
         set
@@ -135,7 +135,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             if (true)
             {
                 _isEditingTaskItem = value;
-                PropertyChanged(this, new PropertyChangedEventArgs(nameof(IsEditingTaskGroup)));
+                PropertyChanged(this, new PropertyChangedEventArgs(nameof(IsEditingTaskItem)));
             }
         }
     }
@@ -170,13 +170,13 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         IsRenamingTaskGroup = true;
 
     private void EditTaskItemButton_Click(object sender, RoutedEventArgs e) =>
-        IsEditingTaskGroup = true;
+        IsEditingTaskItem = true;
 
     private void CancelAddTaskGroupButton_Click(object sender, RoutedEventArgs e) =>
         IsRenamingTaskGroup = false;
 
     private void CancelEditTaskItemButton_Click(object sender, RoutedEventArgs e) =>
-        IsEditingTaskGroup = false;
+        IsEditingTaskItem = false;
 
     private void DeleteTaskItemButton_Click(object sender, RoutedEventArgs e)
     {
