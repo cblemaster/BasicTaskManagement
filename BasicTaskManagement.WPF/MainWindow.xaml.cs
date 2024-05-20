@@ -211,44 +211,42 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         }
     }
 
-    private void DeleteFolderButton_Click(object sender, RoutedEventArgs e)
+    private void DeleteTaskGroupButton_Click(object sender, RoutedEventArgs e)
     {
-        string messageBoxText = string.Empty;
-        string caption = string.Empty;
-        MessageBoxButton button = MessageBoxButton.OK;
-        MessageBoxImage icon = MessageBoxImage.Question;
-        MessageBoxResult result;
+        // if no task group is selected, we don't know what to delete
+        if (SelectedTaskGroup is null) { return; }
 
-        TaskGroupSummaryDTO selectedTaskGroup = (TaskGroupSummaryDTO)MainList.SelectedItem;
-
-        if (selectedTaskGroup is not null)
-        {
-            TaskGroupDTO taskGroup =
-                Task.Run(() => _service.GetTaskGroupAsync(selectedTaskGroup.Id)).Result;
-
-            if (taskGroup.TaskItems.Any())
+        // does the selected task group contain task items?
+        // if so, it can't be deleted
+        if (TaskItemsForSelectedTaskGroup.Any())
             {
-                messageBoxText = $"Folder {selectedTaskGroup.Name} cannot be deleted because it contains tasks. Delete the tasks from the folder before deleting the folder.";
-                caption = "Unable to delete";
-                button = MessageBoxButton.OK;
-                icon = MessageBoxImage.Information;
+            // show error dialog
+            string errorMessageBoxText = $"Task group {SelectedTaskGroup.Name} cannot be deleted because it contains task items. Delete the task items from the task group before deleting the task group.";
+            string errorCaption = "Error: Unable to Delete";
+            MessageBoxButton errorButton = MessageBoxButton.OK;
+            MessageBoxImage errorIcon = MessageBoxImage.Information;
 
-                result = MessageBox.Show(messageBoxText, caption, button, icon, MessageBoxResult.OK);
+            MessageBoxResult errorResult = MessageBox.Show(errorMessageBoxText, errorCaption, errorButton, errorIcon, MessageBoxResult.No);
                 return;
             }
-        }
 
-        messageBoxText = $"Are you sure you want to delete folder {selectedTaskGroup.Name} ?";
-        messageBoxText = "Confirm Delete";
-        button = MessageBoxButton.YesNo;
-        icon = MessageBoxImage.Question;
+        // show confirmation dialog
+        string confirmationMessageBoxText = $"Are you sure you want to delete task group {SelectedTaskGroup.Name} ?";
+        string confirmationCaption = "Confirm Delete";
+        MessageBoxButton confirmationButton = MessageBoxButton.YesNo;
+        MessageBoxImage confirmationIcon = MessageBoxImage.Question;
 
-        result = MessageBox.Show(messageBoxText, caption, button, icon, MessageBoxResult.No);
+        MessageBoxResult confirmationResult = MessageBox.Show(confirmationMessageBoxText, confirmationCaption, confirmationButton, confirmationIcon, MessageBoxResult.No);
 
-        if (result == MessageBoxResult.Yes)
+        if (confirmationResult == MessageBoxResult.Yes)
         {
-            Task.Run(() => _service.DeleteTaskGroupAsync(selectedTaskGroup.Id));
-            TaskGroups.Remove(selectedTaskGroup);
+            // delete from the db
+            Task.Run(() => _service.DeleteTaskGroupAsync(SelectedTaskGroup.Id));
+
+            // remove the task group from the data source
+            TaskGroups.Remove(SelectedTaskGroup);
+
+            SelectedTaskGroup = null;
         }
     }
 
