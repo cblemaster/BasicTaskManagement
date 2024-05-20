@@ -20,8 +20,8 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     private TaskItemDTO? _selectedTaskItem = null;
     private bool _isTaskGroupSelected;
     private bool _isTaskItemSelected;
-    private bool _isEditingTask;
-    private bool _isRenamingFolder;    
+    private bool _isEditingTaskItem;
+    private bool _isRenamingTaskGroup;    
     #endregion
 
     #region ctor
@@ -114,28 +114,28 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         }
     }
 
-    public bool IsRenamingFolder
+    public bool IsRenamingTaskGroup
     {
-        get => _isRenamingFolder;
+        get => _isRenamingTaskGroup;
         set
         {
             if (true)
             {
-                _isRenamingFolder = value;
-                PropertyChanged(this, new PropertyChangedEventArgs(nameof(IsRenamingFolder)));
+                _isRenamingTaskGroup = value;
+                PropertyChanged(this, new PropertyChangedEventArgs(nameof(IsRenamingTaskGroup)));
             }
         }
     }
 
-    public bool IsEditingTask
+    public bool IsEditingTaskGroup
     {
-        get => _isEditingTask;
+        get => _isEditingTaskItem;
         set
         {
             if (true)
             {
-                _isEditingTask = value;
-                PropertyChanged(this, new PropertyChangedEventArgs(nameof(IsEditingTask)));
+                _isEditingTaskItem = value;
+                PropertyChanged(this, new PropertyChangedEventArgs(nameof(IsEditingTaskGroup)));
             }
         }
     }
@@ -166,19 +166,19 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     private void SubList_SelectionChanged(object sender, SelectionChangedEventArgs e) =>
         IsTaskItemSelected = true;
 
-    private void RenameFolderButton_Click(object sender, RoutedEventArgs e) =>
-        IsRenamingFolder = true;
+    private void RenameTaskGroupButton_Click(object sender, RoutedEventArgs e) =>
+        IsRenamingTaskGroup = true;
 
-    private void EditTaskButton_Click(object sender, RoutedEventArgs e) =>
-        IsEditingTask = true;
+    private void EditTaskItemButton_Click(object sender, RoutedEventArgs e) =>
+        IsEditingTaskGroup = true;
 
-    private void CancelAddFolderButton_Click(object sender, RoutedEventArgs e) =>
-        IsRenamingFolder = false;
+    private void CancelAddTaskGroupButton_Click(object sender, RoutedEventArgs e) =>
+        IsRenamingTaskGroup = false;
 
-    private void CancelEditTaskButton_Click(object sender, RoutedEventArgs e) =>
-        IsEditingTask = false;
+    private void CancelEditTaskItemButton_Click(object sender, RoutedEventArgs e) =>
+        IsEditingTaskGroup = false;
 
-    private void DeleteTaskButton_Click(object sender, RoutedEventArgs e)
+    private void DeleteTaskItemButton_Click(object sender, RoutedEventArgs e)
     {
         // if no task item is selected, we don't know what to delete
         if (SelectedTaskItem is null) { return; }
@@ -187,7 +187,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         TaskGroupSummaryDTO selectedTaskGroup = SelectedTaskGroup;
 
         // show confirmation dialog
-        string messageBoxText = $"Are you sure you want to delete task {SelectedTaskItem.Name} ?";
+        string messageBoxText = $"Are you sure you want to delete task item {SelectedTaskItem.Name} ?";
         string caption = "Confirm Delete";
         MessageBoxButton button = MessageBoxButton.YesNo;
         MessageBoxImage icon = MessageBoxImage.Question;
@@ -219,7 +219,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         // does the selected task group contain task items?
         // if so, it can't be deleted
         if (TaskItemsForSelectedTaskGroup.Any())
-            {
+        {
             // show error dialog
             string errorMessageBoxText = $"Task group {SelectedTaskGroup.Name} cannot be deleted because it contains task items. Delete the task items from the task group before deleting the task group.";
             string errorCaption = "Error: Unable to Delete";
@@ -227,8 +227,8 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             MessageBoxImage errorIcon = MessageBoxImage.Information;
 
             MessageBoxResult errorResult = MessageBox.Show(errorMessageBoxText, errorCaption, errorButton, errorIcon, MessageBoxResult.No);
-                return;
-            }
+            return;
+        }
 
         // show confirmation dialog
         string confirmationMessageBoxText = $"Are you sure you want to delete task group {SelectedTaskGroup.Name} ?";

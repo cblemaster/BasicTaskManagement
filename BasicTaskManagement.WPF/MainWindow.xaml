@@ -122,74 +122,74 @@
                 <Label Grid.Row="6" Content="Date Created" />
                 <Label Grid.Row="7" Content="Date Updated" />
                 <TextBox Text="{Binding SelectedTaskItem.Name}"
-                         IsEnabled="{Binding IsEditingTask}"
+                         IsEnabled="{Binding IsEditingTaskItem}"
                          Grid.Column="1" />
                 <TextBox Text="{Binding SelectedTaskItem.Notes}"
-                         IsEnabled="{Binding IsEditingTask}"
+                         IsEnabled="{Binding IsEditingTaskItem}"
                          Grid.Column="1"
                          Grid.Row="1" />
                 <CheckBox IsChecked="{Binding SelectedTaskItem.IsImportant}"
-                          IsEnabled="{Binding IsEditingTask}"
+                          IsEnabled="{Binding IsEditingTaskItem}"
                           Grid.Column="1"
                           Grid.Row="2" />
                 <CheckBox IsChecked="{Binding SelectedTaskItem.IsComplete}"
-                          IsEnabled="{Binding IsEditingTask}"
+                          IsEnabled="{Binding IsEditingTaskItem}"
                           Grid.Column="1"
                           Grid.Row="3" />
                 <DatePicker SelectedDate="{Binding SelectedTaskItem.DueDate}"
-                            IsEnabled="{Binding IsEditingTask}"
+                            IsEnabled="{Binding IsEditingTaskItem}"
                             Grid.Column="1"
                             Grid.Row="4" />
                 <DatePicker SelectedDate="{Binding SelectedTaskItem.CompletedDate}"
-                            IsEnabled="{Binding IsEditingTask}"
+                            IsEnabled="{Binding IsEditingTaskItem}"
                             Grid.Column="1"
                             Grid.Row="5" />
                 <DatePicker SelectedDate="{Binding SelectedTaskItem.CreateDate}"
-                            IsEnabled="{Binding IsEditingTask}"
+                            IsEnabled="{Binding IsEditingTaskItem}"
                             Grid.Column="1"
                             Grid.Row="6" />
                 <DatePicker SelectedDate="{Binding SelectedTaskItem.UpdateDate}"
-                            IsEnabled="{Binding IsEditingTask}"
+                            IsEnabled="{Binding IsEditingTaskItem}"
                             Grid.Column="1"
                             Grid.Row="7" />
             </Grid>
             <StackPanel Grid.Row="1" Orientation="Vertical" Margin="5,5,5,5">
-                <Button x:Name="AddFolderButton"
-                        Content="Add Folder" />
+                <Button x:Name="AddTaskGroupButton"
+                        Content="Add Task Group" />
                 <StackPanel Orientation="Horizontal">
                     <Button IsEnabled="{Binding IsTaskGroupSelected}"
-                            Click="RenameFolderButton_Click" x:Name="RenameFolderButton"
-                            Content="Rename Selected Folder" />
-                    <Button IsEnabled="{Binding IsRenamingFolder}"
-                            Click="CancelAddFolderButton_Click"
-                            x:Name="CancelAddFolderButton"
+                            Click="RenameTaskGroupButton_Click" x:Name="RenameTaskGroupButton"
+                            Content="Rename Selected TaskGroup" />
+                    <Button IsEnabled="{Binding IsRenamingTaskGroup}"
+                            Click="CancelAddTaskGroupButton_Click"
+                            x:Name="CancelAddTaskGroupButton"
                             Content="Cancel"
                             Margin="5,5,0,0" />
                 </StackPanel>
                 <Button IsEnabled="{Binding IsTaskGroupSelected}"
-                        Click="DeleteFolderButton_Click"
-                        x:Name="DeleteFolderButton"
-                        Content="Delete Selected Folder" />
+                        Click="DeleteTaskGroupButton_Click"
+                        x:Name="DeleteTaskGroupButton"
+                        Content="Delete Selected Task Group" />
             </StackPanel>
             <StackPanel Grid.Column="2" Grid.Row="1" Orientation="Vertical" Margin="5,5,5,5">
                 <Button IsEnabled="{Binding IsTaskGroupSelected}"
-                        x:Name="AddTaskButton"
-                        Content="Add Task" />
+                        x:Name="AddTaskItemButton"
+                        Content="Add Task Item" />
                 <StackPanel Orientation="Horizontal">
                     <Button IsEnabled="{Binding IsTaskItemSelected}"
-                            Click="EditTaskButton_Click"
-                            x:Name="EditTaskButton"
-                            Content="Edit Task" />
-                    <Button IsEnabled="{Binding IsEditingTask}"
-                            Click="CancelEditTaskButton_Click"
-                            x:Name="CancelEditTaskButton"
+                            Click="EditTaskItemButton_Click"
+                            x:Name="EditTaskItemButton"
+                            Content="Edit Task Item" />
+                    <Button IsEnabled="{Binding IsEditingTaskItem}"
+                            Click="CancelEditTaskItemButton_Click"
+                            x:Name="CancelEditTaskItemButton"
                             Content="Cancel"
                             Margin="5,5,0,0" />
                 </StackPanel>
                 <Button IsEnabled="{Binding IsTaskItemSelected}"
-                        Click="DeleteTaskButton_Click"
-                        x:Name="DeleteTaskButton"
-                        Content="Delete Task" />
+                        Click="DeleteTaskItemButton_Click"
+                        x:Name="DeleteTaskItemButton"
+                        Content="Delete Task Item" />
             </StackPanel>
             <CheckBox IsEnabled="{Binding IsTaskGroupSelected}"
                       Checked="FilterCheckbox_Checked" 
