@@ -13,6 +13,8 @@
     <Window.Resources>
         <Style TargetType="Label">
             <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="DarkBlue" />
         </Style>
         <Style TargetType="DatePicker">
             <Setter Property="VerticalAlignment" Value="Center" />
@@ -28,6 +30,12 @@
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="Margin" Value="0,5,0,0" />
+            <Setter Property="BorderBrush" Value="DarkBlue" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Background" Value="DarkBlue" />
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center" />
         </Style>
         <converters:BoolToYesNoConverter x:Key="booltoyesno" />
         <converters:IsAddTaskGroupButtonEnabledConverter x:Key="addTaskGroupVis" />
@@ -105,8 +113,8 @@
             <Grid/>
             <Grid x:Name="Details" Grid.Column="2">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="4*" />
-                    <ColumnDefinition Width="6*" />
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="7*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -126,35 +134,26 @@
                 <Label Grid.Row="5" Content="Completed Date" />
                 <Label Grid.Row="6" Content="Date Created" />
                 <Label Grid.Row="7" Content="Date Updated" />
-                <TextBox Text="{Binding SelectedTaskItem.Name}"
-                         IsEnabled="{Binding IsEditingTaskItem}"
-                         Grid.Column="1" />
-                <TextBox Text="{Binding SelectedTaskItem.Notes}"
-                         IsEnabled="{Binding IsEditingTaskItem}"
-                         Grid.Column="1"
-                         Grid.Row="1" />
+                <TextBlock Text="{Binding SelectedTaskItem.Name}" TextWrapping="Wrap" Grid.Column="1" Margin="0,0,5,0" />
+                <TextBlock Text="{Binding SelectedTaskItem.Notes}" TextWrapping="Wrap" Grid.Column="1" Grid.Row="1" Margin="0,0,5,0" />
                 <CheckBox IsChecked="{Binding SelectedTaskItem.IsImportant}"
-                          IsEnabled="{Binding IsEditingTaskItem}"
+                          IsEnabled="False"
                           Grid.Column="1"
                           Grid.Row="2" />
                 <CheckBox IsChecked="{Binding SelectedTaskItem.IsComplete}"
-                          IsEnabled="{Binding IsEditingTaskItem}"
+                          IsEnabled="False"
                           Grid.Column="1"
                           Grid.Row="3" />
-                <DatePicker SelectedDate="{Binding SelectedTaskItem.DueDate}"
-                            IsEnabled="{Binding IsEditingTaskItem}"
+                <TextBlock Text="{Binding SelectedTaskItem.DueDate, StringFormat=d}"
                             Grid.Column="1"
                             Grid.Row="4" />
-                <DatePicker SelectedDate="{Binding SelectedTaskItem.CompletedDate}"
-                            IsEnabled="False"
+                <TextBlock Text="{Binding SelectedTaskItem.CompletedDate, StringFormat=d}"
                             Grid.Column="1"
                             Grid.Row="5" />
-                <DatePicker SelectedDate="{Binding SelectedTaskItem.CreateDate}"
-                            IsEnabled="False"
+                <TextBlock Text="{Binding SelectedTaskItem.CreateDate, StringFormat=d}"
                             Grid.Column="1"
                             Grid.Row="6" />
-                <DatePicker SelectedDate="{Binding SelectedTaskItem.UpdateDate}"
-                            IsEnabled="False"
+                <TextBlock Text="{Binding SelectedTaskItem.UpdateDate, StringFormat=d}"
                             Grid.Column="1"
                             Grid.Row="7" />
             </Grid>
@@ -230,6 +229,9 @@
                       Grid.Row="1"
                       x:Name="FilterCheckbox"
                       Content="Show Complete?"
+                      FontWeight="Bold"
+                      Foreground="DarkBlue"
+                      BorderBrush="DarkBlue"
                       IsChecked="False"
                       HorizontalAlignment="Center" />
         </Grid>
