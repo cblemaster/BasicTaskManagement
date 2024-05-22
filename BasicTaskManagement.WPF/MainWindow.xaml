@@ -160,9 +160,9 @@
                 </Button>
                 <StackPanel Orientation="Horizontal">
                     <Button IsEnabled="{Binding IsTaskGroupSelected}"
-                            Click="RenameTaskGroupButton_Click"
-                            x:Name="RenameTaskGroupButton"
-                            Content="Rename Selected TaskGroup" />
+                            Click="EditTaskGroupButton_Click"
+                            x:Name="EditTaskGroupButton"
+                            Content="Edit Selected TaskGroup" />
                 </StackPanel>
                 <Button IsEnabled="{Binding IsTaskGroupSelected}"
                         Click="DeleteTaskGroupButton_Click"

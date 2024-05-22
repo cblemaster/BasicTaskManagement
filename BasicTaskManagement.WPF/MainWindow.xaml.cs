@@ -21,11 +21,6 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     private TaskItemDTO? _selectedTaskItem = null;
     private bool _isTaskGroupSelected;
     private bool _isTaskItemSelected;
-    private bool _isAddingTaskGroup;
-    private bool _isAddingTaskItem;
-    private bool _isRenamingTaskGroup;
-    private bool _isEditingTaskItem;
-
     #endregion
 
     #region ctor
@@ -117,60 +112,6 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             }
         }
     }
-
-    public bool IsAddingTaskGroup
-    {
-        get => _isAddingTaskGroup;
-        set
-        {
-            if (!value.Equals(_isAddingTaskGroup))
-            {
-                _isAddingTaskGroup = value;
-                PropertyChanged!(this, new PropertyChangedEventArgs(nameof(IsAddingTaskGroup)));
-            }
-        }
-    }
-
-    public bool IsAddingTaskItem
-    {
-        get => _isAddingTaskItem;
-        set
-        {
-            if (!value.Equals(_isAddingTaskItem))
-            {
-                _isAddingTaskItem = value;
-                PropertyChanged!(this, new PropertyChangedEventArgs(nameof(IsAddingTaskItem)));
-            }
-        }
-    }
-
-    public bool IsRenamingTaskGroup
-    {
-        get => _isRenamingTaskGroup;
-        set
-        {
-            if (!value.Equals(_isRenamingTaskGroup))
-            {
-                _isRenamingTaskGroup = value;
-                PropertyChanged!(this, new PropertyChangedEventArgs(nameof(IsRenamingTaskGroup)));
-            }
-        }
-    }
-
-    public bool IsEditingTaskItem
-    {
-        get => _isEditingTaskItem;
-        set
-        {
-            if (!value.Equals(_isEditingTaskItem))
-            {
-                _isEditingTaskItem = value;
-                PropertyChanged!(this, new PropertyChangedEventArgs(nameof(IsEditingTaskItem)));
-            }
-        }
-    }
-
-
     #endregion
 
     #region events
@@ -200,8 +141,6 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
     private void AddTaskGroupButton_Click(object sender, RoutedEventArgs e)
     {
-        IsAddingTaskGroup = true;
-
         AddTaskGroupWindow window = new();
         bool? complete = window.ShowDialog();
 
@@ -210,15 +149,12 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             LoadTaskGroups();
             SelectedTaskItem = null;
         }
-        IsAddingTaskGroup = false;
     }
 
     private void AddTaskItemButton_Click(object sender, RoutedEventArgs e)
     {
         if (SelectedTaskGroup is null) { return; }
         bool isShowingComplete = FilterCheckbox.IsChecked.HasValue && (bool)FilterCheckbox.IsChecked;
-
-        IsAddingTaskItem = true;
 
         AddTaskItemWindow window = new(SelectedTaskGroup.Id);
         bool? complete = window.ShowDialog();
@@ -228,15 +164,10 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             LoadTaskItemsForSelectedTaskGroup(SelectedTaskGroup.Id, isShowingComplete);
             SelectedTaskItem = null;
         }
-
-        IsAddingTaskItem = false;
     }
 
-    private void RenameTaskGroupButton_Click(object sender, RoutedEventArgs e)
+    private void EditTaskGroupButton_Click(object sender, RoutedEventArgs e)
     {
-        IsRenamingTaskGroup = true;
-        //processing
-        IsRenamingTaskGroup = false;
     }
 
     private void EditTaskItemButton_Click(object sender, RoutedEventArgs e)
@@ -256,8 +187,6 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             _ = MessageBox.Show(errorMessageBoxText, errorCaption, errorButton, errorIcon, MessageBoxResult.No);
             return;
         }
-
-        IsEditingTaskItem = true;
     }
 
     private void DeleteTaskGroupButton_Click(object sender, RoutedEventArgs e)
