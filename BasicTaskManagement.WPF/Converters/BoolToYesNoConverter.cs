@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Windows.Data;
 
-namespace BasicTaskManagement.WPF;
+namespace BasicTaskManagement.WPF.Converters;
 
 public class BoolToYesNoConverter : IValueConverter
 {
