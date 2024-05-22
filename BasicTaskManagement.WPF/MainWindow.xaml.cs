@@ -1,5 +1,6 @@
 ﻿using BasicTaskManagement.Core.DTO;
 using BasicTaskManagement.Core.Services;
+using BasicTaskManagement.WPF.Windows;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
@@ -197,10 +198,23 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     private void SubList_SelectionChanged(object sender, SelectionChangedEventArgs e) =>
         IsTaskItemSelected = true;
 
-    private void AddTaskGroupButton_Click(object sender, RoutedEventArgs e) =>
+    private void AddTaskGroupButton_Click(object sender, RoutedEventArgs e)
+    {
         IsAddingTaskGroup = true;
 
-    private void AddTaskItemButton_Click(object sender, RoutedEventArgs e) =>
+        AddTaskGroupWindow window = new();
+        bool? complete = window.ShowDialog();
+
+        if (complete.HasValue && (bool)complete)
+        {
+            LoadTaskGroups();
+            SelectedTaskItem = null;
+        }
+        IsAddingTaskGroup = false;
+    }
+
+    private void AddTaskItemButton_Click(object sender, RoutedEventArgs e)
+    {
         IsAddingTaskItem = true;
 
     private void RenameTaskGroupButton_Click(object sender, RoutedEventArgs e) =>

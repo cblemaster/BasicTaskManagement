@@ -1,0 +1,46 @@
+﻿<Window x:Class="BasicTaskManagement.WPF.Windows.AddTaskGroupWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BasicTaskManagement.WPF.Windows"
+        mc:Ignorable="d"
+        Title="Add Task Group" Height="175" Width="600">
+    <Window.Resources>
+        <Style TargetType="Label">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="5,0,0,0" />
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="7*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*" />
+                <RowDefinition Height="3*" />
+                <RowDefinition Height="2*" />
+            </Grid.RowDefinitions>
+            <Label Content="Task Group Name" />
+            <Label Grid.Row="1" Content="Is Favorite?" />
+            <TextBox Text="{Binding TaskGroupName}"
+                     Grid.Column="1"
+                     Height="50"
+                     Width="400"
+                     HorizontalAlignment="Left"
+                     Margin="5,0,0,0" />
+            <CheckBox IsChecked="{Binding IsFavorite}"
+                      Grid.Column="1"
+                      Grid.Row="1"
+                      VerticalAlignment="Center"
+                      HorizontalAlignment="Left"
+                      Margin="5,0,0,0" />
+            <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="5,0,0,0">
+                <Button Click="AddButton_Click" x:Name="AddButton" Content="Add" Height="30" />
+                <Button Click="CancelButton_Click" x:Name="CancelButton" Content="Cancel" Height="30" Margin="5,0,0,0" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
