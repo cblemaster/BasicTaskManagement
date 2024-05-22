@@ -5,12 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BasicTaskManagement.WPF.Windows"
         mc:Ignorable="d"
-        Title="AddTaskItemWindow" Height="450" Width="800"
+        Title="Add Task Item" Height="500" Width="800"
         ContentRendered="Window_ContentRendered">
     <Window.Resources>
         <Style TargetType="Label">
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="Margin" Value="5,0,0,0" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="DarkBlue" />
         </Style>
         <Style TargetType="DatePicker">
             <Setter Property="VerticalAlignment" Value="Center" />
@@ -21,6 +23,13 @@
         <Style TargetType="TextBox">
             <Setter Property="VerticalAlignment" Value="Stretch" />
             <Setter Property="Margin" Value="5" />
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="BorderBrush" Value="DarkBlue" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Background" Value="DarkBlue" />
         </Style>
     </Window.Resources>
     <Grid>
@@ -48,14 +57,15 @@
             <TextBox Text="{Binding Notes}" Grid.Column="1" Grid.Row="1" />
             <CheckBox IsChecked="{Binding IsImportant}" Grid.Column="1" Grid.Row="2" />
             <CheckBox IsChecked="{Binding IsComplete}" Grid.Column="1" Grid.Row="3" />
-            <DatePicker SelectedDate="{Binding DueDate}" Grid.Column="1" Grid.Row="4" />
+            <DatePicker SelectedDate="{Binding DueDate}" Grid.Column="1" Grid.Row="4" Margin="0,0,5,0" />
             <ComboBox ItemsSource="{Binding TaskGroups}"
                       DisplayMemberPath="Name"
                       SelectedValuePath="Id"
                       x:Name="TaskGroupsComboBox"
                       Grid.Column="1"
                       Grid.Row="5"
-                      VerticalAlignment="Center" />
+                      VerticalAlignment="Center"
+                       Margin="0,0,5,0" />
             <StackPanel Grid.Row="6" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="5,0,0,0">
                 <Button Click="AddButton_Click" x:Name="AddButton" Content="Add" Height="30" />
                 <Button Click="CancelButton_Click" x:Name="CancelButton" Content="Cancel" Height="30" Margin="5,0,0,0" />

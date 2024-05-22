@@ -10,6 +10,15 @@
         <Style TargetType="Label">
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="Margin" Value="5,0,0,0" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="DarkBlue" />
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="BorderBrush" Value="DarkBlue" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Background" Value="DarkBlue" />
         </Style>
     </Window.Resources>
     <Grid>
