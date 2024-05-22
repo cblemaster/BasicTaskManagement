@@ -12,7 +12,7 @@ namespace BasicTaskManagement.WPF.Windows;
 public partial class AddTaskGroupWindow : Window
 {
     private readonly HttpDataService _service;
-    private string _taskGroupName;
+    private string _taskGroupName = string.Empty;
     private bool _isFavorite;
 
     public AddTaskGroupWindow()
@@ -25,13 +25,13 @@ public partial class AddTaskGroupWindow : Window
 
     public string TaskGroupName
     {
-        get =>  _taskGroupName;
+        get => _taskGroupName;
         set
         {
             if (value != _taskGroupName)
             {
                 _taskGroupName = value;
-                PropertyChanged(this, new PropertyChangedEventArgs(nameof(TaskGroupName)));
+                PropertyChanged!(this, new PropertyChangedEventArgs(nameof(TaskGroupName)));
             }
         }
     }
@@ -44,9 +44,9 @@ public partial class AddTaskGroupWindow : Window
             if (!value.Equals(_isFavorite))
             {
                 _isFavorite = value;
-                PropertyChanged(this, new PropertyChangedEventArgs(nameof(IsFavorite)));
+                PropertyChanged!(this, new PropertyChangedEventArgs(nameof(IsFavorite)));
             }
-            
+
         }
     }
 
@@ -61,7 +61,7 @@ public partial class AddTaskGroupWindow : Window
         };
 
         ValidationResult validationResult = createTaskGroup.Validate();
-        
+
         if (!validationResult.IsValid)
         {
             // show validation dialog
@@ -76,14 +76,14 @@ public partial class AddTaskGroupWindow : Window
 
         Task.Run(() => _service.CreateTaskGroupAsync(createTaskGroup)).Wait();
 
-        this.DialogResult = true;
+        DialogResult = true;
 
         Close();
     }
 
     private void CancelButton_Click(object sender, RoutedEventArgs e)
     {
-        this.DialogResult = false;
+        DialogResult = false;
 
         Close();
     }

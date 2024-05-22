@@ -15,8 +15,8 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 {
     #region fields
     private readonly HttpDataService _service;
-    private ObservableCollection<TaskGroupSummaryDTO> _taskGroups = null;
-    private ObservableCollection<TaskItemDTO> _taskItemsForSelectedTaskGroup = null;
+    private ObservableCollection<TaskGroupSummaryDTO?> _taskGroups = null!;
+    private ObservableCollection<TaskItemDTO> _taskItemsForSelectedTaskGroup = null!;
     private TaskGroupSummaryDTO? _selectedTaskGroup;
     private TaskItemDTO? _selectedTaskItem = null;
     private bool _isTaskGroupSelected;
@@ -40,7 +40,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     #endregion
 
     #region properties
-    public ObservableCollection<TaskGroupSummaryDTO> TaskGroups
+    public ObservableCollection<TaskGroupSummaryDTO?> TaskGroups
     {
         get => _taskGroups;
         set
@@ -48,7 +48,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             if (!value.Equals(_taskGroups))
             {
                 _taskGroups = value;
-                PropertyChanged(this, new PropertyChangedEventArgs(nameof(TaskGroups)));
+                PropertyChanged!(this, new PropertyChangedEventArgs(nameof(TaskGroups)));
             }
         }
     }
@@ -61,7 +61,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             if (!value.Equals(_taskItemsForSelectedTaskGroup))
             {
                 _taskItemsForSelectedTaskGroup = value;
-                PropertyChanged(this, new PropertyChangedEventArgs(nameof(TaskItemsForSelectedTaskGroup)));
+                PropertyChanged!(this, new PropertyChangedEventArgs(nameof(TaskItemsForSelectedTaskGroup)));
             }
         }
     }
@@ -74,7 +74,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             if (value != _selectedTaskGroup)
             {
                 _selectedTaskGroup = value;
-                PropertyChanged(this, new PropertyChangedEventArgs(nameof(SelectedTaskGroup)));
+                PropertyChanged!(this, new PropertyChangedEventArgs(nameof(SelectedTaskGroup)));
             }
         }
     }
@@ -87,7 +87,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             if (value != _selectedTaskItem)
             {
                 _selectedTaskItem = value;
-                PropertyChanged(this, new PropertyChangedEventArgs(nameof(SelectedTaskItem)));
+                PropertyChanged!(this, new PropertyChangedEventArgs(nameof(SelectedTaskItem)));
             }
         }
     }
@@ -100,7 +100,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             if (!value.Equals(_isTaskGroupSelected))
             {
                 _isTaskGroupSelected = value;
-                PropertyChanged(this, new PropertyChangedEventArgs(nameof(IsTaskGroupSelected)));
+                PropertyChanged!(this, new PropertyChangedEventArgs(nameof(IsTaskGroupSelected)));
             }
         }
     }
@@ -113,7 +113,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             if (!value.Equals(_isTaskItemSelected))
             {
                 _isTaskItemSelected = value;
-                PropertyChanged(this, new PropertyChangedEventArgs(nameof(IsTaskItemSelected)));
+                PropertyChanged!(this, new PropertyChangedEventArgs(nameof(IsTaskItemSelected)));
             }
         }
     }
@@ -126,7 +126,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             if (!value.Equals(_isAddingTaskGroup))
             {
                 _isAddingTaskGroup = value;
-                PropertyChanged(this, new PropertyChangedEventArgs(nameof(IsAddingTaskGroup)));
+                PropertyChanged!(this, new PropertyChangedEventArgs(nameof(IsAddingTaskGroup)));
             }
         }
     }
@@ -139,7 +139,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             if (!value.Equals(_isAddingTaskItem))
             {
                 _isAddingTaskItem = value;
-                PropertyChanged(this, new PropertyChangedEventArgs(nameof(IsAddingTaskItem)));
+                PropertyChanged!(this, new PropertyChangedEventArgs(nameof(IsAddingTaskItem)));
             }
         }
     }
@@ -152,7 +152,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             if (!value.Equals(_isRenamingTaskGroup))
             {
                 _isRenamingTaskGroup = value;
-                PropertyChanged(this, new PropertyChangedEventArgs(nameof(IsRenamingTaskGroup)));
+                PropertyChanged!(this, new PropertyChangedEventArgs(nameof(IsRenamingTaskGroup)));
             }
         }
     }
@@ -165,12 +165,12 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             if (!value.Equals(_isEditingTaskItem))
             {
                 _isEditingTaskItem = value;
-                PropertyChanged(this, new PropertyChangedEventArgs(nameof(IsEditingTaskItem)));
+                PropertyChanged!(this, new PropertyChangedEventArgs(nameof(IsEditingTaskItem)));
             }
         }
     }
 
-    
+
     #endregion
 
     #region events
@@ -180,7 +180,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     {
         if (SelectedTaskGroup is not null)
         {
-            if ((bool)FilterCheckbox.IsChecked)
+            if (FilterCheckbox.IsChecked.HasValue && (bool)FilterCheckbox.IsChecked)
             {
                 LoadTaskItemsForSelectedTaskGroup(SelectedTaskGroup.Id, true);
             }
@@ -217,9 +217,9 @@ public partial class MainWindow : Window, INotifyPropertyChanged
     {
         if (SelectedTaskGroup is null) { return; }
         bool isShowingComplete = FilterCheckbox.IsChecked.HasValue && (bool)FilterCheckbox.IsChecked;
-        
+
         IsAddingTaskItem = true;
-        
+
         AddTaskItemWindow window = new(SelectedTaskGroup.Id);
         bool? complete = window.ShowDialog();
 
@@ -253,11 +253,10 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             string errorCaption = "Error: Unable to Update";
             MessageBoxButton errorButton = MessageBoxButton.OK;
             MessageBoxImage errorIcon = MessageBoxImage.Information;
-
-            MessageBoxResult errorResult = MessageBox.Show(errorMessageBoxText, errorCaption, errorButton, errorIcon, MessageBoxResult.No);
+            _ = MessageBox.Show(errorMessageBoxText, errorCaption, errorButton, errorIcon, MessageBoxResult.No);
             return;
         }
-        
+
         IsEditingTaskItem = true;
     }
 
@@ -306,7 +305,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         if (SelectedTaskItem is null) { return; }
 
         // get the selected task group; we'll need it later
-        TaskGroupSummaryDTO selectedTaskGroup = SelectedTaskGroup;
+        TaskGroupSummaryDTO selectedTaskGroup = SelectedTaskGroup ?? null!;
 
         // show confirmation dialog
         string messageBoxText = $"Are you sure you want to delete task item {SelectedTaskItem.Name} ?";
@@ -325,7 +324,8 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             LoadTaskGroups();
 
             // select the previously selected task group
-            TaskGroupSummaryDTO taskGroupToSelect = MainList.Items.Cast<TaskGroupSummaryDTO>().SingleOrDefault(t => t.Id == selectedTaskGroup.Id);
+            TaskGroupSummaryDTO taskGroupToSelect = MainList.Items.Cast<TaskGroupSummaryDTO>().SingleOrDefault(t => t.Id == selectedTaskGroup?.Id) ?? null!;
+
             SelectedTaskGroup = taskGroupToSelect;
 
             // no task item for the selected task group should be selected
@@ -354,7 +354,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         IEnumerable<TaskGroupSummaryDTO?> taskGroups =
             Task.Run(() => _service.GetTaskGroupsAsync()).Result;
 
-        TaskGroups = new ObservableCollection<TaskGroupSummaryDTO>(taskGroups);
+        TaskGroups = new ObservableCollection<TaskGroupSummaryDTO?>(taskGroups);
     }
 
     private void LoadTaskItemsForSelectedTaskGroup(int selectedTaskGroupId, bool isShowComplete)

@@ -18,8 +18,8 @@ namespace BasicTaskManagement.WPF.Windows
         private bool _isImportant;
         private bool _isComplete;
         private DateTime _dueDate;
-        private ObservableCollection<TaskGroupSummaryDTO> _taskGroups = null;
-        private int _selectedTaskGroupId;
+        private ObservableCollection<TaskGroupSummaryDTO?> _taskGroups = null!;
+        private readonly int _selectedTaskGroupId;
 
         public AddTaskItemWindow(int selectedTaskGroupId)
         {
@@ -32,7 +32,7 @@ namespace BasicTaskManagement.WPF.Windows
                 Task.Run(() => _service.GetTaskGroupsAsync()).Result;
 
             _selectedTaskGroupId = selectedTaskGroupId;
-            TaskGroups = new ObservableCollection<TaskGroupSummaryDTO>(taskGroups);
+            TaskGroups = new ObservableCollection<TaskGroupSummaryDTO?>(taskGroups);
             DueDate = DateTime.Now;
         }
 
@@ -45,7 +45,7 @@ namespace BasicTaskManagement.WPF.Windows
                 if (!value.Equals(_taskItemName))
                 {
                     _taskItemName = value;
-                    PropertyChanged(this, new PropertyChangedEventArgs(nameof(TaskItemName)));
+                    PropertyChanged!(this, new PropertyChangedEventArgs(nameof(TaskItemName)));
                 }
             }
         }
@@ -58,7 +58,7 @@ namespace BasicTaskManagement.WPF.Windows
                 if (!value.Equals(_notes))
                 {
                     _notes = value;
-                    PropertyChanged(this, new PropertyChangedEventArgs(nameof(Notes)));
+                    PropertyChanged!(this, new PropertyChangedEventArgs(nameof(Notes)));
                 }
             }
         }
@@ -71,9 +71,9 @@ namespace BasicTaskManagement.WPF.Windows
                 if (!value.Equals(_isImportant))
                 {
                     _isImportant = value;
-                    PropertyChanged(this, new PropertyChangedEventArgs(nameof(IsImportant)));
+                    PropertyChanged!(this, new PropertyChangedEventArgs(nameof(IsImportant)));
                 }
-                
+
             }
         }
 
@@ -85,7 +85,7 @@ namespace BasicTaskManagement.WPF.Windows
                 if (!value.Equals(_isComplete))
                 {
                     _isComplete = value;
-                    PropertyChanged(this, new PropertyChangedEventArgs(nameof(IsComplete)));
+                    PropertyChanged!(this, new PropertyChangedEventArgs(nameof(IsComplete)));
                 }
             }
         }
@@ -98,12 +98,12 @@ namespace BasicTaskManagement.WPF.Windows
                 if (!value.Equals(_dueDate))
                 {
                     _dueDate = value;
-                    PropertyChanged(this, new PropertyChangedEventArgs(nameof(DueDate)));
+                    PropertyChanged!(this, new PropertyChangedEventArgs(nameof(DueDate)));
                 }
             }
         }
 
-        public ObservableCollection<TaskGroupSummaryDTO> TaskGroups
+        public ObservableCollection<TaskGroupSummaryDTO?> TaskGroups
         {
             get => _taskGroups;
             set
@@ -111,7 +111,7 @@ namespace BasicTaskManagement.WPF.Windows
                 if (value != _taskGroups)
                 {
                     _taskGroups = value;
-                    PropertyChanged(this, new PropertyChangedEventArgs(nameof(TaskGroups)));
+                    PropertyChanged!(this, new PropertyChangedEventArgs(nameof(TaskGroups)));
                 }
             }
         }
@@ -149,21 +149,21 @@ namespace BasicTaskManagement.WPF.Windows
 
             Task.Run(() => _service.CreateTaskItemAsync(createTaskItem)).Wait();
 
-            this.DialogResult = true;
+            DialogResult = true;
 
             Close();
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            this.DialogResult = false;
+            DialogResult = false;
 
             Close();
         }
 
         private void Window_ContentRendered(object sender, EventArgs e)
         {
-            TaskGroupSummaryDTO taskGroupToSelect = TaskGroupsComboBox.Items.Cast<TaskGroupSummaryDTO>().SingleOrDefault(t => t.Id == _selectedTaskGroupId);
+            TaskGroupSummaryDTO taskGroupToSelect = TaskGroupsComboBox.Items.Cast<TaskGroupSummaryDTO>().SingleOrDefault(t => t.Id == _selectedTaskGroupId) ?? null!;
             if (taskGroupToSelect is not null)
             {
                 TaskGroupsComboBox.SelectedValue = taskGroupToSelect.Id;
