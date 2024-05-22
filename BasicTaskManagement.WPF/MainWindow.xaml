@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BasicTaskManagement.WPF"
+        xmlns:converters="clr-namespace:BasicTaskManagement.WPF.Converters"
         xmlns:models="clr-namespace:BasicTaskManagement.Core.DTO;assembly=BasicTaskManagement.Core"
         mc:Ignorable="d"
         Title="MainWindow"
@@ -28,7 +29,11 @@
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="Margin" Value="0,5,0,0" />
         </Style>
-        <local:BoolToYesNoConverter x:Key="booltoyesno" />
+        <converters:BoolToYesNoConverter x:Key="booltoyesno" />
+        <converters:IsAddTaskGroupButtonEnabledConverter x:Key="addTaskGroupVis" />
+        <converters:IsAddTaskItemButtonEnabledConverter x:Key="addTaskItemVis" />
+        <converters:IsRenameTaskGroupButtonEnabledConverter x:Key="renameTaskGroupVis" />
+        <converters:IsEditTaskItemButtonEnabledConverter x:Key="editTaskItemVis" />
     </Window.Resources>
     <Grid>
         <Grid x:Name="ContainerGrid">
@@ -154,12 +159,31 @@
                             Grid.Row="7" />
             </Grid>
             <StackPanel Grid.Row="1" Orientation="Vertical" Margin="5,5,5,5">
-                <Button x:Name="AddTaskGroupButton"
-                        Content="Add Task Group" />
+                <Button Click="AddTaskGroupButton_Click"
+                        x:Name="AddTaskGroupButton"
+                        Content="Add Task Group">
+                    <Button.IsEnabled>
+                        <MultiBinding Converter="{StaticResource addTaskGroupVis}">
+                            <Binding Path="IsAddingTaskGroup" />
+                            <Binding Path="IsAddingTaskItem" />
+                            <Binding Path="IsEditingTaskItem" />
+                            <Binding Path="IsRenamingTaskGroup" />
+                        </MultiBinding>
+                    </Button.IsEnabled>
+                </Button>
                 <StackPanel Orientation="Horizontal">
-                    <Button IsEnabled="{Binding IsTaskGroupSelected}"
-                            Click="RenameTaskGroupButton_Click" x:Name="RenameTaskGroupButton"
-                            Content="Rename Selected TaskGroup" />
+                    <Button Click="RenameTaskGroupButton_Click"
+                            x:Name="RenameTaskGroupButton"
+                            Content="Rename Selected TaskGroup">
+                        <Button.IsEnabled>
+                            <MultiBinding Converter="{StaticResource renameTaskGroupVis}">
+                                <Binding Path="IsAddingTaskGroup" />
+                                <Binding Path="IsAddingTaskItem" />
+                                <Binding Path="IsEditingTaskItem" />
+                                <Binding Path="IsTaskGroupSelected" />
+                            </MultiBinding>
+                        </Button.IsEnabled>
+                    </Button>
                     <Button IsEnabled="{Binding IsRenamingTaskGroup}"
                             Click="CancelAddTaskGroupButton_Click"
                             x:Name="CancelAddTaskGroupButton"
@@ -172,14 +196,32 @@
                         Content="Delete Selected Task Group" />
             </StackPanel>
             <StackPanel Grid.Column="2" Grid.Row="1" Orientation="Vertical" Margin="5,5,5,5">
-                <Button IsEnabled="{Binding IsTaskGroupSelected}"
+                <Button Click="AddTaskItemButton_Click"
                         x:Name="AddTaskItemButton"
-                        Content="Add Task Item" />
+                        Content="Add Task Item">
+                    <Button.IsEnabled>
+                        <MultiBinding Converter="{StaticResource addTaskItemVis}">
+                            <Binding Path="IsAddingTaskGroup" />
+                            <Binding Path="IsAddingTaskItem" />
+                            <Binding Path="IsEditingTaskItem" />
+                            <Binding Path="IsRenamingTaskGroup" />
+                            <Binding Path="IsTaskGroupSelected" />
+                        </MultiBinding>
+                    </Button.IsEnabled>
+                </Button>
                 <StackPanel Orientation="Horizontal">
-                    <Button IsEnabled="{Binding IsTaskItemSelected}"
-                            Click="EditTaskItemButton_Click"
+                    <Button Click="EditTaskItemButton_Click"
                             x:Name="EditTaskItemButton"
-                            Content="Edit Task Item" />
+                            Content="Edit Task Item">
+                        <Button.IsEnabled>
+                            <MultiBinding Converter="{StaticResource editTaskItemVis}">
+                                <Binding Path="IsAddingTaskGroup" />
+                                <Binding Path="IsAddingTaskItem" />
+                                <Binding Path="IsRenamingTaskGroup" />
+                                <Binding Path="IsTaskItemSelected" />
+                            </MultiBinding>
+                        </Button.IsEnabled>
+                    </Button>
                     <Button IsEnabled="{Binding IsEditingTaskItem}"
                             Click="CancelEditTaskItemButton_Click"
                             x:Name="CancelEditTaskItemButton"
