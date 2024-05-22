@@ -215,19 +215,51 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
     private void AddTaskItemButton_Click(object sender, RoutedEventArgs e)
     {
+        if (SelectedTaskGroup is null) { return; }
+        bool isShowingComplete = FilterCheckbox.IsChecked.HasValue && (bool)FilterCheckbox.IsChecked;
+        
         IsAddingTaskItem = true;
+        
+        AddTaskItemWindow window = new(SelectedTaskGroup.Id);
+        bool? complete = window.ShowDialog();
 
-    private void RenameTaskGroupButton_Click(object sender, RoutedEventArgs e) =>
+        if (complete.HasValue && (bool)complete)
+        {
+            LoadTaskItemsForSelectedTaskGroup(SelectedTaskGroup.Id, isShowingComplete);
+            SelectedTaskItem = null;
+        }
+
+        IsAddingTaskItem = false;
+    }
+
+    private void RenameTaskGroupButton_Click(object sender, RoutedEventArgs e)
+    {
         IsRenamingTaskGroup = true;
-
-    private void EditTaskItemButton_Click(object sender, RoutedEventArgs e) =>
-        IsEditingTaskItem = true;
-
-    private void CancelRenameTaskGroupButton_Click(object sender, RoutedEventArgs e) =>
+        //processing
         IsRenamingTaskGroup = false;
+    }
 
-    private void CancelEditTaskItemButton_Click(object sender, RoutedEventArgs e) =>
-        IsEditingTaskItem = false;
+    private void EditTaskItemButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (SelectedTaskItem is null)
+        {
+            return;
+        }
+
+        if (SelectedTaskItem.IsComplete)
+        {
+            // show error dialog
+            string errorMessageBoxText = $"Task item {SelectedTaskItem.Name} cannot be updated because it is complete.";
+            string errorCaption = "Error: Unable to Update";
+            MessageBoxButton errorButton = MessageBoxButton.OK;
+            MessageBoxImage errorIcon = MessageBoxImage.Information;
+
+            MessageBoxResult errorResult = MessageBox.Show(errorMessageBoxText, errorCaption, errorButton, errorIcon, MessageBoxResult.No);
+            return;
+        }
+        
+        IsEditingTaskItem = true;
+    }
 
     private void DeleteTaskGroupButton_Click(object sender, RoutedEventArgs e)
     {

@@ -7,7 +7,7 @@
         xmlns:converters="clr-namespace:BasicTaskManagement.WPF.Converters"
         xmlns:models="clr-namespace:BasicTaskManagement.Core.DTO;assembly=BasicTaskManagement.Core"
         mc:Ignorable="d"
-        Title="MainWindow"
+        Title="Basic Task Management WPF"
         Height="450"
         Width="1000">
     <Window.Resources>
@@ -146,15 +146,15 @@
                             Grid.Column="1"
                             Grid.Row="4" />
                 <DatePicker SelectedDate="{Binding SelectedTaskItem.CompletedDate}"
-                            IsEnabled="{Binding IsEditingTaskItem}"
+                            IsEnabled="False"
                             Grid.Column="1"
                             Grid.Row="5" />
                 <DatePicker SelectedDate="{Binding SelectedTaskItem.CreateDate}"
-                            IsEnabled="{Binding IsEditingTaskItem}"
+                            IsEnabled="False"
                             Grid.Column="1"
                             Grid.Row="6" />
                 <DatePicker SelectedDate="{Binding SelectedTaskItem.UpdateDate}"
-                            IsEnabled="{Binding IsEditingTaskItem}"
+                            IsEnabled="False"
                             Grid.Column="1"
                             Grid.Row="7" />
             </Grid>
@@ -184,11 +184,6 @@
                             </MultiBinding>
                         </Button.IsEnabled>
                     </Button>
-                    <Button IsEnabled="{Binding IsRenamingTaskGroup}"
-                            Click="CancelRenameTaskGroupButton_Click"
-                            x:Name="CancelRenameTaskGroupButton"
-                            Content="Cancel"
-                            Margin="5,5,0,0" />
                 </StackPanel>
                 <Button IsEnabled="{Binding IsTaskGroupSelected}"
                         Click="DeleteTaskGroupButton_Click"
@@ -222,11 +217,6 @@
                             </MultiBinding>
                         </Button.IsEnabled>
                     </Button>
-                    <Button IsEnabled="{Binding IsEditingTaskItem}"
-                            Click="CancelEditTaskItemButton_Click"
-                            x:Name="CancelEditTaskItemButton"
-                            Content="Cancel"
-                            Margin="5,5,0,0" />
                 </StackPanel>
                 <Button IsEnabled="{Binding IsTaskItemSelected}"
                         Click="DeleteTaskItemButton_Click"
