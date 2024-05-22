@@ -185,8 +185,8 @@
                         </Button.IsEnabled>
                     </Button>
                     <Button IsEnabled="{Binding IsRenamingTaskGroup}"
-                            Click="CancelAddTaskGroupButton_Click"
-                            x:Name="CancelAddTaskGroupButton"
+                            Click="CancelRenameTaskGroupButton_Click"
+                            x:Name="CancelRenameTaskGroupButton"
                             Content="Cancel"
                             Margin="5,5,0,0" />
                 </StackPanel>
