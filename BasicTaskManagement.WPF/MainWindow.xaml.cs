@@ -141,7 +141,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
     private void AddTaskGroupButton_Click(object sender, RoutedEventArgs e)
     {
-        AddTaskGroupWindow window = new();
+        AddEditTaskGroupWindow window = new(0);
         bool? complete = window.ShowDialog();
 
         if (complete.HasValue && (bool)complete)
@@ -168,6 +168,23 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
     private void EditTaskGroupButton_Click(object sender, RoutedEventArgs e)
     {
+        if (SelectedTaskGroup is null) { return; }
+
+        int selectedTaskGroupId = SelectedTaskGroup.Id;
+
+        AddEditTaskGroupWindow window = new(selectedTaskGroupId);
+        bool? complete = window.ShowDialog();
+
+        if (complete.HasValue && (bool)complete)
+        {
+            LoadTaskGroups();
+
+            TaskGroupSummaryDTO taskGroupToSelect = MainList.Items.Cast<TaskGroupSummaryDTO>().SingleOrDefault(t => t.Id == selectedTaskGroupId) ?? null!;
+
+            SelectedTaskGroup = taskGroupToSelect;
+
+            SelectedTaskItem = null;
+        }
     }
 
     private void EditTaskItemButton_Click(object sender, RoutedEventArgs e)

@@ -9,18 +9,39 @@ namespace BasicTaskManagement.WPF.Windows;
 /// <summary>
 /// Interaction logic for AddTaskGroupWindow.xaml
 /// </summary>
-public partial class AddTaskGroupWindow : Window
+public partial class AddEditTaskGroupWindow : Window
 {
     private readonly HttpDataService _service;
     private string _taskGroupName = string.Empty;
     private bool _isFavorite;
+    private readonly int _taskGroupToEditId;
 
-    public AddTaskGroupWindow()
+    public bool IsAdd { get; set; }
+    public bool IsUpdate { get; set; }
+
+    public AddEditTaskGroupWindow(int taskGroupId)
     {
         InitializeComponent();
         DataContext = this;
 
         _service = new HttpDataService();
+
+        if (taskGroupId.Equals(0))
+        {
+            IsAdd = true;
+        }
+        else
+        {
+            IsUpdate = true;
+            _taskGroupToEditId = taskGroupId;
+            TaskGroupDTO taskGroupToEdit = Task.Run(() => _service.GetTaskGroupAsync(taskGroupId)).Result;
+
+            if (taskGroupToEdit != null)
+            {
+                TaskGroupName = taskGroupToEdit.Name;
+                IsFavorite = taskGroupToEdit.IsFavorite;
+            }
+        }
     }
 
     public string TaskGroupName
@@ -52,10 +73,11 @@ public partial class AddTaskGroupWindow : Window
 
     public event PropertyChangedEventHandler? PropertyChanged = delegate { };
 
-    private void AddButton_Click(object sender, RoutedEventArgs e)
+    private void SaveButton_Click(object sender, RoutedEventArgs e)
     {
         CreateTaskGroupDTO createTaskGroup = new()
         {
+            Id = _taskGroupToEditId,
             Name = TaskGroupName,
             IsFavorite = IsFavorite
         };
@@ -74,12 +96,19 @@ public partial class AddTaskGroupWindow : Window
             return;
         }
 
-        Task.Run(() => _service.CreateTaskGroupAsync(createTaskGroup)).Wait();
+        if (IsAdd)
+        {
+            Task.Run(() => _service.CreateTaskGroupAsync(createTaskGroup)).Wait();
+        }
+        else
+        {
+            Task.Run(() => _service.UpdateTaskGroupAsync(createTaskGroup.Id, createTaskGroup)).Wait();
+        }
 
         DialogResult = true;
 
         Close();
-    }
+    }    
 
     private void CancelButton_Click(object sender, RoutedEventArgs e)
     {
