@@ -171,7 +171,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
                 IEnumerable<int> taskItemIdsForTaskGroup = taskGroup.TaskItems.Select(t => t.Id);
                 taskItemIds.AddRange(taskItemIdsForTaskGroup);
             }
-            
+
             int maxTaskItemId = taskItemIds.Max();
 
             TaskItemDTO newTaskItem = Task.Run(() => _service.GetTaskItemAsync(maxTaskItemId)).Result;
@@ -182,10 +182,10 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             }
 
             LoadTaskGroups();
-            LoadTaskItemsForSelectedTaskGroup(newTaskItem.TaskGroupId, (bool)FilterCheckbox.IsChecked);
+            LoadTaskItemsForSelectedTaskGroup(newTaskItem.TaskGroupId, (bool)FilterCheckbox.IsChecked!);
 
-            TaskGroupSummaryDTO taskGroupToSelect = MainList.Items.Cast<TaskGroupSummaryDTO>().SingleOrDefault(t => t.Id == newTaskItem.TaskGroupId) ?? null!;
-            TaskItemDTO taskItemToSelect = SubList.Items.Cast<TaskItemDTO>().SingleOrDefault(t => t.Id == newTaskItem.Id) ?? null!;
+            TaskGroupSummaryDTO taskGroupToSelect = GetTaskGroupToSelect(newTaskItem.TaskGroupId) ?? null!;
+            TaskItemDTO taskItemToSelect = GetTaskItemToSelect(newTaskItem.Id) ?? null!;
 
             SelectedTaskGroup = taskGroupToSelect;
             SelectedTaskItem = taskItemToSelect;
@@ -205,7 +205,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         {
             LoadTaskGroups();
 
-            TaskGroupSummaryDTO taskGroupToSelect = MainList.Items.Cast<TaskGroupSummaryDTO>().SingleOrDefault(t => t.Id == selectedTaskGroupId) ?? null!;
+            TaskGroupSummaryDTO taskGroupToSelect = GetTaskGroupToSelect(selectedTaskGroupId) ?? null!;
 
             SelectedTaskGroup = taskGroupToSelect;
 
@@ -245,10 +245,10 @@ public partial class MainWindow : Window, INotifyPropertyChanged
                 FilterCheckbox.IsChecked = true;
             }
             LoadTaskGroups();
-            LoadTaskItemsForSelectedTaskGroup(updatedTaskItem.TaskGroupId, (bool)FilterCheckbox.IsChecked);
+            LoadTaskItemsForSelectedTaskGroup(updatedTaskItem.TaskGroupId, (bool)FilterCheckbox.IsChecked!);
 
-            TaskGroupSummaryDTO taskGroupToSelect = MainList.Items.Cast<TaskGroupSummaryDTO>().SingleOrDefault(t => t.Id == updatedTaskItem.TaskGroupId) ?? null!;
-            TaskItemDTO taskItemToSelect = SubList.Items.Cast<TaskItemDTO>().SingleOrDefault(t => t.Id == updatedTaskItem.Id) ?? null!;
+            TaskGroupSummaryDTO taskGroupToSelect = GetTaskGroupToSelect(updatedTaskItem.TaskGroupId) ?? null!;
+            TaskItemDTO taskItemToSelect = GetTaskItemToSelect(updatedTaskItem.Id) ?? null!;
 
             SelectedTaskGroup = taskGroupToSelect;
             SelectedTaskItem = taskItemToSelect;
@@ -319,7 +319,7 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             LoadTaskGroups();
 
             // select the previously selected task group
-            TaskGroupSummaryDTO taskGroupToSelect = MainList.Items.Cast<TaskGroupSummaryDTO>().SingleOrDefault(t => t.Id == selectedTaskGroup?.Id) ?? null!;
+            TaskGroupSummaryDTO taskGroupToSelect = GetTaskGroupToSelect(selectedTaskGroup.Id) ?? null!;
 
             SelectedTaskGroup = taskGroupToSelect;
 
@@ -366,5 +366,12 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
         TaskItemsForSelectedTaskGroup = new ObservableCollection<TaskItemDTO>(taskItems.ToList());
     }
+
+    private TaskGroupSummaryDTO? GetTaskGroupToSelect(int id) =>
+        MainList.Items.Cast<TaskGroupSummaryDTO>().SingleOrDefault(t => t.Id == id);
+
+    private TaskItemDTO? GetTaskItemToSelect(int id) =>
+        SubList.Items.Cast<TaskItemDTO>().SingleOrDefault(t => t.Id == id);
+
     #endregion
 }

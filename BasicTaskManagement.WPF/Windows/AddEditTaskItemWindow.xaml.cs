@@ -144,8 +144,8 @@ namespace BasicTaskManagement.WPF.Windows
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             if (IsUpdate && _taskItemToEdit is null) { return; }
-            
-            int id = IsAdd ? 0: _taskItemToEdit.Id;
+
+            int id = IsAdd ? 0 : _taskItemToEdit.Id;
             DateTime createDate = IsAdd ? DateTime.Now : _taskItemToEdit.CreateDate;
             DateTime? updateDate = IsAdd ? null : DateTime.Now;
             DateTime? completedDate = null;
@@ -157,10 +157,7 @@ namespace BasicTaskManagement.WPF.Windows
             else if (IsUpdate && IsComplete)
             {
                 completedDate = _taskItemToEdit.CompletedDate;
-                if (completedDate is null)
-                {
-                    completedDate = DateTime.Now;
-                }
+                completedDate ??= DateTime.Now;
             }
 
             CreateUpdateTaskItemDTO createTaskItem = new()

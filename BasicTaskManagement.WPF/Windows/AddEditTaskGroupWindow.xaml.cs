@@ -7,7 +7,7 @@ using System.Windows;
 namespace BasicTaskManagement.WPF.Windows;
 
 /// <summary>
-/// Interaction logic for AddTaskGroupWindow.xaml
+/// Interaction logic for AddEditTaskGroupWindow.xaml
 /// </summary>
 public partial class AddEditTaskGroupWindow : Window
 {
@@ -108,7 +108,7 @@ public partial class AddEditTaskGroupWindow : Window
         DialogResult = true;
 
         Close();
-    }    
+    }
 
     private void CancelButton_Click(object sender, RoutedEventArgs e)
     {
