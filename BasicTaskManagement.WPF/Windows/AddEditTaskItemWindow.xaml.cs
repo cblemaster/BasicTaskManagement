@@ -8,20 +8,24 @@ using System.Windows;
 namespace BasicTaskManagement.WPF.Windows
 {
     /// <summary>
-    /// Interaction logic for AddTaskItemWindow.xaml
+    /// Interaction logic for AddEditTaskItemWindow.xaml
     /// </summary>
-    public partial class AddTaskItemWindow : Window
+    public partial class AddEditTaskItemWindow : Window
     {
         private readonly HttpDataService _service;
         private string _taskItemName = string.Empty;
-        private string _notes = string.Empty;
+        private string? _notes = string.Empty;
         private bool _isImportant;
         private bool _isComplete;
-        private DateTime _dueDate;
+        private DateTime? _dueDate;
         private ObservableCollection<TaskGroupSummaryDTO?> _taskGroups = null!;
         private readonly int _selectedTaskGroupId;
+        private readonly TaskItemDTO _taskItemToEdit = null!;
 
-        public AddTaskItemWindow(int selectedTaskGroupId)
+        private bool IsAdd { get; set; }
+        private bool IsUpdate { get; set; }
+
+        public AddEditTaskItemWindow(int selectedTaskGroupId, TaskItemDTO taskItemToEdit = null!)
         {
             InitializeComponent();
             DataContext = this;
@@ -33,7 +37,26 @@ namespace BasicTaskManagement.WPF.Windows
 
             _selectedTaskGroupId = selectedTaskGroupId;
             TaskGroups = new ObservableCollection<TaskGroupSummaryDTO?>(taskGroups);
-            DueDate = DateTime.Now;
+
+            if (taskItemToEdit is null)
+            {
+                IsAdd = true;
+                DueDate = DateTime.Now;
+            }
+            else
+            {
+                IsUpdate = true;
+                _taskItemToEdit = taskItemToEdit;
+
+                if (_taskItemToEdit is not null)
+                {
+                    TaskItemName = taskItemToEdit.Name;
+                    Notes = taskItemToEdit.Notes;
+                    IsImportant = taskItemToEdit.IsImportant;
+                    IsComplete = taskItemToEdit.IsComplete;
+                    DueDate = taskItemToEdit.DueDate;
+                }
+            }
         }
 
         public string TaskItemName
@@ -50,12 +73,12 @@ namespace BasicTaskManagement.WPF.Windows
             }
         }
 
-        public string Notes
+        public string? Notes
         {
             get => _notes;
             set
             {
-                if (!value.Equals(_notes))
+                if (value != _notes)
                 {
                     _notes = value;
                     PropertyChanged!(this, new PropertyChangedEventArgs(nameof(Notes)));
@@ -90,7 +113,7 @@ namespace BasicTaskManagement.WPF.Windows
             }
         }
 
-        public DateTime DueDate
+        public DateTime? DueDate
         {
             get => _dueDate;
             set
@@ -118,19 +141,40 @@ namespace BasicTaskManagement.WPF.Windows
 
         public event PropertyChangedEventHandler? PropertyChanged = delegate { };
 
-        private void AddButton_Click(object sender, RoutedEventArgs e)
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
+            if (IsUpdate && _taskItemToEdit is null) { return; }
+            
+            int id = IsAdd ? 0: _taskItemToEdit.Id;
+            DateTime createDate = IsAdd ? DateTime.Now : _taskItemToEdit.CreateDate;
+            DateTime? updateDate = IsAdd ? null : DateTime.Now;
+            DateTime? completedDate = null;
+
+            if (IsAdd && IsComplete)
+            {
+                completedDate = DateTime.Now;
+            }
+            else if (IsUpdate && IsComplete)
+            {
+                completedDate = _taskItemToEdit.CompletedDate;
+                if (completedDate is null)
+                {
+                    completedDate = DateTime.Now;
+                }
+            }
+
             CreateUpdateTaskItemDTO createTaskItem = new()
             {
+                Id = id,
                 Name = TaskItemName,
                 Notes = Notes,
                 IsImportant = IsImportant,
                 IsComplete = IsComplete,
                 DueDate = DueDate,
                 TaskGroupId = ((TaskGroupSummaryDTO)TaskGroupsComboBox.SelectedItem).Id,
-                CompletedDate = IsComplete ? DateTime.Now : null,
-                CreateDate = DateTime.Now,
-                UpdateDate = null,
+                CompletedDate = completedDate,
+                CreateDate = createDate,
+                UpdateDate = updateDate,
             };
 
             ValidationResult validationResult = createTaskItem.Validate();
@@ -147,7 +191,14 @@ namespace BasicTaskManagement.WPF.Windows
                 return;
             }
 
-            Task.Run(() => _service.CreateTaskItemAsync(createTaskItem)).Wait();
+            if (IsAdd)
+            {
+                Task.Run(() => _service.CreateTaskItemAsync(createTaskItem)).Wait();
+            }
+            else if (IsUpdate)
+            {
+                Task.Run(() => _service.UpdateTaskItemAsync(createTaskItem.Id, createTaskItem)).Wait();
+            }
 
             DialogResult = true;
 

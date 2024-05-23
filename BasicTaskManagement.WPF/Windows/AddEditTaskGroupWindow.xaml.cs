@@ -16,8 +16,8 @@ public partial class AddEditTaskGroupWindow : Window
     private bool _isFavorite;
     private readonly int _taskGroupToEditId;
 
-    public bool IsAdd { get; set; }
-    public bool IsUpdate { get; set; }
+    private bool IsAdd { get; set; }
+    private bool IsUpdate { get; set; }
 
     public AddEditTaskGroupWindow(int taskGroupId)
     {
@@ -36,7 +36,7 @@ public partial class AddEditTaskGroupWindow : Window
             _taskGroupToEditId = taskGroupId;
             TaskGroupDTO taskGroupToEdit = Task.Run(() => _service.GetTaskGroupAsync(taskGroupId)).Result;
 
-            if (taskGroupToEdit != null)
+            if (taskGroupToEdit is not null)
             {
                 TaskGroupName = taskGroupToEdit.Name;
                 IsFavorite = taskGroupToEdit.IsFavorite;
@@ -100,7 +100,7 @@ public partial class AddEditTaskGroupWindow : Window
         {
             Task.Run(() => _service.CreateTaskGroupAsync(createTaskGroup)).Wait();
         }
-        else
+        else if (IsUpdate)
         {
             Task.Run(() => _service.UpdateTaskGroupAsync(createTaskGroup.Id, createTaskGroup)).Wait();
         }

@@ -156,13 +156,39 @@ public partial class MainWindow : Window, INotifyPropertyChanged
         if (SelectedTaskGroup is null) { return; }
         bool isShowingComplete = FilterCheckbox.IsChecked.HasValue && (bool)FilterCheckbox.IsChecked;
 
-        AddTaskItemWindow window = new(SelectedTaskGroup.Id);
+        AddEditTaskItemWindow window = new(SelectedTaskGroup.Id);
         bool? complete = window.ShowDialog();
 
         if (complete.HasValue && (bool)complete)
         {
-            LoadTaskItemsForSelectedTaskGroup(SelectedTaskGroup.Id, isShowingComplete);
-            SelectedTaskItem = null;
+            //we need the added task item
+            List<int> taskItemIds = [];
+
+            IEnumerable<int> taskGroupIds = MainList.Items.Cast<TaskGroupSummaryDTO>().Select(t => t.Id);
+            foreach (int taskGroupId in taskGroupIds)
+            {
+                TaskGroupDTO taskGroup = Task.Run(() => _service.GetTaskGroupAsync(taskGroupId)).Result;
+                IEnumerable<int> taskItemIdsForTaskGroup = taskGroup.TaskItems.Select(t => t.Id);
+                taskItemIds.AddRange(taskItemIdsForTaskGroup);
+            }
+            
+            int maxTaskItemId = taskItemIds.Max();
+
+            TaskItemDTO newTaskItem = Task.Run(() => _service.GetTaskItemAsync(maxTaskItemId)).Result;
+
+            if (newTaskItem.IsComplete)
+            {
+                FilterCheckbox.IsChecked = true;
+            }
+
+            LoadTaskGroups();
+            LoadTaskItemsForSelectedTaskGroup(newTaskItem.TaskGroupId, (bool)FilterCheckbox.IsChecked);
+
+            TaskGroupSummaryDTO taskGroupToSelect = MainList.Items.Cast<TaskGroupSummaryDTO>().SingleOrDefault(t => t.Id == newTaskItem.TaskGroupId) ?? null!;
+            TaskItemDTO taskItemToSelect = SubList.Items.Cast<TaskItemDTO>().SingleOrDefault(t => t.Id == newTaskItem.Id) ?? null!;
+
+            SelectedTaskGroup = taskGroupToSelect;
+            SelectedTaskItem = taskItemToSelect;
         }
     }
 
@@ -189,10 +215,8 @@ public partial class MainWindow : Window, INotifyPropertyChanged
 
     private void EditTaskItemButton_Click(object sender, RoutedEventArgs e)
     {
-        if (SelectedTaskItem is null)
-        {
-            return;
-        }
+        if (SelectedTaskItem is null) { return; }
+        if (SelectedTaskGroup is null) { return; }
 
         if (SelectedTaskItem.IsComplete)
         {
@@ -203,6 +227,31 @@ public partial class MainWindow : Window, INotifyPropertyChanged
             MessageBoxImage errorIcon = MessageBoxImage.Information;
             _ = MessageBox.Show(errorMessageBoxText, errorCaption, errorButton, errorIcon, MessageBoxResult.No);
             return;
+        }
+
+        int selectedTaskItemId = SelectedTaskItem.Id;
+        //int selectedTaskGroupId = SelectedTaskGroup.Id;
+        bool isShowingComplete = FilterCheckbox.IsChecked.HasValue && (bool)FilterCheckbox.IsChecked;
+
+        AddEditTaskItemWindow window = new(SelectedTaskGroup.Id, SelectedTaskItem);
+        bool? complete = window.ShowDialog();
+
+        if (complete.HasValue && (bool)complete)
+        {
+            TaskItemDTO updatedTaskItem = Task.Run(() => _service.GetTaskItemAsync(selectedTaskItemId)).Result;
+
+            if (updatedTaskItem.IsComplete)
+            {
+                FilterCheckbox.IsChecked = true;
+            }
+            LoadTaskGroups();
+            LoadTaskItemsForSelectedTaskGroup(updatedTaskItem.TaskGroupId, (bool)FilterCheckbox.IsChecked);
+
+            TaskGroupSummaryDTO taskGroupToSelect = MainList.Items.Cast<TaskGroupSummaryDTO>().SingleOrDefault(t => t.Id == updatedTaskItem.TaskGroupId) ?? null!;
+            TaskItemDTO taskItemToSelect = SubList.Items.Cast<TaskItemDTO>().SingleOrDefault(t => t.Id == updatedTaskItem.Id) ?? null!;
+
+            SelectedTaskGroup = taskGroupToSelect;
+            SelectedTaskItem = taskItemToSelect;
         }
     }
 
