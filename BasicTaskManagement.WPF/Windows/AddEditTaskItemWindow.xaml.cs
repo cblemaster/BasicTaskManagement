@@ -35,8 +35,10 @@ namespace BasicTaskManagement.WPF.Windows
             IEnumerable<TaskGroupSummaryDTO?> taskGroups =
                 Task.Run(() => _service.GetTaskGroupsAsync()).Result;
 
+            TaskGroups = new ObservableCollection<TaskGroupSummaryDTO?>
+                (taskGroups.OrderBy(t => t!.Name));
+
             _selectedTaskGroupId = selectedTaskGroupId;
-            TaskGroups = new ObservableCollection<TaskGroupSummaryDTO?>(taskGroups);
 
             if (taskItemToEdit is null)
             {
