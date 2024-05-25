@@ -7,20 +7,22 @@
 - .NET 8 / C# 12
 - SQL Server database
 - API: ASP.NET Core, minimal API, Entity Framework Core 8
-- UI: .NET MAUI (targeting Windows only)
+- UI:
+	- .NET MAUI (targeting Windows only)
+	- WPF
 - Programming techniques:
 	- Expression bodied members
 	- Pattern matching
-	- Asynchronous programming
-	- Dependency injection
-	- MVVM pattern
+	- Asynchronous programming (in MAUI project)
+	- Dependency injection (in MAUI project)
+	- MVVM pattern (in MAUI project)
 
 ## Features:
 - View all task groups, including a count of task items not complete
 - View task items by task group
-- View all task items marked important
-- View all task items due today
-- View all completed task items
+- View all task items marked important (MAUI only feature)
+- View all task items due today (MAUI only feature)
+- View all completed task items (MAUI only feature)
 - Filter views of task items to show or hide completed task items
 - Create, update, and delete (if no task items) task groups
 - Create, update (including changing task group), and delete task items
@@ -48,10 +50,11 @@
 	- Note that there is optional sample data that can be inserted into the database as well; it can be found at the end of the database script and it is commented out
 - Browse to \BasicTaskManagement\BasicTaskManagement.API\appsettings.json
 	- There is a database connection string in this config file that needs to point to your database
+- Select startup projects: BasicTaskManagement.API and either the MAUI or the WPF UI project
 - Run the solution in Visual Studio
 
 ## Improvement opportunities:
 - Keep this up to date with the latest .NET LTS releases
-- There is a lot of xaml duplication in the tasks due today page, important tasks page, and completed tasks page
+- In the MAUI project, there is a lot of xaml duplication in the tasks due today page, important tasks page, and completed tasks page
 	- This could be extracted into a shared template
 	- But this might complicate data binding
