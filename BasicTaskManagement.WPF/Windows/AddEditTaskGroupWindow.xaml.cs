@@ -98,6 +98,23 @@ public partial class AddEditTaskGroupWindow : Window
 
         if (IsAdd)
         {
+            bool taskGroupNameAlreadyUsed = 
+                Task.Run(() => _service.GetTaskGroupsAsync())
+                .Result
+                .Select(t => t!.Name)
+                .Contains(createTaskGroup.Name);
+            
+            if (taskGroupNameAlreadyUsed)
+            {
+                // show error dialog
+                string errorMessageBoxText = $"Task group name {createTaskGroup.Name} cannot be added because it is already used.";
+                string errorCaption = "Error: Unable to Add";
+                MessageBoxButton errorButton = MessageBoxButton.OK;
+                MessageBoxImage errorIcon = MessageBoxImage.Information;
+                _ = MessageBox.Show(errorMessageBoxText, errorCaption, errorButton, errorIcon, MessageBoxResult.No);
+                return;
+            }
+
             Task.Run(() => _service.CreateTaskGroupAsync(createTaskGroup)).Wait();
         }
         else if (IsUpdate)
