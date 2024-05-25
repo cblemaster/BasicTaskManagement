@@ -63,11 +63,19 @@
                                     <StackPanel Orientation="Vertical" Margin="2">
                                         <TextBlock Text="{Binding Name}"
                                                    FontWeight="Bold"
-                                                   HorizontalAlignment="Stretch" />
+                                                   HorizontalAlignment="Stretch"
+                                                   x:Name="TaskGroupNameTextBlock" />
                                         <TextBlock Text="{Binding IsFavorite, Converter={StaticResource booltoyesno}, StringFormat=Favorite? {0}}" />
                                         <TextBlock Text="{Binding CountOfTaskItems, StringFormat=Count of task items not complete: {0}}" />
                                     </StackPanel>
-                                </DataTemplate>                                
+                                    <DataTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding IsFavorite}" Value="True">
+                                            <Setter Property="Foreground"
+                                                    TargetName="TaskGroupNameTextBlock"
+                                                    Value="Magenta" />
+                                        </DataTrigger>
+                                    </DataTemplate.Triggers>
+                                </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                     </GridView>
