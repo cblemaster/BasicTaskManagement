@@ -92,7 +92,7 @@ public partial class AddEditTaskGroupWindow : Window
             MessageBoxButton validationButton = MessageBoxButton.OK;
             MessageBoxImage validationIcon = MessageBoxImage.Exclamation;
 
-            MessageBoxResult errorResult = MessageBox.Show(validationMessageBoxText, validationCaption, validationButton, validationIcon, MessageBoxResult.No);
+            _ = MessageBox.Show(validationMessageBoxText, validationCaption, validationButton, validationIcon, MessageBoxResult.No);
             return;
         }
 
